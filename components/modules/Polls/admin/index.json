@@ -1,7 +1,0 @@
-{
-	"polls"		: [
-		"list",
-		"edit",
-		"delete"
-	]
-}

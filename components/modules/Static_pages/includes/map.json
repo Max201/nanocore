@@ -1,7 +1,0 @@
-{
-	"admin/Static_pages" : "admin.css",
-	"Static_pages"       : [
-		"style.css",
-		"script.js"
-	]
-}
