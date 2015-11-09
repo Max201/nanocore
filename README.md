@@ -1,0 +1,2 @@
+# nanocore
+Nano Core CMS
