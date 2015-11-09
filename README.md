@@ -1,2 +1,0 @@
-# nano-cms
-NanoCore CMS
