@@ -10,6 +10,11 @@ namespace System\Engine;
 class NCRoute 
 {
     /**
+     * @var
+     */
+    public $name;
+
+    /**
      * @var string
      */
     public $source;
@@ -35,11 +40,12 @@ class NCRoute
      * @param $matches
      * @param $callback
      */
-    public function __construct($source, $pattern, $callback, $matches = [])
+    public function __construct($source, $pattern, $callback, $name, $matches = [])
     {
         $this->source = $source;
         $this->callback = $callback;
         $this->pattern = $pattern;
         $this->matches = $matches;
+        $this->name = $name;
     }
 } 

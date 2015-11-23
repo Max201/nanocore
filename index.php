@@ -17,6 +17,9 @@ define('ROOT', dirname(__FILE__));
 define('S', DIRECTORY_SEPARATOR);
 
 
+error_reporting(E_ALL || ~E_STRICT);
+
+
 /*
  * Engine start
  */

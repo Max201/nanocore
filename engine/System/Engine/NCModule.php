@@ -7,7 +7,10 @@
 namespace System\Engine;
 
 
-use System\Environment\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use System\Environment\Env;
+
 
 class NCModule
 {
@@ -21,20 +24,22 @@ class NCModule
      */
     public function __construct($url)
     {
-        $this->map = new NCRouter();
+        $this->map = new NCRouter($this);
         $this->urls();
 
         /** @var NCRoute $route */
         $route = $this->map->match($url);
+
         if ( is_callable($route->callback) ) {
             ob_start();
-            $response = call_user_func($route->callback, Response::instance(), $route->matches);
+            $response = call_user_func($route->callback, Env::$request, $route->matches);
             $buffer = ob_get_clean();
 
-            Response::instance()->setContent($response ? $response : $buffer);
-            Response::instance()->output();
+            Env::$response->setContent($response ? $response : $buffer);
+            Env::$response->sendHeaders();
+            Env::$response->sendContent();
         } else {
-            die(404);
+            $this->error404(Env::$request);
         }
     }
 
@@ -49,8 +54,8 @@ class NCModule
     /**
      * Page not found
      */
-    public static function error404(Response $response)
+    public static function error404(Request $request)
     {
-        echo 'Page not found!'; die;
+        echo 'Page not found!';
     }
 } 

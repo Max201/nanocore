@@ -19,38 +19,80 @@ class NCRouter
     /**
      * @var array
      */
-    private $matches = [];
+    private $routes = [];
 
     /**
-     * @var array
+     * @var string
      */
-    private $routes = [];
+    private $module = '';
+
+
+    /**
+     * @param NCModule $module
+     */
+    public function __construct(NCModule $module = null)
+    {
+        if ( !is_null($module) ) {
+            $this->module = strtolower(explode('\\', get_class($module))[1]);
+        }
+
+        if ( substr($this->module, strlen($this->module) - 1, 1) != '/' ) {
+            $this->module .= '/';
+        }
+    }
 
     /**
      * @param string $match
      * @param $callback
      */
-    public function addRoute($match, $callback)
+    public function addRoute($match, $callback, $name)
     {
-        $this->routes[$match] = $callback;
-    }
-
-    /**
-     * @param string $regex
-     * @param $callback
-     */
-    public function addMatch($regex, $callback)
-    {
-        $this->matches[$regex] = $callback;
+        $this->routes[$match] = [$callback, $name];
     }
 
     /**
      * @param string $pattern
      * @param $callback
      */
-    public function addPattern($pattern, $callback)
+    public function addPattern($pattern, $callback, $name)
     {
-        $this->patterns[$pattern] = $callback;
+        $this->patterns[$pattern] = [$callback, $name];
+    }
+
+    public function reverse($name, NamedVarBag $arguments = null)
+    {
+        if (is_null($arguments)) {
+            $arguments = new NamedVarBag();
+        }
+
+        // Compare routes
+        foreach ( $this->routes as $route => $data) {
+            list($callback, $route_name) = $data;
+            if ($route_name == $name) {
+                return new NCRoute($this->module . $route, $route, $callback, $data[1]);
+            }
+        }
+
+        // Compare patterns
+        foreach ( $this->patterns as $pattern => $data ) {
+            list($callback, $route_name) = $data;
+
+            $args = [];
+            preg_match_all('/<(.+?)>/', $pattern, $vars);
+
+            // Compare with source
+            if ($route_name == $name) {
+                for ( $i = 0; $i < count($vars[0]); $i++ ) {
+                    $full = '<' . $vars[1][$i] . '>';
+                    list($key, $mask) = explode(':', $vars[1][$i]);
+                    $args[$key] = $arguments->get($key);
+                    $route = str_replace($full, $args[$key], $pattern);
+                    return new NCRoute($this->module . $route, $pattern, $callback, $route_name);
+                }
+            }
+        }
+
+        throw new \Exception('Reverse route for name ' . $name . ' not found');
     }
 
     /**
@@ -60,22 +102,18 @@ class NCRouter
     public function match($source)
     {
         // Compare routes
-        foreach ( $this->routes as $route => $callback) {
+        foreach ( $this->routes as $route => $data) {
             if ( $source == $route ) {
-                return new NCRoute($source, $route, $callback);
-            }
-        }
+                list($callback, $name) = $data;
 
-        // Compare regex
-        foreach ( $this->matches as $regex => $callback ) {
-            preg_match_all($regex, $source, $matches);
-            if ( $matches && !empty($matches[0]) ) {
-                return new NCRoute($source, $regex, $callback, $matches);
+                return new NCRoute($source, $route, $callback, $name);
             }
         }
 
         // Compare patterns
-        foreach ( $this->patterns as $pattern => $callback ) {
+        foreach ( $this->patterns as $pattern => $data ) {
+            list($callback, $name) = $data;
+
             $args = [];
             preg_match_all('/<(.+?)>/', $pattern, $vars);
             // Compile pattern to regex
@@ -87,17 +125,16 @@ class NCRouter
             }
 
             $pattern = '/^' . str_replace('/', '\/', $pattern) . '$/i';
-
             // Compare with source
             preg_match_all($pattern, $source, $matches);
             if ( $matches && !empty($matches[0]) ) {
                 $args = new NamedVarBag($args);
                 $args->values($matches[1]);
 
-                return new NCRoute($source, $pattern, $callback, $args);
+                return new NCRoute($source, $pattern, $callback, $name, $args);
             }
         }
 
-        return new NCRoute($source, 'all', '\System\Engine\NCModule::error404');
+        return new NCRoute($source, 'all', '\System\Engine\NCModule::error404', 'error.404');
     }
 } 
