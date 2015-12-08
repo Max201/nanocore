@@ -1,8 +1,6 @@
 AddDefaultCharset utf-8
 Options +FollowSymLinks
 
-php_flag display_errors 1
-
 RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f

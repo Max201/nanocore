@@ -1,0 +1,152 @@
+{
+    "files": {
+        "jquery.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/jquery\/3.0.0-alpha1\/jquery.js",
+        "jquery.min.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/jquery\/3.0.0-alpha1\/jquery.min.js",
+        "jquery.min.map": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/jquery\/3.0.0-alpha1\/jquery.min.map"
+    },
+    "info": {
+        "name": "jquery",
+        "filename": "jquery.min.js",
+        "version": "3.0.0-alpha1",
+        "description": "JavaScript library for DOM operations",
+        "homepage": "http:\/\/jquery.com\/",
+        "keywords": [
+            "jquery",
+            "library",
+            "ajax",
+            "framework",
+            "toolkit",
+            "popular"
+        ],
+        "maintainers": [
+            {
+                "name": "The jQuery Project"
+            }
+        ],
+        "namespace": "jQuery",
+        "repository": {
+            "type": "git",
+            "url": "https:\/\/github.com\/jquery\/jquery.git"
+        },
+        "license": "MIT",
+        "autoupdate": {
+            "type": "npm",
+            "target": "jquery"
+        },
+        "originalName": "jquery",
+        "alternativeNames": [
+            "jquery",
+            "jquery"
+        ],
+        "fileType": "js",
+        "github": {
+            "user": "jquery",
+            "repo": "jquery",
+            "stargazers_count": 36963,
+            "forks": 9599,
+            "subscribers_count": 3085
+        },
+        "objectID": "jquery",
+        "_highlightResult": {
+            "name": {
+                "value": "<em>jquery<\/em>",
+                "matchLevel": "full",
+                "matchedWords": [
+                    "jquery"
+                ]
+            },
+            "filename": {
+                "value": "<em>jquery<\/em>.min.js",
+                "matchLevel": "full",
+                "matchedWords": [
+                    "jquery"
+                ]
+            },
+            "description": {
+                "value": "JavaScript library for DOM operations",
+                "matchLevel": "none",
+                "matchedWords": []
+            },
+            "keywords": [
+                {
+                    "value": "<em>jquery<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "jquery"
+                    ]
+                },
+                {
+                    "value": "library",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "ajax",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "framework",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "toolkit",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "popular",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                }
+            ],
+            "maintainers": [
+                {
+                    "name": {
+                        "value": "The <em>jQuery<\/em> Project",
+                        "matchLevel": "full",
+                        "matchedWords": [
+                            "jquery"
+                        ]
+                    }
+                }
+            ],
+            "alternativeNames": [
+                {
+                    "value": "<em>jquery<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "jquery"
+                    ]
+                },
+                {
+                    "value": "<em>jquery<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "jquery"
+                    ]
+                }
+            ],
+            "github": {
+                "user": {
+                    "value": "<em>jquery<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "jquery"
+                    ]
+                },
+                "repo": {
+                    "value": "<em>jquery<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "jquery"
+                    ]
+                },
+                "stargazers_count": 36963,
+                "forks": 9599,
+                "subscribers_count": 3085
+            }
+        }
+    }
+}

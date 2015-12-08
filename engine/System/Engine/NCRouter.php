@@ -7,8 +7,13 @@
 namespace System\Engine;
 
 
-use System\Environment\NamedVarBag;
+use System\Environment\Arguments;
 
+
+/**
+ * Class NCRouter
+ * @package System\Engine
+ */
 class NCRouter
 {
     /**
@@ -59,10 +64,16 @@ class NCRouter
         $this->patterns[$pattern] = [$callback, $name];
     }
 
-    public function reverse($name, NamedVarBag $arguments = null)
+    /**
+     * @param $name
+     * @param Arguments|null $arguments
+     * @return NCRoute
+     * @throws \Exception
+     */
+    public function reverse($name, Arguments $arguments = null)
     {
         if (is_null($arguments)) {
-            $arguments = new NamedVarBag();
+            $arguments = new Arguments();
         }
 
         // Compare routes
@@ -128,7 +139,7 @@ class NCRouter
             // Compare with source
             preg_match_all($pattern, $source, $matches);
             if ( $matches && !empty($matches[0]) ) {
-                $args = new NamedVarBag($args);
+                $args = new Arguments($args);
                 $args->values($matches[1]);
 
                 return new NCRoute($source, $pattern, $callback, $name, $args);

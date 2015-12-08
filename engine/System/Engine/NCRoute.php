@@ -7,6 +7,10 @@
 namespace System\Engine;
 
 
+/**
+ * Class NCRoute
+ * @package System\Engine
+ */
 class NCRoute 
 {
     /**

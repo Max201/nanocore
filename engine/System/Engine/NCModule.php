@@ -7,8 +7,8 @@
 namespace System\Engine;
 
 
+use Service\Render\Theme;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use System\Environment\Env;
 
 
@@ -20,10 +20,16 @@ class NCModule
     protected $map;
 
     /**
+     * @var Theme
+     */
+    protected $view;
+
+    /**
      * @param $url
      */
     public function __construct($url)
     {
+        $this->view = NCService::load('Render.Theme', ['default']);
         $this->map = new NCRouter($this);
         $this->urls();
 

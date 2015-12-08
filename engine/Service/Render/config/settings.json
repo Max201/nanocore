@@ -1,0 +1,14 @@
+{
+  "theme_dir": "theme/[theme]",
+  "theme_url": "/theme/[theme]",
+  "asset_url": "/theme/.assets",
+  "asset_dir": "/theme/.assets",
+  "cdn_cache": "engine/Service/Render/cdn",
+  "custom_filters": {
+    "local": ["$this", "fileurl"],
+    "local_path": ["$this", "filepath"],
+    "asset": ["$this", "asseturl"],
+    "asset_path": ["$this", "assetpath"],
+    "cdn": ["$this", "lib"]
+  }
+}

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ 'font-awesome.min.css'|cdn('fontawesome') }}" type="text/css">
+    <link rel="stylesheet" href="{{ 'materialize.min.css'|cdn('materialize') }}" type="text/css">
+    <link rel="stylesheet" href="{{ 'customize.css'|local('css') }}" type="text/css">
+    <script type="text/javascript" src="{{ 'jquery.min.js'|cdn('jquery') }}"></script>
+    <script type="text/javascript" src="{{ 'materialize.min.js'|cdn('materialize') }}"></script>
+    <script type="text/javascript">
+        $(function(){
+            // Initialize dropdowns
+            $(".dropdown-item").dropdown();
+
+            // Initialize side nav
+            $(".button-collapse").sideNav();
+
+            // Initialize modals
+            $('.modal-trigger').leanModal();
+        });
+    </script>
+</head>
+<body class="grey lighten-4">
+
+    <!-- Navbar section -->
+    <nav>
+        <div class="nav-wrapper grey darken-3">
+            <a href="#" class="brand-logo">
+                <span class="grey-text">Nano <strong>Lab</strong> {{ 'style.css'|asset_path('css') }}</span>
+            </a>
+            <a href="#" data-activates="mobile-bar" class="button-collapse">
+                <i class="material-icons">menu</i>
+            </a>
+
+            <ul id="main-bar" class="right hide-on-med-and-down">
+                <li class="waves-effect waves-light">
+                    <a href="#">
+                        <i class="fa fa-database"></i> Проекты NanoLab
+                    </a>
+                </li>
+                <li class="waves-effect waves-light">
+                    <a href="#">
+                        <i class="fa fa-users"></i> IT-Форум
+                    </a>
+                </li>
+                <li class="waves-effect waves-light">
+                    <a href="#">
+                        <i class="fa fa-comment"></i> Блоги
+                    </a>
+                </li>
+                <li class="waves-effect waves-light">
+                    <a class="modal-trigger" href="#user-login">
+                        <i class="fa fa-user"></i> Brain
+                    </a>
+                </li>
+            </ul>
+
+            <ul id="mobile-bar" class="right side-nav">
+                <li>
+                    <a class="waves-effect waves-light" href="#">
+                        <i class="fa fa-database"></i> Проекты NanoLab
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect waves-light" href="#">
+                        <i class="fa fa-users"></i> IT-Форум
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect waves-light" href="#">
+                        <i class="fa fa-comment"></i> Блоги
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect waves-light modal-trigger" href="#user-login">
+                        <i class="fa fa-user"></i> Brain
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="progress white darken-2">
+            <div class="determinate" style="width: 100%;"></div>
+        </div>
+    </nav>
+
+
+
+    <!-- Content section -->
+    <section id="container">
+        <nav>
+            <div class="nav-wrapper grey lighten-3">
+                <div class="col s12">
+                    <a href="#!" class="black-text breadcrumb">Home</a>
+                </div>
+            </div>
+        </nav>
+        <h2 style="margin-left: 50px;">Главная страница Nanolab</h2>
+        <div class="row">
+            <div class="col s10" style="margin: 0 auto;">
+                asd
+            </div>
+        </div>
+
+
+        <div class="row col offset-s1">
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card white darken-2">
+                    <div class="card-content black-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab deleniti deserunt, inventore laudantium necessitatibus reprehenderit voluptatum! Aliquid aut corporis culpa, earum fuga impedit ipsa ipsam neque perspiciatis totam? Aperiam atque blanditiis quas? Ab ad commodi doloremque impedit odit vero. Architecto consequatur, culpa eius illum iure nihil nisi numquam officiis possimus praesentium quidem quos ratione rem repellat repellendus rerum similique suscipit tenetur voluptas voluptatum! Aspernatur assumenda ex ipsa nam nisi pariatur qui sit vero. Alias architecto atque cum cumque cupiditate dolorem dolorum earum eveniet expedita fuga illum labore minus modi natus obcaecati possimus quasi quisquam rem rerum soluta velit voluptatem, voluptates. Accusamus ad adipisci alias aliquid dolore dolores dolorum ducimus eligendi eum explicabo hic id inventore, iure libero natus nesciunt nulla officia porro possimus quas quo quos recusandae rem repellendus sint tempora ullam velit veniam veritatis voluptatem? Cumque laborum molestiae neque porro quo quos rem veniam? Accusantium esse fuga numquam suscipit voluptatum! Amet at deserunt doloribus id inventore magnam molestias natus non odit perferendis perspiciatis provident, quaerat quis rerum tempore veniam vero? Assumenda consequatur corporis dignissimos dolore ea id iure laborum maiores molestiae, nam necessitatibus quasi quidem quisquam, rem tempora ullam voluptate! Animi dicta eos est, laudantium optio quod sapiente soluta velit. Ad aliquid dolorum iure vel. Aperiam dolores esse libero optio! Ad animi commodi consectetur delectus deleniti, deserunt dolore dolores ducimus eos excepturi incidunt inventore iusto, labore maiores modi nemo nulla placeat quae qui repellendus similique totam vero. Asperiores hic molestias necessitatibus sequi. Commodi dicta dolores et inventore pariatur placeat possimus quasi quia quos voluptatum. Laudantium.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect btn-flat green right white-text">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect waves-green btn-flat right">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect waves-green btn-flat right">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect waves-green btn-flat right">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect waves-green btn-flat right">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect waves-green btn-flat right">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect waves-green btn-flat right">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s10 m5 offset-m1 offset-s1">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Card Title</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="waves-effect waves-green btn-flat right">Читать далее</a>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Login Modal -->
+    <div id="user-login" class="modal">
+        <div class="modal-content">
+            <h4 class="green-text center-align">
+                <i class="fa fa-lock"></i>
+                NanoLab ID
+            </h4>
+            <div class="row">
+                <div class="col m6 s12">
+                    <div class="row">
+                        <div class="col m10 offset-m1 m12">
+                            <h5 class="grey-text center-align">
+                                Регистрация
+                            </h5>
+                            <input type="text" placeholder="Имя пользователя">
+                            <input type="password" placeholder="Пароль">
+                            <input type="password" class="validate" placeholder="Повторите пароль">
+                            <input type="email" class="validate" placeholder="E-Mail">
+                            <input type="submit" value="Зарегистрироваться" class="btn">
+                        </div>
+                    </div>
+                </div>
+                <div class="col m6 s12">
+                    <div class="row">
+                        <div class="col m10 offset-m2 s12">
+                            <h5 class="grey-text center-align">
+                                Авторизация
+                            </h5>
+                            <input type="text" class="validate" placeholder="Имя пользователя">
+                            <input type="password" class="validate" placeholder="Пароль">
+                            <input type="submit" value="Войти" class="btn">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Отмена</a>
+        </div>
+    </div>
+</body>
+</html>

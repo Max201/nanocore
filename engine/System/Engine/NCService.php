@@ -7,8 +7,13 @@
 namespace System\Engine;
 
 
-use System\Environment\VarBag;
+use System\Environment\Options;
 
+
+/**
+ * Class NCService
+ * @package System\Engine
+ */
 class NCService
 {
     /**
@@ -50,10 +55,9 @@ class NCService
 
     /**
      * @param $config
-     * @param bool $object
-     * @return array|VarBag
+     * @return Options
      */
-    public function config($config, $object = true)
+    public function config($config)
     {
         if ( is_null(static::CONFIG) ) {
             user_error('Config is disabled for this service', E_USER_ERROR);
@@ -64,12 +68,13 @@ class NCService
             user_error('Config ' . $path . ' does not exists', E_USER_ERROR);
         }
 
-        $config = json_decode(file_get_contents($path), !$object);
-        if ( $object ) {
-            return new VarBag($config);
+        $result = [];
+        $file = file_get_contents($path);
+        if ( $file ) {
+            $result = json_decode($file, true);
         }
 
-        return $config;
+        return new Options((array)$result);
     }
 
     /**

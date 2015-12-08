@@ -1,0 +1,115 @@
+{
+    "files": {
+        "css\/materialize.css": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/css\/materialize.css",
+        "css\/materialize.min.css": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/css\/materialize.min.css",
+        "font\/material-design-icons\/Material-Design-Icons.eot": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/material-design-icons\/Material-Design-Icons.eot",
+        "font\/material-design-icons\/Material-Design-Icons.svg": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/material-design-icons\/Material-Design-Icons.svg",
+        "font\/material-design-icons\/Material-Design-Icons.ttf": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/material-design-icons\/Material-Design-Icons.ttf",
+        "font\/material-design-icons\/Material-Design-Icons.woff": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/material-design-icons\/Material-Design-Icons.woff",
+        "font\/material-design-icons\/Material-Design-Icons.woff2": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/material-design-icons\/Material-Design-Icons.woff2",
+        "font\/roboto\/Roboto-Bold.ttf": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Bold.ttf",
+        "font\/roboto\/Roboto-Bold.woff": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Bold.woff",
+        "font\/roboto\/Roboto-Bold.woff2": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Bold.woff2",
+        "font\/roboto\/Roboto-Light.ttf": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Light.ttf",
+        "font\/roboto\/Roboto-Light.woff": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Light.woff",
+        "font\/roboto\/Roboto-Light.woff2": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Light.woff2",
+        "font\/roboto\/Roboto-Medium.ttf": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Medium.ttf",
+        "font\/roboto\/Roboto-Medium.woff": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Medium.woff",
+        "font\/roboto\/Roboto-Medium.woff2": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Medium.woff2",
+        "font\/roboto\/Roboto-Regular.ttf": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Regular.ttf",
+        "font\/roboto\/Roboto-Regular.woff": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Regular.woff",
+        "font\/roboto\/Roboto-Regular.woff2": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Regular.woff2",
+        "font\/roboto\/Roboto-Thin.ttf": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Thin.ttf",
+        "font\/roboto\/Roboto-Thin.woff": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Thin.woff",
+        "font\/roboto\/Roboto-Thin.woff2": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/font\/roboto\/Roboto-Thin.woff2",
+        "js\/materialize.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/js\/materialize.js",
+        "js\/materialize.min.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/materialize\/0.97.3\/js\/materialize.min.js"
+    },
+    "info": {
+        "name": "materialize",
+        "filename": "css\/materialize.min.css",
+        "description": "Builds Materialize distribution packages",
+        "author": "Alvin Wang, Alan Chang",
+        "url": "http:\/\/materializecss.com\/",
+        "version": "0.97.3",
+        "license": "MIT",
+        "autoupdate": {
+            "type": "git",
+            "target": "git:\/\/github.com\/Dogfalo\/materialize.git"
+        },
+        "repository": {
+            "type": "git",
+            "url": "git:\/\/github.com\/Dogfalo\/materialize.git"
+        },
+        "originalName": "materialize",
+        "alternativeNames": [
+            "materialize",
+            "materialize"
+        ],
+        "fileType": "css",
+        "github": {
+            "user": "Dogfalo",
+            "repo": "materialize",
+            "stargazers_count": 14583,
+            "forks": 1946,
+            "subscribers_count": 738
+        },
+        "objectID": "materialize",
+        "_highlightResult": {
+            "name": {
+                "value": "<em>materialize<\/em>",
+                "matchLevel": "full",
+                "matchedWords": [
+                    "materialize"
+                ]
+            },
+            "filename": {
+                "value": "css\/<em>materialize<\/em>.min.css",
+                "matchLevel": "full",
+                "matchedWords": [
+                    "materialize"
+                ]
+            },
+            "description": {
+                "value": "Builds <em>Materialize<\/em> distribution packages",
+                "matchLevel": "full",
+                "matchedWords": [
+                    "materialize"
+                ]
+            },
+            "alternativeNames": [
+                {
+                    "value": "<em>materialize<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "materialize"
+                    ]
+                },
+                {
+                    "value": "<em>materialize<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "materialize"
+                    ]
+                }
+            ],
+            "github": {
+                "user": {
+                    "value": "Dogfalo",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "repo": {
+                    "value": "<em>materialize<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "materialize"
+                    ]
+                },
+                "stargazers_count": 14583,
+                "forks": 1946,
+                "subscribers_count": 738
+            }
+        }
+    }
+}

@@ -1,0 +1,178 @@
+{
+    "files": {
+        "css\/bootstrap.css": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/css\/bootstrap.css",
+        "css\/bootstrap.css.map": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/css\/bootstrap.css.map",
+        "css\/bootstrap.min.css": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/css\/bootstrap.min.css",
+        "css\/bootstrap.min.css.map": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/css\/bootstrap.min.css.map",
+        "js\/bootstrap.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/bootstrap.js",
+        "js\/bootstrap.min.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/bootstrap.min.js",
+        "js\/npm.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/npm.js",
+        "js\/umd\/alert.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/alert.js",
+        "js\/umd\/button.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/button.js",
+        "js\/umd\/carousel.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/carousel.js",
+        "js\/umd\/collapse.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/collapse.js",
+        "js\/umd\/dropdown.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/dropdown.js",
+        "js\/umd\/modal.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/modal.js",
+        "js\/umd\/popover.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/popover.js",
+        "js\/umd\/scrollspy.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/scrollspy.js",
+        "js\/umd\/tab.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/tab.js",
+        "js\/umd\/tooltip.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/tooltip.js",
+        "js\/umd\/util.js": "https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twitter-bootstrap\/4.0.0-alpha\/js\/umd\/util.js"
+    },
+    "info": {
+        "name": "twitter-bootstrap",
+        "filename": "js\/bootstrap.min.js",
+        "version": "4.0.0-alpha",
+        "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+        "homepage": "http:\/\/getbootstrap.com\/",
+        "keywords": [
+            "css",
+            "less",
+            "mobile-first",
+            "responsive",
+            "front-end",
+            "framework",
+            "web",
+            "twitter",
+            "bootstrap"
+        ],
+        "maintainers": [
+            {
+                "name": "Mark Otto"
+            }
+        ],
+        "license": "MIT",
+        "repository": {
+            "type": "git",
+            "url": "https:\/\/github.com\/twbs\/bootstrap"
+        },
+        "autoupdate": {
+            "type": "npm",
+            "target": "bootstrap"
+        },
+        "originalName": "twitter-bootstrap",
+        "alternativeNames": [
+            "twitterbootstrap",
+            "twitter-bootstrap"
+        ],
+        "fileType": "js",
+        "github": {
+            "user": "twbs",
+            "repo": "bootstrap",
+            "stargazers_count": 89692,
+            "forks": 37836,
+            "subscribers_count": 5691
+        },
+        "objectID": "twitter-bootstrap",
+        "_highlightResult": {
+            "name": {
+                "value": "twitter-<em>bootstrap<\/em>",
+                "matchLevel": "full",
+                "matchedWords": [
+                    "bootstrap"
+                ]
+            },
+            "filename": {
+                "value": "js\/<em>bootstrap<\/em>.min.js",
+                "matchLevel": "full",
+                "matchedWords": [
+                    "bootstrap"
+                ]
+            },
+            "description": {
+                "value": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+                "matchLevel": "none",
+                "matchedWords": []
+            },
+            "keywords": [
+                {
+                    "value": "css",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "less",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "mobile-first",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "responsive",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "front-end",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "framework",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "web",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "twitter",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "<em>bootstrap<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "bootstrap"
+                    ]
+                }
+            ],
+            "maintainers": [
+                {
+                    "name": {
+                        "value": "Mark Otto",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                }
+            ],
+            "alternativeNames": [
+                {
+                    "value": "twitterbootstrap",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                {
+                    "value": "twitter-<em>bootstrap<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "bootstrap"
+                    ]
+                }
+            ],
+            "github": {
+                "user": {
+                    "value": "twbs",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "repo": {
+                    "value": "<em>bootstrap<\/em>",
+                    "matchLevel": "full",
+                    "matchedWords": [
+                        "bootstrap"
+                    ]
+                },
+                "stargazers_count": 89692,
+                "forks": 37836,
+                "subscribers_count": 5691
+            }
+        }
+    }
+}

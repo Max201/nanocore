@@ -3,6 +3,7 @@
  * @Product: NanoCore
  * @Author: Maxim P.
  */
+include 'Symfony' . S . 'Component' . S . 'Twig' . S . 'Autoloader.php';
 
 
 /*
@@ -10,8 +11,10 @@
  */
 spl_autoload_register(function($class){
     $path = ROOT . S . 'engine' . S . str_replace('\\', S, $class) . '.php';
-    if ( file_exists($path) ) {
+    if ( is_file($path) ) {
         include $path;
+    } else {
+        Twig_Autoloader::autoload($class);
     }
 });
 

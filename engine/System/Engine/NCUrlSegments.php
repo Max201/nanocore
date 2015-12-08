@@ -7,6 +7,10 @@
 namespace System\Engine;
 
 
+/**
+ * Class NCUrlSegments
+ * @package System\Engine
+ */
 class NCUrlSegments 
 {
     /**

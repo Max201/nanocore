@@ -17,7 +17,27 @@ define('ROOT', dirname(__FILE__));
 define('S', DIRECTORY_SEPARATOR);
 
 
-error_reporting(E_ALL || ~E_STRICT);
+/*
+ * Report errors
+ *
+ * @default 0
+ */
+error_reporting(E_ALL || ~E_STRICT || ~E_DEPRECATED);
+
+/*
+ * Display errors
+ *
+ * @default 0
+ */
+ini_set('display_errors', 1);
+
+
+/*
+ * Memory usage limit
+ *
+ * @default -1
+ */
+ini_set('memory_limit', -1);
 
 
 /*

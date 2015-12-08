@@ -9,7 +9,6 @@ namespace Module\User;
 
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCModule;
-use System\Environment\NamedVarBag;
 
 
 /**
@@ -25,6 +24,6 @@ class Module extends NCModule
 
     public function profile(Request $request, $matches)
     {
-        echo 'Hell';
+        $this->view->twig->display('index.twig');
     }
 } 

@@ -24,6 +24,9 @@ class NCContainer
         Env::$response = Response::create();
 
         // Starts application kernel
-        Env::$kernel = NCService::load('Application.Application', [Env::$request->server->get('REQUEST_URI')]);
+        Env::$kernel = NCService::load(
+            'Application.Application',
+            [Env::$request->server->get('REQUEST_URI')]
+        );
     }
 } 
