@@ -19,6 +19,8 @@ class Theme extends NCService
 {
     const CONFIG = 'Render.config';
 
+    static $instance;
+
     /**
      * @var string
      */

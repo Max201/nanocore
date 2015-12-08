@@ -3,7 +3,10 @@
  * @Product: NanoCore
  * @Author: Maxim P.
  */
+
+# Components autoloaders
 include 'Symfony' . S . 'Component' . S . 'Twig' . S . 'Autoloader.php';
+include 'ActiveRecord' . S . 'ActiveRecord.php';
 
 
 /*

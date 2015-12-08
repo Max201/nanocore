@@ -21,6 +21,8 @@ class Application extends NCService
     const MODULE_SEGMENT = 0;
     const MODULE_URL_LEVEL = 0;
 
+    static $instance;
+
     /**
      * @param $url
      */

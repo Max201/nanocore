@@ -23,10 +23,10 @@ class NCContainer
         Env::$request = Request::createFromGlobals();
         Env::$response = Response::create();
 
+        // Loads database
+        NCService::load('Database');
+
         // Starts application kernel
-        Env::$kernel = NCService::load(
-            'Application.Application',
-            [Env::$request->server->get('REQUEST_URI')]
-        );
+        Env::$kernel = NCService::load('Application', [Env::$request->server->get('REQUEST_URI')]);
     }
 } 

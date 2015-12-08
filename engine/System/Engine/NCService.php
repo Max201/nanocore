@@ -46,6 +46,11 @@ class NCService
     public static function load($service_name, array $args = [])
     {
         $class_name = '\\Service\\' . str_replace('.', '\\', $service_name);
+        if ( !class_exists($class_name) ) {
+            $class = explode('.', $service_name);
+            $class_name = '\\Service\\' . str_replace('.', '\\', $service_name . '.' . end($class));
+        }
+
         if ( class_exists($class_name) ) {
             return call_user_func_array($class_name . '::instance', $args);
         }
@@ -57,7 +62,7 @@ class NCService
      * @param $config
      * @return Options
      */
-    public function config($config)
+    public static function config($config)
     {
         if ( is_null(static::CONFIG) ) {
             user_error('Config is disabled for this service', E_USER_ERROR);
@@ -82,7 +87,7 @@ class NCService
      * @param array $data
      * @return mixed
      */
-    public function update_config($config, array $data = [])
+    public static function update_config($config, array $data = [])
     {
         if ( is_null(static::CONFIG) ) {
             user_error('Config is disabled for this service', E_USER_ERROR);

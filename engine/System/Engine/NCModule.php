@@ -58,6 +58,16 @@ class NCModule
     }
 
     /**
+     * Build sitemap of your module
+     *
+     * @param $builder
+     */
+    public function url_map($builder)
+    {
+
+    }
+
+    /**
      * Page not found
      */
     public static function error404(Request $request)
