@@ -17,8 +17,16 @@ use System\Environment\Options;
  */
 class Theme extends NCService
 {
+    use Template;
+
+    /**
+     * Config dir path
+     */
     const CONFIG = 'Render.config';
 
+    /**
+     * @var Theme
+     */
     static $instance;
 
     /**
@@ -45,6 +53,16 @@ class Theme extends NCService
      * @var string
      */
     private $assets_path;
+
+    /**
+     * @var string
+     */
+    private $admin_url;
+
+    /**
+     * @var string
+     */
+    private $admin_path;
 
     /**
      * @var Options
@@ -85,19 +103,34 @@ class Theme extends NCService
         $theme_dir = str_replace('[theme]', $this->name, $theme_dir);
         $this->path = ROOT . S . $theme_dir;
 
-        # Assets url
+        # Assets
         $this->assets_url = $this->conf->get('asset_url');
         $this->assets_path = ROOT . S . trim($this->conf->get('asset_dir'), S);
+
+        # Admin
+        $this->admin_url = $this->conf->get('admin_url');
+        $this->admin_path = ROOT . S . trim($this->conf->get('admin_dir'), S);
 
         # CDN Cache dir
         $this->cdn_cache_dir = ROOT . S . $this->conf->get('cdn_cache');
 
         # Twig
         $this->loader = new \Twig_Loader_Filesystem([$this->path]);
-        $this->twig = new \Twig_Environment($this->loader);
+
+        # Env path
+        $this->loader->addPath($this->assets_path, 'assets');
+        $this->loader->addPath($this->admin_path, 'admin');
+
+        # Initialize twig
+        $this->twig = new \Twig_Environment($this->loader, array(
+            'cache' => str_replace('[theme]', $this->name, $this->conf->get('cache_dir')),
+        ));
 
         # Default vars
-        $this->twig->addGlobal('THEME', $this->path);
+        $this->twig->addGlobal('THEME', [
+            'url' => $this->url,
+            'dir' => $this->path
+        ]);
 
         # Custom filters
         $custom_filters = $this->config('settings')->get('custom_filters', []);
@@ -127,6 +160,7 @@ class Theme extends NCService
 
     /**
      * @param $path
+     * @param $dir
      * @return string
      */
     public function filepath($path, $dir = null)
@@ -136,6 +170,7 @@ class Theme extends NCService
 
     /**
      * @param $path
+     * @param $dir
      * @return mixed
      */
     public function fileurl($path, $dir = null)
@@ -145,6 +180,7 @@ class Theme extends NCService
 
     /**
      * @param $path
+     * @param $dir
      * @return string
      */
     public function assetpath($path, $dir = null)
@@ -154,6 +190,7 @@ class Theme extends NCService
 
     /**
      * @param $path
+     * @param $dir
      * @return mixed
      */
     public function asseturl($path, $dir = null)

@@ -8,6 +8,7 @@ namespace System\Engine;
 
 
 use Service\Render\Theme;
+use Service\User\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use System\Environment\Env;
 
@@ -25,17 +26,35 @@ class NCModule
     protected $view;
 
     /**
+     * @var Auth
+     */
+    protected $auth;
+
+    /**
+     * @var \User
+     */
+    protected $user;
+
+    /**
      * @param $url
      */
     public function __construct($url)
     {
+        // Authentication
+        $this->auth = NCService::load('User.Auth');
+        $this->user = $this->auth->identify(Env::$request->cookies->get('session'));
+
+        // Renderring
         $this->view = NCService::load('Render.Theme', ['default']);
+
+        // Subrouting
         $this->map = new NCRouter($this);
         $this->urls();
 
         /** @var NCRoute $route */
         $route = $this->map->match($url);
 
+        // Call method
         if ( is_callable($route->callback) ) {
             ob_start();
             $response = call_user_func($route->callback, Env::$request, $route->matches);
@@ -70,8 +89,8 @@ class NCModule
     /**
      * Page not found
      */
-    public static function error404(Request $request)
+    public function error404(Request $request)
     {
-        echo 'Page not found!';
+        return $this->view->render('@assets/not_found.twig');
     }
 } 

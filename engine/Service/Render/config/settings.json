@@ -1,9 +1,17 @@
 {
   "theme_dir": "theme/[theme]",
   "theme_url": "/theme/[theme]",
-  "asset_url": "/theme/.assets",
-  "asset_dir": "/theme/.assets",
+
+  "cache_dir": "/theme/.tmp",
+
+  "asset_url": "/theme/assets",
+  "asset_dir": "/theme/assets",
+
+  "admin_dir": "/theme/admin",
+  "admin_url": "/theme/admin",
+
   "cdn_cache": "engine/Service/Render/cdn",
+
   "custom_filters": {
     "local": ["$this", "fileurl"],
     "local_path": ["$this", "filepath"],

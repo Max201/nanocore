@@ -9,6 +9,8 @@ namespace Service\Application;
 
 use System\Engine\NCService;
 use System\Engine\NCUrlSegments;
+use System\Environment\Env;
+use System\Environment\Options;
 
 
 /**
@@ -24,19 +26,44 @@ class Application extends NCService
     static $instance;
 
     /**
+     * @var Options
+     */
+    private $conf;
+
+    /**
      * @param $url
      */
     public function __construct($url)
     {
-        $url = new NCUrlSegments($url);
-        $default_module = $this->config('application')->get('default_module');
-        $module = '\\Module\\' . ucfirst($url->seg(static::MODULE_SEGMENT, $default_module)) . '\\Module';
+        $this->conf = $this->config('application');
 
-        if ( !class_exists($module) ) {
-            die(404);
+        // Call request URL
+        $this->app = $this->call($url);
+        if ( !$this->app ) {
+            $this->app = $this->call($this->conf->get('home', '/'));
         }
 
-        $this->app = new $module( $url->level(static::MODULE_URL_LEVEL) );
+        // If no module found
+        if ( !$this->app ) {
+            Env::$response->setStatusCode(404, 'Page not found');
+            die;
+        }
+    }
+
+    public function call($route)
+    {
+        // Get module from url
+        $url = new NCUrlSegments($route);
+        $default_module = $this->conf->get('default_module');
+        $module = '\\Module\\' . ucfirst($url->seg(static::MODULE_SEGMENT, $default_module)) . '\\Module';
+
+        // If class does not exists
+        if ( !class_exists($module) ) {
+            return false;
+        }
+
+        // Call module controller
+        return new $module( $url->level(static::MODULE_URL_LEVEL) );
     }
 
     /**

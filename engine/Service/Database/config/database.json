@@ -2,6 +2,6 @@
   "models": "engine/Models",
   "default_connection": "default",
   "connections": {
-    "default": "mysql://root:123@localhost/nanocore"
+    "default": "mysql://root:123@localhost/nano"
   }
 }

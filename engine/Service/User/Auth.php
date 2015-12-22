@@ -19,11 +19,34 @@ use System\Engine\NCService;
  */
 class Auth extends NCService
 {
+    /**
+     * @var Auth
+     */
+    static $instance;
+
+    /**
+     * @param string $session
+     * @return User
+     */
+    public function identify($session)
+    {
+
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     * @return User
+     */
     public function authenticate($username, $password)
     {
 
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
     public function login(User $user)
     {
 
