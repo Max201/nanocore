@@ -7,6 +7,7 @@
 namespace Service\Application;
 
 
+use System\Engine\NCModule;
 use System\Engine\NCService;
 use System\Engine\NCUrlSegments;
 use System\Environment\Env;
@@ -23,6 +24,9 @@ class Application extends NCService
     const MODULE_SEGMENT = 0;
     const MODULE_URL_LEVEL = 0;
 
+    /**
+     * @var Application
+     */
     static $instance;
 
     /**
@@ -46,24 +50,39 @@ class Application extends NCService
         // If no module found
         if ( !$this->app ) {
             Env::$response->setStatusCode(404, 'Page not found');
+            Env::$response->send();
             die;
         }
     }
 
+    /**
+     * @param $route
+     * @return bool|NCModule
+     */
     public function call($route)
     {
-        // Get module from url
+        // Split URL By sleshes
         $url = new NCUrlSegments($route);
         $default_module = $this->conf->get('default_module');
-        $module = '\\Module\\' . ucfirst($url->seg(static::MODULE_SEGMENT, $default_module)) . '\\Module';
 
+        // Define module name & module class
+        $module_name = ucfirst($url->seg(static::MODULE_SEGMENT, $default_module));
+        $module_class = 'Module';
+
+        // For admin panel
+        if ($module_name == 'Control') {
+            $module_name = ucfirst($url->seg(static::MODULE_SEGMENT+1, $default_module));
+            $module_class = 'Control';
+        }
+
+        $module = '\\Module\\' . $module_name . '\\' . $module_class;
         // If class does not exists
         if ( !class_exists($module) ) {
             return false;
         }
 
         // Call module controller
-        return new $module( $url->level(static::MODULE_URL_LEVEL) );
+        return new $module( $url->level(static::MODULE_URL_LEVEL + ($module_class == 'Control' ? 1 : 0)) );
     }
 
     /**

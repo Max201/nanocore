@@ -1,0 +1,54 @@
+table {
+    margin: 5px;
+    padding: 0;
+    width: 100%;
+    max-width: 990px;
+}
+
+table thead, table tfoot {
+    background: #eeeeee;
+    font-weight: bold;
+}
+
+table td {
+    padding: 5px 15px;
+}
+
+table td.primary {
+    width: 36px;
+    max-width: 48px;
+    font-weight: bolder;
+    text-align: center;
+    color: #2B587A;
+}
+
+table td.x2 {
+    width: 50%;
+}
+
+table td.x3 {
+    width: 33%;
+}
+
+table td.x4 {
+    width: 25%;
+}
+
+table td.x5 {
+    width: 20%;
+}
+
+table td.x10 {
+    width: 10%;
+}
+
+table tbody tr:hover {
+    background: #f5f5f5;
+    cursor: pointer;
+}
+
+table tbody tr:active, table tbody tr:focus,
+table tbody tr:active .primary, table tbody tr:focus .primary {
+    background: dodgerblue;
+    color: #f5f5f5;
+}

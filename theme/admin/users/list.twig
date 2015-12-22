@@ -1,0 +1,88 @@
+{% extends '@admin/base.twig' %}
+
+{% block body %}
+    <menu>
+        <a href="/admin/users/" class="item active">{{ translate.e('users.list') }}</a>
+        <a href="/admin/users/groups/" class="item">{{ translate.e('users.group.list') }}</a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-cog"></i>
+            {{ translate.e('users.settings') }}
+        </a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-plus"></i>
+            {{ translate.e('users.create') }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+
+    <table>
+        <thead>
+            <tr>
+                <td class="primary">ID</td>
+                <td>{{ translate.e('users.profile.username') }}</td>
+                <td>{{ translate.e('users.profile.email') }}</td>
+                <td>{{ translate.e('users.profile.register_date') }}</td>
+                <td>{{ translate.e('users.profile.last_visit') }}</td>
+                <td>{{ translate.e('users.profile.group') }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for profile in users_list %}
+            <tr onclick="gui.go('{{ profile.id }}/')">
+                <td class="primary">#{{ profile.id }}</td>
+                <td>{{ profile.username }}</td>
+                <td>
+                    {% if not profile.confirm_code %}
+                        <span class="fa fa-check"></span>
+                    {% else %}
+                        <span class="fa fa-times"></span>
+                    {% endif %}
+
+                    {% if profile.email %}
+                        {{ profile.email }}
+                    {% else %}
+                        Undefined
+                    {% endif %}
+                </td>
+                <td>{{ profile.register_date }}</td>
+                <td>{{ profile.last_visit }}</td>
+                <td>{{ profile.group.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="primary">ID</td>
+                <td>{{ translate.e('users.profile.username') }}</td>
+                <td>{{ translate.e('users.profile.email') }}</td>
+                <td>{{ translate.e('users.profile.register_date') }}</td>
+                <td>{{ translate.e('users.profile.last_visit') }}</td>
+                <td>{{ translate.e('users.profile.group') }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <menu>
+        <a href="/admin/users/" class="item active">{{ translate.e('users.list') }}</a>
+        <a href="/admin/users/groups/" class="item">{{ translate.e('users.group.list') }}</a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-cog"></i>
+            {{ translate.e('users.settings') }}
+        </a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-plus"></i>
+            {{ translate.e('users.create') }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+{% endblock %}

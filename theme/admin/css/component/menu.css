@@ -1,0 +1,120 @@
+#main-menu {
+    background: #444;
+    padding: 0 6px 0 5px;
+    overflow-y: hidden;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#main-menu a {
+    color: #f5f5f5;
+    font-size: 18px;
+    padding: 10px 20px;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    text-transform: lowercase;
+    font-weight: bold;
+    margin: 0;
+}
+
+#main-menu a#logo {
+    width: 190px;
+    text-transform: capitalize;
+}
+
+#main-menu a#server {
+    text-transform: none;
+}
+
+#main-menu a#server i {
+    color: lightgreen;
+}
+
+#main-menu a#server.server-off i {
+    color: lightcoral;
+}
+
+#main-menu a.right {
+    float: right;
+}
+
+#main-menu a:hover {
+    background: #666;
+}
+
+
+#main-context {
+    width: 190px;
+    float: left;
+    margin: 5px 0 0 5px;
+}
+
+#main-context a {
+    display: block;
+    padding: 5px 5px 5px 30px;
+    margin: 1px 0;
+    border-radius: 2px;
+    font-weight: normal;
+}
+
+#main-context a:hover {
+    background: #eeeeee;
+}
+
+#main-context header {
+    padding: 5px;
+    margin: 3px 0 0 0;
+    font-weight: 600;
+    color: #808080;
+    border-bottom: 1px solid #cecece;
+}
+
+#main-context header i {
+    display: inline-block;
+    min-width: 20px;
+    text-align: center;
+}
+
+menu {
+    margin: 0 7px 0 5px;
+    padding: 5px 0;
+}
+
+menu .item {
+    text-decoration: none;
+    border-radius: 4px;
+    background: #eeeeee;
+    padding: 5px 10px;
+    margin: 2px;
+}
+
+menu .item.active, menu .item:active {
+    background: rgb(173, 230, 206);
+}
+
+menu nav {
+    display: inline;
+}
+
+menu nav.right {
+    float: right;
+}
+
+menu nav .item {
+    border-radius: 0;
+    border-right: 1px solid #ccc;
+    margin: 2px -2px 2px -1px;
+}
+
+menu nav .item:first-child {
+    margin-left: 1px;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+
+menu nav .item:last-child {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    border-right: none;
+}

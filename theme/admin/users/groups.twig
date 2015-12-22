@@ -1,0 +1,70 @@
+{% extends '@admin/base.twig' %}
+
+{% block body %}
+    <menu>
+        <a href="/admin/users/" class="item">{{ translate.e('users.list') }}</a>
+        <a href="/admin/users/groups/" class="item active">{{ translate.e('users.group.list') }}</a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-cog"></i>
+            {{ translate.e('users.settings') }}
+        </a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-plus"></i>
+            {{ translate.e('users.group.create') }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+
+    <table>
+        <thead>
+            <tr>
+                <td class="primary">ID</td>
+                <td>{{ translate.e('users.group.title') }}</td>
+                <td class="x3">{{ translate.e('users.group.icon') }}</td>
+                <td class="x5">{{ translate.e('users.count') }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for group in groups_list %}
+            <tr onclick="gui.go('{{ group.id }}/')">
+                <td class="primary">#{{ group.id }}</td>
+                <td>{{ group.name }}</td>
+                <td>undefined</td>
+                <td>1</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="primary">ID</td>
+                <td>{{ translate.e('users.group.title') }}</td>
+                <td>{{ translate.e('users.group.icon') }}</td>
+                <td>{{ translate.e('users.count') }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <menu>
+        <a href="/admin/users/" class="item">{{ translate.e('users.list') }}</a>
+        <a href="/admin/users/groups/" class="item active">{{ translate.e('users.group.list') }}</a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-cog"></i>
+            {{ translate.e('users.settings') }}
+        </a>
+        <a href="/admin/users/groups/" class="item">
+            <i class="fa fa-plus"></i>
+            {{ translate.e('users.group.create') }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+{% endblock %}

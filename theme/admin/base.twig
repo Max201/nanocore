@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% if title %}{{ title }}{% else %}Untitled{% endif %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ 'style.css'|local('css') }}"/>
+    <script type="text/javascript" src="{{ 'jquery.js'|local('js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ 'webgui.js'|local('js') }}"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <section id="wrapper">
+        <section id="main-menu">
+            <a href="#" id="logo">
+                <span class="preloader">N</span>ano Core
+            </a>
+
+            <a href="/admin/settings/profile/" class="right">
+                <i class="fa fa-cog"></i>
+            </a>
+            <a href="#" class="right">
+                <i class="fa fa-user"></i>
+                {{ user.username }}
+            </a>
+        </section>
+
+        <section id="container">
+            <!--Navigation bar-->
+            <nav id="main-context">
+                {% for lmenu in menu.left|keys %}
+                    <header>
+                        <i class="fa fa-{{ menu.left[lmenu].icon }}"></i>
+                        {{ lmenu }}
+                    </header>
+
+                    {% for item in menu.left[lmenu].items %}
+                        <a {% if item.blank %}target="_blank"{% endif %} href="{{ item.link }}">{{ item.title }}</a>
+                    {% endfor %}
+                {% endfor %}
+            </nav>
+
+            <!--Content box-->
+            <main class="content-wrapper">
+                <section id="content">
+                        <header>
+                            {% block header %}{% if header %}{{ header }}{% else %}{{ title }}{% endif %}{% endblock %}
+                        </header>
+                        {% block body %}{{ content }}{% endblock %}
+                </section>
+            </main>
+        </section>
+    </section>
+</body>
+</html>

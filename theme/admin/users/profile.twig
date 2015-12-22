@@ -1,0 +1,106 @@
+{% extends '@admin/base.twig' %}
+{% block head %}
+    <script type="text/javascript" src="{{ adm.js('users') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <menu>
+        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.edit').show();" class="item">{{ translate.e('users.edit.title') }}</a>
+        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.ban').show();" class="item">{{ translate.e('users.ban.title') }}</a>
+        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.change-password').show();" class="item">{{ translate.e('users.edit.password') }}</a>
+    </menu>
+
+    <table>
+        <thead>
+            <tr>
+                <td class="x3">{{ title }}</td>
+                <td>#{{ profile.id }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ translate.e('users.profile.username') }}</td>
+                <td>{{ profile.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ translate.e('users.profile.group') }}</td>
+                <td>{{ profile.group.name }}</td>
+            </tr>
+            <tr>
+                <td>{{ translate.e('users.profile.email') }}</td>
+                <td>
+                    {% if not profile.confirm_code %}
+                        <span class="fa fa-check"></span>
+                    {% else %}
+                        <span class="fa fa-times"></span>
+                    {% endif %}
+
+                    {% if profile.email %}
+                        {{ profile.email }}
+                    {% else %}
+                        Undefined
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>{{ translate.e('users.profile.last_visit') }}</td>
+                <td>{{ profile.last_visit }}</td>
+            </tr>
+            <tr>
+                <td>{{ translate.e('users.profile.register_date') }}</td>
+                <td>{{ profile.register_date }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form class="form edit" action="" style="display: none;">
+        <header>{{ translate.e('users.edit.title') }}</header>
+        <label for="username">
+            <span class="title">{{ translate.e('users.profile.username') }}</span>
+            <input id="username" name="username" type="text" value="{{ profile.username }}"/>
+        </label>
+        <label for="email">
+            <span class="title">{{ translate.e('users.profile.email') }}</span>
+            <input id="email" name="email" type="text" disabled value="asdasdasd{{ profile.email }}"/>
+        </label>
+        <label for="group">
+            <span class="title">{{ translate.e('users.profile.group') }}</span>
+            <select name="group" id="group">
+                {% for group in groups %}
+                    <option {% if group.id == profile.group.id %}selected="selected" {% endif %}value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <footer>
+            <input class="button" type="button" id="edit" value="Сохранить"/>
+        </footer>
+    </form>
+
+    <form class="form change-password" style="display: none;">
+        <header>{{ translate.e('users.edit.password') }}</header>
+        <div id="change-password" class="message"></div>
+        <label for="password">
+            <span class="title">{{ translate.e('users.profile.new_password') }}</span>
+            <input id="password" name="password" type="text" value=""/>
+        </label>
+        <footer>
+            <input class="button" type="button" onclick="$('#password').val(gui.randomString(8))" value="{{ translate.e('users.edit.generate_password') }}"/>
+            <input class="button" type="button" onclick="changePassword('{{ profile.id }}', $('#password').val())" value="{{ translate.e('button.save') }}"/>
+        </footer>
+    </form>
+
+    <form class="form ban" style="display: none;">
+        <header>{{ translate.e('users.ban.title') }}</header>
+        <label for="username">
+            <span class="title">{{ translate.e('users.ban.time') }}</span>
+            <input id="username" name="username" type="text" value="{{ profile.username }}"/>
+        </label>
+        <label for="reason">
+            <span class="title">{{ translate.e('users.ban.reason') }}</span>
+            <input id="reason" name="reason" type="text" value=""/>
+        </label>
+        <footer>
+            <input class="button" type="button" id="edit" value="{{ translate.e('button.save') }}"/>
+        </footer>
+    </form>
+{% endblock %}

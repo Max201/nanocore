@@ -45,7 +45,8 @@ class NCModule
         $this->user = $this->auth->identify(Env::$request->cookies->get('session'));
 
         // Renderring
-        $this->view = NCService::load('Render.Theme', ['default']);
+        /** @var Theme view */
+        $this->view = NCService::load('Render.Theme', ['admin']);
 
         // Subrouting
         $this->map = new NCRouter($this);
