@@ -75,6 +75,11 @@ class Theme extends NCService
     private $cdn_cache_dir;
 
     /**
+     * @var string
+     */
+    private $tpl_cache_dir;
+
+    /**
      * @var \Twig_Loader_Filesystem
      */
     public $loader;
@@ -114,6 +119,9 @@ class Theme extends NCService
         # CDN Cache dir
         $this->cdn_cache_dir = ROOT . S . $this->conf->get('cdn_cache');
 
+        # Templates Cache dir
+        $this->tpl_cache_dir = ROOT . S . trim($this->conf->get('cache_dir'), S);
+
         # Twig
         $this->loader = new \Twig_Loader_Filesystem([$this->path]);
 
@@ -123,7 +131,7 @@ class Theme extends NCService
 
         # Initialize twig
         $this->twig = new \Twig_Environment($this->loader, array(
-            'cache' => str_replace('[theme]', $this->name, $this->conf->get('cache_dir')),
+            'cache' => $this->tpl_cache_dir,
         ));
 
         # Default vars
