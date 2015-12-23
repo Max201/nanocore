@@ -31,11 +31,16 @@ class NCRouter
      */
     private $module = '';
 
+    /**
+     * @var string
+     */
+    private $module_namespace = '';
 
     /**
      * @param NCModule $module
+     * @param string $namespace
      */
-    public function __construct(NCModule $module = null)
+    public function __construct(NCModule $module = null, $namespace = '')
     {
         if ( !is_null($module) ) {
             $this->module = strtolower(explode('\\', get_class($module))[1]);
@@ -44,11 +49,22 @@ class NCRouter
         if ( substr($this->module, strlen($this->module) - 1, 1) != '/' ) {
             $this->module .= '/';
         }
+
+        $this->setNameSpace($namespace);
+    }
+
+    /**
+     * @param string $ns
+     */
+    public function setNameSpace($ns = '')
+    {
+        $this->module_namespace = $ns ? '/' . $ns . '/' : '/';
     }
 
     /**
      * @param string $match
      * @param $callback
+     * @param $name
      */
     public function addRoute($match, $callback, $name)
     {
@@ -58,10 +74,29 @@ class NCRouter
     /**
      * @param string $pattern
      * @param $callback
+     * @param $name
      */
     public function addPattern($pattern, $callback, $name)
     {
         $this->patterns[$pattern] = [$callback, $name];
+    }
+
+    /**
+     * @param $name
+     * @param null $args
+     * @return NCRoute
+     */
+    public function reverse_filter($name, $args = null)
+    {
+        if ( is_null($args) ) {
+            $args = [];
+        }
+
+        if ( !($args instanceof Arguments) ) {
+            $args = new Arguments($args);
+        }
+
+        return $this->reverse($name, $args);
     }
 
     /**
@@ -80,7 +115,7 @@ class NCRouter
         foreach ( $this->routes as $route => $data) {
             list($callback, $route_name) = $data;
             if ($route_name == $name) {
-                return new NCRoute($this->module . $route, $route, $callback, $data[1]);
+                return new NCRoute($this->module_namespace . $this->module . $route, $route, $callback, $data[1]);
             }
         }
 
@@ -98,7 +133,7 @@ class NCRouter
                     list($key, $mask) = explode(':', $vars[1][$i]);
                     $args[$key] = $arguments->get($key);
                     $route = str_replace($full, $args[$key], $pattern);
-                    return new NCRoute($this->module . $route, $pattern, $callback, $route_name);
+                    return new NCRoute($this->module_namespace . $this->module . $route, $pattern, $callback, $route_name);
                 }
             }
         }

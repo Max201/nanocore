@@ -7,19 +7,21 @@
 namespace Module\User;
 
 
+use Service\User\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCControl;
+use System\Engine\NCService;
 
 
 class Control extends NCControl
 {
-    public function urls()
+    public function route()
     {
         $this->map->addRoute('home', [$this, 'test'], 'home');
     }
 
     public function test(Request $request, $matches)
     {
-        return $this->view->render('base.twig', ['title'=>'hello']);
+        var_dump($this->user);
     }
 } 

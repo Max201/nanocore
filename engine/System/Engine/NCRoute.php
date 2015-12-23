@@ -40,6 +40,7 @@ class NCRoute
 
     /**
      * @param $source
+     * @param $name
      * @param $pattern
      * @param $matches
      * @param $callback
@@ -51,5 +52,10 @@ class NCRoute
         $this->pattern = $pattern;
         $this->matches = $matches;
         $this->name = $name;
+    }
+
+    public function __toString()
+    {
+        return $this->source;
     }
 } 

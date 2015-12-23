@@ -1,0 +1,44 @@
+{
+    "1": {
+        "access": true,
+        "view_profile": true,
+        "view_profile_detail": false,
+        "use_admin": true,
+        "manage_users": true
+    },
+    "2": {
+        "access": true,
+        "view_profile": true,
+        "view_profile_detail": false,
+        "use_admin": false,
+        "manage_users": false
+    },
+    "3": {
+        "access": true,
+        "view_profile": true,
+        "view_profile_detail": false,
+        "use_admin": false,
+        "manage_users": false
+    },
+    "4": {
+        "access": true,
+        "view_profile": true,
+        "view_profile_detail": false,
+        "use_admin": false,
+        "manage_users": false
+    },
+    "5": {
+        "access": true,
+        "view_profile": true,
+        "view_profile_detail": false,
+        "use_admin": false,
+        "manage_users": false
+    },
+    "6": {
+        "access": true,
+        "view_profile": true,
+        "view_profile_detail": false,
+        "use_admin": false,
+        "manage_users": false
+    }
+}

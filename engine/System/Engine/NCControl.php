@@ -15,6 +15,15 @@ class NCControl extends NCModule
      */
     public function __construct($url, $theme = 'default')
     {
-        parent::__construct($url, 'admin');
+        // Set default admin theme & Namespace
+        parent::__construct($url, 'admin', 'control');
+    }
+
+    /**
+     * @return bool
+     */
+    public function access()
+    {
+        return $this->user ? $this->user->can('use_admin') : false;
     }
 }

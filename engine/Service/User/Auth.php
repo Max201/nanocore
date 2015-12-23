@@ -9,6 +9,9 @@
 namespace Service\User;
 
 
+use ActiveRecord\DateTime;
+use Symfony\Component\HttpFoundation\Cookie;
+use System\Environment\Env;
 use User;
 use System\Engine\NCService;
 
@@ -30,7 +33,7 @@ class Auth extends NCService
      */
     public function identify($session)
     {
-
+        return User::find_by_session_id($session);
     }
 
     /**
@@ -40,15 +43,20 @@ class Auth extends NCService
      */
     public function authenticate($username, $password)
     {
-
+        $password = User::encrypt($password);
+        return User::find_by_username_and_password($username, $password);
     }
 
     /**
      * @param User $user
+     * @param string $expiry
      * @return bool
      */
-    public function login(User $user)
+    public function login(User $user, $expiry = '+50 weeks')
     {
-
+        $session = User::encrypt($user->session_id . microtime(true));
+        Env::$response->headers->setCookie(new Cookie('sess', $session, new DateTime($expiry), '/'));
+        $user->session_id = $session;
+        $user->save();
     }
 }
