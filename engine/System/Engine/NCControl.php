@@ -6,9 +6,13 @@
 
 namespace System\Engine;
 
+use Module\Admin\Helper;
+
 
 class NCControl extends NCModule
 {
+    static $menu = [];
+
     /**
      * @param $url
      * @param $theme
@@ -25,5 +29,11 @@ class NCControl extends NCModule
     public function access()
     {
         return $this->user ? $this->user->can('use_admin') : false;
+    }
+
+    public function configure()
+    {
+        // Control panel menu
+        $this->view->assign('menu', Helper::build_menu());
     }
 }

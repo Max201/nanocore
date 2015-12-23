@@ -20,11 +20,11 @@ class Module extends NCControl
     {
         // Disabling namespace
         $this->map->setNameSpace();
+        // Admin Menu
+        $this->view->assign('menu', Helper::build_menu());
 
-        // Authentication
+        // Routes
         $this->map->addRoute('login', [$this, 'login'], 'login');
-
-        // Dashboard
         $this->map->addRoute('/', [$this, 'dashboard'], 'dashboard');
     }
 

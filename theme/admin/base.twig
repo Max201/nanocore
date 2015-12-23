@@ -27,14 +27,14 @@
         <section id="container">
             <!--Navigation bar-->
             <nav id="main-context">
-                {% for lmenu in menu.left|keys %}
+                {% for group in menu|keys %}
                     <header>
-                        <i class="fa fa-{{ menu.left[lmenu].icon }}"></i>
-                        {{ lmenu }}
+                        <i class="fa fa-module"></i>
+                        {{ group }}
                     </header>
 
-                    {% for item in menu.left[lmenu].items %}
-                        <a {% if item.blank %}target="_blank"{% endif %} href="{{ item.link }}">{{ item.title }}</a>
+                    {% for link in menu[group]|keys %}
+                        <a href="{{ menu[group][link] }}">{{ link }}</a>
                     {% endfor %}
                 {% endfor %}
             </nav>

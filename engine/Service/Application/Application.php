@@ -68,7 +68,6 @@ class Application extends NCService
     {
         // Split URL By sleshes
         $url = new NCUrlSegments($route);
-        $default_module = $this->conf->get('default_module');
 
         // Call module controller
         if ( $url->seg(0) == 'control' ) {

@@ -13,13 +13,19 @@ use System\Engine\NCControl;
 
 class Control extends NCControl
 {
+    static $menu = [
+        'users' => '/control/user/'
+    ];
+
     public function route()
     {
-        $this->map->addRoute('dashboard', [$this, 'test'], 'home');
+        $this->map->addRoute('/', [$this, 'users_list'], 'home');
     }
 
-    public function dashboard(Request $request, $matches)
+    public function users_list(Request $request, $matches)
     {
-        return $this->view->render('dashboard/index.twig');
+        return $this->view->render('dashboard/index.twig', [
+            'title' => 'Users List'
+        ]);
     }
 } 

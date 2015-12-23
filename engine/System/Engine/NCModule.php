@@ -7,6 +7,7 @@
 namespace System\Engine;
 
 
+use Service\Application\Translate;
 use Service\Render\Theme;
 use Service\User\Auth;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,11 @@ class NCModule
     protected $user;
 
     /**
+     * @var Translate
+     */
+    protected $lang;
+
+    /**
      * @param $url
      * @param $theme
      * @param $namespace
@@ -45,6 +51,9 @@ class NCModule
         // Authentication
         $this->auth = NCService::load('User.Auth');
         $this->user = $this->auth->identify(Env::$request->cookies->get('sess'));
+
+        // Translation
+        $this->lang = NCService::load('Application.Translate');
 
         // Renderring
         /** @var Theme view */
@@ -68,6 +77,7 @@ class NCModule
         ob_start();
         if ( $this->access() ) {
             if ( is_callable($route->callback) ) {
+                $this->configure();
                 $response = call_user_func($route->callback, Env::$request, $route->matches);
                 Env::$response->setContent(!is_null($response) ? $response : ob_get_clean());
             } else {
@@ -107,6 +117,14 @@ class NCModule
     public function access()
     {
         return true;
+    }
+
+    /**
+     * Configuring controller
+     */
+    public function configure()
+    {
+
     }
 
     /**

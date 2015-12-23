@@ -15,7 +15,7 @@ class Helper
     static function modules()
     {
         $root = ROOT . S . 'engine' . S . 'Module';
-        if ( !is_file($root) ) {
+        if ( !is_dir($root) ) {
             return [];
         }
 
@@ -26,9 +26,28 @@ class Helper
                 continue;
             }
 
-            $modules[] = $root . S . $item;
+            $modules[] = $item;
         }
 
-        return $modules;
+        return array_reverse($modules);
+    }
+
+    /**
+     * @return array
+     */
+    static function build_menu()
+    {
+        $groups = [];
+        $modules = static::modules();
+        foreach ( $modules as $module ) {
+            $admin_class = '\\Module\\' . $module . '\\Control';
+            if ( !class_exists($admin_class) ) {
+                continue;
+            }
+
+            $groups[$module] = $admin_class::$menu;
+        }
+
+        return $groups;
     }
 } 
