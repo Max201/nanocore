@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>{% block title %}{% if title %}{{ title }}{% else %}Untitled{% endif %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ adm.css('style') }}"/>
-    <script type="text/javascript" src="{{ adm.js('jquery') }}" charset="UTF-8"></script>
-    <script type="text/javascript" src="{{ adm.js('webgui') }}"></script>
+    <link rel="stylesheet" href="{{ 'style.css'|local('css') }}"/>
+    <script type="text/javascript" src="{{ 'jquery.js'|local('js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ 'webgui.js'|local('js') }}"></script>
     <script type="text/javascript">
         $(function(){
             $('[name="login"]').on('click', function(){

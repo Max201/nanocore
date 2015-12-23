@@ -70,27 +70,24 @@ class Application extends NCService
         $url = new NCUrlSegments($route);
         $default_module = $this->conf->get('default_module');
 
-        // Define module name & module class
-        $module_name = ucfirst($url->seg(static::MODULE_SEGMENT, $default_module));
-        $module_class = 'Module';
-
-        // For admin panel
-        if ($module_name == 'Control') {
-            $module_name = ucfirst($url->seg(static::MODULE_SEGMENT+1, $default_module));
+        // Call module controller
+        if ( $url->seg(0) == 'control' ) {
+            $url = new NCUrlSegments($url->level(0));
             $module_class = 'Control';
+        } else {
+            $module_class = 'Module';
         }
 
-        $module = '\\Module\\' . $module_name . '\\' . $module_class;
+        $module_name = ucfirst($url->seg(0));
+        $module_url = $url->level(2);
+
+        $module_class = '\\Module\\' . $module_name . '\\' . $module_class;
         // If class does not exists
-        if ( !class_exists($module) ) {
+        if ( !class_exists($module_class) ) {
             return false;
         }
 
-        // Call module controller
-        return new $module(
-            $url->level(static::MODULE_URL_LEVEL + ($module_class == 'Control' ? 1 : 0)),
-            $this->conf->get('theme', 'default')
-        );
+        return new $module_class($module_url, $this->conf->get('theme', 'default'));
     }
 
     /**

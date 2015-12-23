@@ -49,6 +49,7 @@ class NCModule
         // Renderring
         /** @var Theme view */
         $this->view = NCService::load('Render.Theme', [$theme]);
+        $this->view->assign('user', $this->user);
 
         // Subrouting
         $this->map = new NCRouter($this, $namespace);
