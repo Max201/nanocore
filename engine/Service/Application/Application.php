@@ -35,6 +35,11 @@ class Application extends NCService
     private $conf;
 
     /**
+     * @var NCModule|bool
+     */
+    private $app;
+
+    /**
      * @param $url
      */
     public function __construct($url)
@@ -50,8 +55,8 @@ class Application extends NCService
         // If no module found
         if ( !$this->app ) {
             Env::$response->setStatusCode(404, 'Page not found');
+            Env::$response->setContent(file_get_contents(ROOT . S . 'theme' . S . 'assets' . S . 'not_found.html'));
             Env::$response->send();
-            die;
         }
     }
 
@@ -82,7 +87,10 @@ class Application extends NCService
         }
 
         // Call module controller
-        return new $module( $url->level(static::MODULE_URL_LEVEL + ($module_class == 'Control' ? 1 : 0)) );
+        return new $module(
+            $url->level(static::MODULE_URL_LEVEL + ($module_class == 'Control' ? 1 : 0)),
+            $this->conf->get('theme', 'default')
+        );
     }
 
     /**

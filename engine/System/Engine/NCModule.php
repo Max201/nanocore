@@ -37,8 +37,9 @@ class NCModule
 
     /**
      * @param $url
+     * @param $theme
      */
-    public function __construct($url)
+    public function __construct($url, $theme = 'default')
     {
         // Authentication
         $this->auth = NCService::load('User.Auth');
@@ -46,33 +47,38 @@ class NCModule
 
         // Renderring
         /** @var Theme view */
-        $this->view = NCService::load('Render.Theme', ['admin']);
+        $this->view = NCService::load('Render.Theme', [$theme]);
 
         // Subrouting
         $this->map = new NCRouter($this);
         $this->urls();
 
+        // Adding sitemap to urls
+        $this->map->addRoute('sitemap.xml', [$this, 'sitemap'], 'sitemap');
+
         /** @var NCRoute $route */
         $route = $this->map->match($url);
 
-        // Call method
-        if ( is_callable($route->callback) ) {
-            ob_start();
-            $response = call_user_func($route->callback, Env::$request, $route->matches);
-            $buffer = ob_get_clean();
-
-            Env::$response->setContent($response ? $response : $buffer);
-            Env::$response->sendHeaders();
-            Env::$response->sendContent();
+        // Bufferization content
+        ob_start();
+        if ( $this->access() ) {
+            $response = is_callable($route->callback) ? call_user_func($route->callback, Env::$request, $route->matches) : $this->error404(Env::$request);
         } else {
-            $this->error404(Env::$request);
+            $response = $this->error403(Env::$request);
         }
+
+        $buffer = ob_get_clean();
+
+        // Flush content
+        Env::$response->setContent($response ? $response : $buffer);
+        Env::$response->sendHeaders();
+        Env::$response->sendContent();
     }
 
     /**
      * Create module route map
      */
-    public function urls()
+    public function route()
     {
 
     }
@@ -82,9 +88,19 @@ class NCModule
      *
      * @param $builder
      */
-    public function url_map($builder)
+    public function sitemap($builder)
     {
 
+    }
+
+    /**
+     * Checks the access to requested page
+     *
+     * @return bool
+     */
+    public function access()
+    {
+        return true;
     }
 
     /**
@@ -92,6 +108,16 @@ class NCModule
      */
     public function error404(Request $request)
     {
-        return $this->view->render('@assets/not_found.twig');
+        Env::$response->setStatusCode(404, 'Page not found');
+        return $this->view->render('@assets/not_found.html');
+    }
+
+    /**
+     * Page not found
+     */
+    public function error403(Request $request)
+    {
+        Env::$response->setStatusCode(403, 'Permission denied');
+        return $this->view->render('@assets/permission_denied.html');
     }
 } 

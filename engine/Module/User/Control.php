@@ -8,10 +8,10 @@ namespace Module\User;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use System\Engine\NCModule;
+use System\Engine\NCControl;
 
 
-class Control extends NCModule
+class Control extends NCControl
 {
     public function urls()
     {
@@ -20,6 +20,6 @@ class Control extends NCModule
 
     public function test(Request $request, $matches)
     {
-        return $this->view->render('@admin/base.twig', ['title'=>'hello']);
+        return $this->view->render('base.twig', ['title'=>'hello']);
     }
 } 

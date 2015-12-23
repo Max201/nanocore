@@ -132,6 +132,7 @@ class Theme extends NCService
         # Initialize twig
         $this->twig = new \Twig_Environment($this->loader, array(
             'cache' => $this->tpl_cache_dir,
+            'auto_reload' => true,
         ));
 
         # Default vars
