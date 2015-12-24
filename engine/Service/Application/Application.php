@@ -47,6 +47,7 @@ class Application extends NCService
         $this->conf = $this->config('application');
 
         // Call request URL
+        $url = reset(explode('?', $url, 2));
         $this->app = $this->call($url);
         if ( !$this->app ) {
             $this->app = $this->call($this->conf->get('home', '/'));
@@ -71,16 +72,17 @@ class Application extends NCService
 
         // Call module controller
         if ( $url->seg(0) == 'control' ) {
-            $url = new NCUrlSegments($url->level(0));
+            $url = new NCUrlSegments($url->level(1));
             $module_class = 'Control';
         } else {
             $module_class = 'Module';
         }
 
         $module_name = ucfirst($url->seg(0));
-        $module_url = $url->level(2);
+        $module_url = $url->level(1);
 
         $module_class = '\\Module\\' . $module_name . '\\' . $module_class;
+
         // If class does not exists
         if ( !class_exists($module_class) ) {
             return false;

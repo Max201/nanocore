@@ -53,6 +53,7 @@ class NCUrlSegments
             return $default;
         }
 
-        return implode('/', array_splice($segments, -1 * (count($segments) - $level - 1)));
+        $level = implode('/', array_splice($segments, $level));
+        return $level ? $level : $default;
     }
 } 

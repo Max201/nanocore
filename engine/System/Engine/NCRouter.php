@@ -88,12 +88,13 @@ class NCRouter
      */
     public function reverse_filter($name, $args = null)
     {
-        if ( is_null($args) ) {
-            $args = [];
+        $args = func_get_args();
+        if ( $args ) {
+            array_shift($args);
         }
 
-        if ( !($args instanceof Arguments) ) {
-            $args = new Arguments($args);
+        if ( is_null($args) || !$args ) {
+            $args = [];
         }
 
         return $this->reverse($name, $args);
@@ -101,14 +102,14 @@ class NCRouter
 
     /**
      * @param $name
-     * @param Arguments|null $arguments
+     * @param array|null $arguments
      * @return NCRoute
      * @throws \Exception
      */
-    public function reverse($name, Arguments $arguments = null)
+    public function reverse($name, $arguments = null)
     {
         if (is_null($arguments)) {
-            $arguments = new Arguments();
+            $arguments = [];
         }
 
         // Compare routes
@@ -123,18 +124,15 @@ class NCRouter
         foreach ( $this->patterns as $pattern => $data ) {
             list($callback, $route_name) = $data;
 
-            $args = [];
-            preg_match_all('/<(.+?)>/', $pattern, $vars);
-
             // Compare with source
             if ($route_name == $name) {
-                for ( $i = 0; $i < count($vars[0]); $i++ ) {
-                    $full = '<' . $vars[1][$i] . '>';
-                    list($key, $mask) = explode(':', $vars[1][$i]);
-                    $args[$key] = $arguments->get($key);
-                    $route = str_replace($full, $args[$key], $pattern);
-                    return new NCRoute($this->module_namespace . $this->module . $route, $pattern, $callback, $route_name);
-                }
+                $source_data = $this->_combine_args($pattern, $arguments);
+                return new NCRoute(
+                    $this->module_namespace . $this->module . strtr($pattern, $source_data['_replace']),
+                    $pattern,
+                    $callback,
+                    $route_name
+                );
             }
         }
 
@@ -182,5 +180,23 @@ class NCRouter
         }
 
         return new NCRoute($source, 'all', '\System\Engine\NCModule::error404', 'error.404');
+    }
+
+    /**
+     * @param $pattern
+     * @param array $values
+     * @return Arguments
+     */
+    private function _combine_args($pattern, $values = [])
+    {
+        if ( $values instanceof Arguments ) {
+            $values = $values->getArrayCopy();
+        }
+
+        preg_match_all('/<(.+?)>/', $pattern, $vars);
+        $keys = array_map(function($i){ return reset(explode(':', $i)); }, $vars[1]);
+        $result = array_combine($keys, $values);
+        $result['_replace'] = array_combine($vars[0], $values);
+        return $result;
     }
 } 

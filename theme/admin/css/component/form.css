@@ -2,13 +2,14 @@
     width: auto;
     margin: 5px;
     padding: 1px;
-    text-align: center;
+    text-align: left;
     background: #FFFFFF;
     font-size: 14px;
 }
 
 .form footer {
     padding: 15px 0;
+    text-align: center;
 }
 
 .form.margin {

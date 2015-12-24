@@ -1,7 +1,7 @@
 function changePassword(userId, newPassword)
 {
     $.post(
-        '/admin/users/' + userId + '/change_password/',
+        '/control/user/profile/' + userId,
         {'new_password': newPassword},
         function (response) {
             var status = response['code'];

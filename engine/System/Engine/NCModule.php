@@ -76,9 +76,9 @@ class NCModule
         $route = $this->map->match($url);
 
         // Bufferization content
-        ob_start();
         if ( $this->access() ) {
             if ( is_callable($route->callback) ) {
+                ob_start();
                 $this->configure();
                 $response = call_user_func($route->callback, Env::$request, $route->matches);
                 Env::$response->setContent(!is_null($response) ? $response : ob_get_clean());

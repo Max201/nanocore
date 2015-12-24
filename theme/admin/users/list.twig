@@ -2,13 +2,13 @@
 
 {% block body %}
     <menu>
-        <a href="/admin/users/" class="item active">{{ 'user.list'|lang }}</a>
-        <a href="/admin/users/groups/" class="item">{{ 'user.group.list'|lang }}</a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users'|url }}" class="item active">{{ 'user.list'|lang }}</a>
+        <a href="{{ 'groups'|url }}" class="item">{{ 'user.group.list'|lang }}</a>
+        <a href="{{ 'settings'|url }}" class="item">
             <i class="fa fa-cog"></i>
             {{ 'user.settings'|lang }}
         </a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users.create'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'user.create'|lang }}
         </a>
@@ -33,7 +33,7 @@
         </thead>
         <tbody>
         {% for profile in users_list %}
-            <tr onclick="gui.go('{{ profile.id }}/')">
+            <tr onclick="gui.go('{{ 'users.profile'|url(profile.id) }}')">
                 <td class="primary">#{{ profile.id }}</td>
                 <td>{{ profile.username }}</td>
                 <td>
@@ -68,13 +68,13 @@
     </table>
 
     <menu>
-        <a href="/admin/users/" class="item active">{{ 'user.list'|lang }}</a>
-        <a href="/admin/users/groups/" class="item">{{ 'user.group.list'|lang }}</a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users'|url }}" class="item active">{{ 'user.list'|lang }}</a>
+        <a href="{{ 'groups'|url }}" class="item">{{ 'user.group.list'|lang }}</a>
+        <a href="{{ 'settings'|url }}" class="item">
             <i class="fa fa-cog"></i>
             {{ 'user.settings'|lang }}
         </a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users.create'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'user.create'|lang }}
         </a>

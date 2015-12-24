@@ -14,7 +14,8 @@ use ActiveRecord\Model;
  */
 class User extends Model
 {
-    static $before_create = array('set_session', 'set_password');
+    static $before_create = array('set_session', 'register_date');
+    static $before_save = array('set_password');
 
     /**
      * @var array
@@ -44,7 +45,9 @@ class User extends Model
             $password = $this->password;
         }
 
-        $this->assign_attribute('password', static::encrypt($password));
+        if ( strlen($password) < 32 ) {
+            $this->assign_attribute('password', static::encrypt($password));
+        }
     }
 
     /**
@@ -52,7 +55,15 @@ class User extends Model
      */
     public function set_session()
     {
-        $this->assign_attribute('session', static::encrypt($this->username . microtime(true) . $this->password));
+        $this->assign_attribute('session_id', static::encrypt($this->username . microtime(true) . $this->password));
+    }
+
+    /**
+     * Defines register date
+     */
+    public function register_date()
+    {
+        $this->assign_attribute('register_date', time());
     }
 
     /**

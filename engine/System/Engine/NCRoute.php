@@ -47,7 +47,7 @@ class NCRoute
      */
     public function __construct($source, $pattern, $callback, $name, $matches = [])
     {
-        $this->source = $source;
+        $this->source = str_replace('//', '/', $source);
         $this->callback = $callback;
         $this->pattern = $pattern;
         $this->matches = $matches;
