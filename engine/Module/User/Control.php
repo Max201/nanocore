@@ -73,6 +73,23 @@ class Control extends NCControl
         ]);
     }
 
+    public function groups_list(Request $request)
+    {
+        /** @var Listing $paginator */
+        $paginator = NCService::load('Paginator.Listing', [$request->get('page', 1), \Group::count()]);
+        $filter = $paginator->limit();
+
+        // Filter groups
+        $groups = \Group::all($filter);
+        $groups = array_map(function($i){ return $i->to_array(); }, $groups);
+        return $this->view->render('users/groups.twig', [
+            'title'         => $this->lang->translate('user.groups'),
+            'groups_list'    => $groups,
+            'listing'       => $paginator->pages(),
+            'page'          => $paginator->cur_page
+        ]);
+    }
+
     public function users_list(Request $request, $matches)
     {
         /** @var Listing $paginator */

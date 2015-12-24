@@ -2,15 +2,15 @@
 
 {% block body %}
     <menu>
-        <a href="/admin/users/" class="item">{{ translate.e('users.list') }}</a>
-        <a href="/admin/users/groups/" class="item active">{{ translate.e('users.group.list') }}</a>
+        <a href="/admin/users/" class="item">{{ 'user.list'|lang }}</a>
+        <a href="/admin/users/groups/" class="item active">{{ 'user.group.list'|lang }}</a>
         <a href="/admin/users/groups/" class="item">
             <i class="fa fa-cog"></i>
-            {{ translate.e('users.settings') }}
+            {{ 'user.settings'|lang }}
         </a>
         <a href="/admin/users/groups/" class="item">
             <i class="fa fa-plus"></i>
-            {{ translate.e('users.group.create') }}
+            {{ 'user.group.create'|lang }}
         </a>
 
         <nav class="right">
@@ -24,9 +24,10 @@
         <thead>
             <tr>
                 <td class="primary">ID</td>
-                <td>{{ translate.e('users.group.title') }}</td>
-                <td class="x3">{{ translate.e('users.group.icon') }}</td>
-                <td class="x5">{{ translate.e('users.count') }}</td>
+                <td>{{ 'user.group.title'|lang }}</td>
+                <td class="x3">{{ 'user.group.icon'|lang }}</td>
+                <td class="x3">{{ 'user.group.admin'|lang }}</td>
+                <td class="x5">{{ 'user.count'|lang }}</td>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,15 @@
                 <td class="primary">#{{ group.id }}</td>
                 <td>{{ group.name }}</td>
                 <td>undefined</td>
+                <td>
+                    {% if group.can('use_admin') %}
+                        <span class="fa fa-check"></span>
+                        {{ 'button.opened'|lang }}
+                    {% else %}
+                        <span class="fa fa-times"></span>
+                        {{ 'button.closed'|lang }}
+                    {% endif %}
+                </td>
                 <td>1</td>
             </tr>
         {% endfor %}
@@ -42,23 +52,24 @@
         <tfoot>
             <tr>
                 <td class="primary">ID</td>
-                <td>{{ translate.e('users.group.title') }}</td>
-                <td>{{ translate.e('users.group.icon') }}</td>
-                <td>{{ translate.e('users.count') }}</td>
+                <td>{{ 'user.group.title'|lang }}</td>
+                <td>{{ 'user.group.icon'|lang }}</td>
+                <td class="x3">{{ 'user.group.admin'|lang }}</td>
+                <td>{{ 'user.count'|lang }}</td>
             </tr>
         </tfoot>
     </table>
 
     <menu>
-        <a href="/admin/users/" class="item">{{ translate.e('users.list') }}</a>
-        <a href="/admin/users/groups/" class="item active">{{ translate.e('users.group.list') }}</a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users'|url }}" class="item">{{ 'user.list'|lang }}</a>
+        <a href="{{ 'groups'|url }}" class="item active">{{ 'user.group.list'|lang }}</a>
+        <a href="{{ 'settings'|url }}" class="item">
             <i class="fa fa-cog"></i>
-            {{ translate.e('users.settings') }}
+            {{ 'user.settings'|lang }}
         </a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users.create'|url }}" class="item">
             <i class="fa fa-plus"></i>
-            {{ translate.e('users.group.create') }}
+            {{ 'user.group.create'|lang }}
         </a>
 
         <nav class="right">
