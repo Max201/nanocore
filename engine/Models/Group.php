@@ -13,7 +13,7 @@ use ActiveRecord\Model;
 class Group extends Model
 {
     static $has_many = array(
-        array('user', 'class_name' => 'User')
+        ['user', 'class_name' => 'User']
     );
 
     /**

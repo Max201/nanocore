@@ -21,11 +21,11 @@ class Module extends NCControl
         // Disabling namespace
         $this->map->setNameSpace();
         // Admin Menu
-        $this->view->assign('menu', Helper::build_menu());
+        $this->view->assign('menu', Helper::build_menu($this->lang));
 
         // Routes
-        $this->map->addRoute('login', [$this, 'login'], 'login');
         $this->map->addRoute('/', [$this, 'dashboard'], 'dashboard');
+        $this->map->addRoute('login', [$this, 'login'], 'login');
     }
 
     public function access()
@@ -42,10 +42,10 @@ class Module extends NCControl
         return parent::access();
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         return $this->view->render('dashboard/index.twig', [
-            'title' => 'Dashboard'
+            'title' => $this->lang->translate('admin.dashboard')
         ]);
     }
 

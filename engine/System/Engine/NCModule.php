@@ -56,7 +56,6 @@ class NCModule
         $this->lang = NCService::load('Application.Translate');
 
         // Renderring
-        /** @var Theme view */
         $this->view = NCService::load('Render.Theme', [$theme]);
         $this->view->assign('user', $this->user);
 
@@ -69,6 +68,9 @@ class NCModule
 
         // Register reverse url filter
         $this->view->twig->addFilter(new \Twig_SimpleFilter('url', [$this->map, 'reverse_filter']));
+
+        // Register translate filter
+        $this->view->twig->addFilter(new \Twig_SimpleFilter('lang', [$this->lang, 'translate']));
 
         /** @var NCRoute $route */
         $route = $this->map->match($url);

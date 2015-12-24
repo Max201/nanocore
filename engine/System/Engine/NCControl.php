@@ -11,6 +11,7 @@ use Module\Admin\Helper;
 
 class NCControl extends NCModule
 {
+    static $fa_icon = 'users';
     static $menu = [];
 
     /**
@@ -34,6 +35,6 @@ class NCControl extends NCModule
     public function configure()
     {
         // Control panel menu
-        $this->view->assign('menu', Helper::build_menu());
+        $this->view->assign('menu', Helper::build_menu($this->lang));
     }
 }

@@ -14,7 +14,8 @@ use System\Engine\NCControl;
 class Control extends NCControl
 {
     static $menu = [
-        'users' => '/control/user/'
+        'user.list' => '/control/user/',
+        'user.groups' => '/control/user/groups/',
     ];
 
     public function route()
@@ -24,8 +25,12 @@ class Control extends NCControl
 
     public function users_list(Request $request, $matches)
     {
-        return $this->view->render('dashboard/index.twig', [
-            'title' => 'Users List'
+        $users = \User::all();
+
+        $users = array_map(function($i){ return $i->asArrayFull(); }, $users);
+        return $this->view->render('users/list.twig', [
+            'title'         => $this->lang->translate('user.list'),
+            'users_list'    => $users
         ]);
     }
 } 

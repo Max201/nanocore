@@ -36,7 +36,7 @@ class Translate extends NCService
     /**
      * Create translate object
      */
-    private function __construct()
+    public function __construct()
     {
         $this->_root = ROOT . S . 'engine' . S . 'Language' . S . $this->config('application')->get('lang');
         if ( is_dir($this->_root) ) {
@@ -48,7 +48,7 @@ class Translate extends NCService
      * @param string $string
      * @return string
      */
-    public function e($string)
+    public function translate($string)
     {
         $args = func_get_args();
 
@@ -82,7 +82,7 @@ class Translate extends NCService
      */
     private function _loadCache()
     {
-        $path = ROOT . S . 'Service' . S . 'Application' . S . 'cache' . S . 'translate.php';
+        $path = ROOT . S . 'engine' . S . 'Service' . S . 'Application' . S . 'cache' . S . 'translate.php';
         if ( file_exists($path) ) {
             $this->_cache = include $path;
         }
@@ -94,8 +94,8 @@ class Translate extends NCService
     private function _writeCache()
     {
         $content = '<?php return ' . var_export($this->_cache, true) . ';';
-        file_put_contents(
-            ROOT . S . 'Service' . S . 'Application' . S . 'cache' . S . 'translate.php',
+        return file_put_contents(
+            ROOT . S . 'engine' . S . 'Service' . S . 'Application' . S . 'cache' . S . 'translate.php',
             $content
         );
     }
@@ -121,7 +121,7 @@ class Translate extends NCService
             if ( is_dir($path) ) {
                 $this->_reloadTranslate($path);
             } else {
-                $this->_parseArray($this->_loadJson($path));
+                $this->_parseArray($this->_loadJson($path), substr($item, 0, -4));
             }
         }
     }

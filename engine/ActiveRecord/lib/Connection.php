@@ -199,6 +199,11 @@ abstract class Connection
 				$host = "unix_socket=$info->host";
 
 			$this->connection = new PDO("$info->protocol:$host;dbname=$info->db",$info->user,$info->pass,static::$PDO_OPTIONS);
+
+            if ( $info->protocol == 'mysql' ) {
+                $this->connection->query("SET NAMES 'utf8';");
+                $this->connection->query("SET CHARACTER SET utf8;");
+            }
 		} catch (PDOException $e) {
 			throw new DatabaseException($e);
 		}

@@ -29,12 +29,14 @@
             <nav id="main-context">
                 {% for group in menu|keys %}
                     <header>
-                        <i class="fa fa-module"></i>
+                        <i class="fa fa-{{ menu[group]['$icon'] }}"></i>
                         {{ group }}
                     </header>
 
-                    {% for link in menu[group]|keys %}
-                        <a href="{{ menu[group][link] }}">{{ link }}</a>
+                    {% for title in menu[group]|keys %}
+                        {% if title not in '$icon' %}
+                        <a href="{{ menu[group][title] }}">{{ title }}</a>
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             </nav>

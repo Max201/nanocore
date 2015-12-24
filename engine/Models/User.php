@@ -6,8 +6,6 @@
  * Time: 23:52
  */
 use ActiveRecord\Model;
-use System\Environment\Env;
-use Symfony\Component\HttpFoundation\Cookie;
 
 
 /**
@@ -22,7 +20,7 @@ class User extends Model
      * @var array
      */
     static $belongs_to = array(
-        array('group', 'class_name' => 'Group')
+        ['group', 'class_name' => 'Group', 'foreign_key' => 'group_id']
     );
 
     /**
@@ -54,7 +52,7 @@ class User extends Model
      */
     public function set_session()
     {
-        $this->assign_attribute('session', md5(microtime(true)));
+        $this->assign_attribute('session', static::encrypt($this->username . microtime(true) . $this->password));
     }
 
     /**

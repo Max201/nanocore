@@ -2,15 +2,15 @@
 
 {% block body %}
     <menu>
-        <a href="/admin/users/" class="item active">{{ translate.e('users.list') }}</a>
-        <a href="/admin/users/groups/" class="item">{{ translate.e('users.group.list') }}</a>
+        <a href="/admin/users/" class="item active">{{ 'user.list'|lang }}</a>
+        <a href="/admin/users/groups/" class="item">{{ 'user.group.list'|lang }}</a>
         <a href="/admin/users/groups/" class="item">
             <i class="fa fa-cog"></i>
-            {{ translate.e('users.settings') }}
+            {{ 'user.settings'|lang }}
         </a>
         <a href="/admin/users/groups/" class="item">
             <i class="fa fa-plus"></i>
-            {{ translate.e('users.create') }}
+            {{ 'user.create'|lang }}
         </a>
 
         <nav class="right">
@@ -24,11 +24,11 @@
         <thead>
             <tr>
                 <td class="primary">ID</td>
-                <td>{{ translate.e('users.profile.username') }}</td>
-                <td>{{ translate.e('users.profile.email') }}</td>
-                <td>{{ translate.e('users.profile.register_date') }}</td>
-                <td>{{ translate.e('users.profile.last_visit') }}</td>
-                <td>{{ translate.e('users.profile.group') }}</td>
+                <td>{{ 'user.profile.username'|lang }}</td>
+                <td>{{ 'user.profile.email'|lang }}</td>
+                <td>{{ 'user.profile.register_date'|lang }}</td>
+                <td>{{ 'user.profile.last_visit'|lang }}</td>
+                <td>{{ 'user.profile.group'|lang }}</td>
             </tr>
         </thead>
         <tbody>
@@ -58,25 +58,25 @@
         <tfoot>
             <tr>
                 <td class="primary">ID</td>
-                <td>{{ translate.e('users.profile.username') }}</td>
-                <td>{{ translate.e('users.profile.email') }}</td>
-                <td>{{ translate.e('users.profile.register_date') }}</td>
-                <td>{{ translate.e('users.profile.last_visit') }}</td>
-                <td>{{ translate.e('users.profile.group') }}</td>
+                <td>{{ 'user.profile.username'|lang }}</td>
+                <td>{{ 'user.profile.email'|lang }}</td>
+                <td>{{ 'user.profile.register_date'|lang }}</td>
+                <td>{{ 'user.profile.last_visit'|lang }}</td>
+                <td>{{ 'user.profile.group'|lang }}</td>
             </tr>
         </tfoot>
     </table>
 
     <menu>
-        <a href="/admin/users/" class="item active">{{ translate.e('users.list') }}</a>
-        <a href="/admin/users/groups/" class="item">{{ translate.e('users.group.list') }}</a>
+        <a href="/admin/users/" class="item active">{{ 'user.list'|lang }}</a>
+        <a href="/admin/users/groups/" class="item">{{ 'user.group.list'|lang }}</a>
         <a href="/admin/users/groups/" class="item">
             <i class="fa fa-cog"></i>
-            {{ translate.e('users.settings') }}
+            {{ 'user.settings'|lang }}
         </a>
         <a href="/admin/users/groups/" class="item">
             <i class="fa fa-plus"></i>
-            {{ translate.e('users.create') }}
+            {{ 'user.create'|lang }}
         </a>
 
         <nav class="right">
