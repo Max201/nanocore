@@ -3,5 +3,16 @@
     "dashboard": "Доска Обновлений",
     "settings": "Настройки Системы",
     "services": "Системные Сервисы",
-    "packer": "Модули Packer"
+    "packer": "Модули Packer",
+    "config": {
+        "lang": "Язык системы",
+        "theme": "Тема оформления",
+        "home": "URL Главной страницы"
+    },
+    "service": {
+        "name": "Сервис",
+        "author": "Автор",
+        "version": "Версия",
+        "website": "Сайт автора"
+    }
 }

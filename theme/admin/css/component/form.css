@@ -96,3 +96,17 @@ input[type="checkbox"]:checked:after {
     outline: none;
     content: "\f096";
 }
+
+.message {
+    padding: 8px 16px;
+    margin: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.message.success {
+    background: #ADE6CE;
+    border: 1px solid #a6dcc5;
+}

@@ -54,12 +54,12 @@ class Control extends NCControl
                 $user->password = $new_password;
                 if ( $user->save() ) {
                     return json_encode([
-                        'status'    => 'Saved',
+                        'status'    => $this->lang->translate('form.saved'),
                         'code'      => 'success'
                     ]);
                 } else {
                     return json_encode([
-                        'status'    => 'Failed',
+                        'status'    => $this->lang->translate('form.failed'),
                         'code'      => 'error'
                     ]);
                 }

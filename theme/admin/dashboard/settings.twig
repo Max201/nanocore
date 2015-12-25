@@ -1,0 +1,36 @@
+{% extends 'base.twig' %}
+{% block body %}
+    <div>
+        {% if message %}
+            <div class="message {{ status }}">  {{ message }}</div>
+        {% endif %}
+        <form action="" method="post" class="form">
+            <label for="lang">
+                <span class="title">{{ 'admin.config.lang'|lang }}</span>
+                <select name="lang" id="lang">
+                    {% for option in langs %}
+                        <option{% if option == conf.lang %} selected="selected"{% endif %} value="{{ option }}">{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label for="theme">
+                <span class="title">{{ 'admin.config.theme'|lang }}</span>
+                <select name="theme" id="theme">
+                    {% for option in themes %}
+                        <option{% if option == conf.theme %} selected="selected"{% endif %} value="{{ option }}">{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label for="home">
+                <span class="title">{{ 'admin.config.home'|lang }} <strong>http://{{ home }}</strong></span>
+                <input type="text" id="home" name="home" value="{{ conf.home }}"/>
+            </label>
+
+            <footer>
+                <input class="button" type="submit" id="save" value="{{ 'button.save'|lang }}"/>
+            </footer>
+        </form>
+    </div>
+{% endblock %}

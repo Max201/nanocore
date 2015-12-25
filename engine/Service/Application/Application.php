@@ -27,12 +27,12 @@ class Application extends NCService
     /**
      * @var Application
      */
-    static $instance;
+    static $instance = null;
 
     /**
      * @var Options
      */
-    private $conf;
+    public $conf;
 
     /**
      * @var NCModule|bool
@@ -49,7 +49,7 @@ class Application extends NCService
         // Call request URL
         $url = reset(explode('?', $url, 2));
         $this->app = $this->call($url);
-        if ( !$this->app ) {
+        if ( !$this->app || $url == '/' ) {
             $this->app = $this->call($this->conf->get('home', '/'));
         }
 
@@ -95,9 +95,9 @@ class Application extends NCService
      * @param $base_uri
      * @return NCService
      */
-    public static function instance($base_uri)
+    public static function instance($base_uri = null)
     {
-        if ( is_null(static::$instance) ) {
+        if ( !static::$instance ) {
             static::$instance = new static($base_uri);
         }
 

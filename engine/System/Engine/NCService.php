@@ -24,7 +24,7 @@ class NCService
     /**
      * @var self
      */
-    protected static $instance = null;
+    public static $instance = null;
 
     /**
      * @return self

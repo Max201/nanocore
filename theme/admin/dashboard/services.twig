@@ -1,0 +1,50 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <td>{{ 'admin.service.name'|lang }}</td>
+                <td>{{ 'admin.service.author'|lang }}</td>
+                <td>{{ 'admin.service.version'|lang }}</td>
+                <td>{{ 'admin.service.website'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for service in services|keys %}
+            <tr>
+                <td><strong>{{ service }}</strong></td>
+                <td>
+                    {% if services[service].author %}
+                        {{ services[service].author }}
+                    {% else %}
+                        <span>Unknown</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if services[service].version %}
+                    v{{ services[service].version }}
+                    {% else %}
+                    <span>Unknown</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if services[service].website %}
+                    <a href="http://{{ services[service].website }}" target="_blank">{{ services[service].website }}</a>
+                    {% else %}
+                    <span>Unknown</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>{{ 'admin.service.name'|lang }}</td>
+                <td>{{ 'admin.service.author'|lang }}</td>
+                <td>{{ 'admin.service.version'|lang }}</td>
+                <td>{{ 'admin.service.website'|lang }}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

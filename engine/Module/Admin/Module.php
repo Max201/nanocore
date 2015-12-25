@@ -7,6 +7,7 @@
 namespace Module\Admin;
 
 
+use Service\Application\Settings;
 use Service\User\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCControl;
@@ -26,6 +27,8 @@ class Module extends NCControl
         // Routes
         $this->map->addRoute('/', [$this, 'dashboard'], 'dashboard');
         $this->map->addRoute('login', [$this, 'login'], 'login');
+        $this->map->addRoute('settings', [$this, 'settings'], 'settings');
+        $this->map->addRoute('services', [$this, 'services'], 'services');
     }
 
     public function access()
@@ -40,6 +43,44 @@ class Module extends NCControl
         }
 
         return parent::access();
+    }
+
+    public function services(Request $request)
+    {
+        $services = Helper::services();
+
+        return $this->view->render('dashboard/services.twig', [
+            'title'     => $this->lang->translate('admin.services'),
+            'services'  => $services
+        ]);
+    }
+
+    public function settings(Request $request)
+    {
+        /** @var Settings $app */
+        $app = NCService::load('Application.Settings');
+
+        if ( $request->isMethod('POST') ) {
+            foreach ( $_POST as $key => $val ) {
+                $app->conf[$key] = $val;
+            }
+
+            if ( $app->save() ) {
+                $this->view->assign('message', $this->lang->translate('form.saved'));
+                $this->view->assign('status', 'success');
+            } else {
+                $this->view->assign('message', $this->lang->translate('form.failed'));
+                $this->view->assign('status', 'error');
+            }
+        }
+
+        return $this->view->render('dashboard/settings.twig', [
+            'title'     => $this->lang->translate('admin.settings'),
+            'conf'      => $app->conf,
+            'langs'     => Helper::languages(),
+            'themes'    => Helper::themes(),
+            'home'      => $request->server->get('SERVER_NAME')
+        ]);
     }
 
     public function dashboard(Request $request)
