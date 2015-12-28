@@ -1,0 +1,71 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <td>{{ 'admin.module.name'|lang }}</td>
+                <td>{{ 'admin.module.author'|lang }}</td>
+                <td>{{ 'admin.module.version'|lang }}</td>
+                <td>{{ 'admin.module.website'|lang }}</td>
+                <td>{{ 'admin.module.install'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% if not modules %}
+            <tr>
+                <td colspan="5" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% for module in modules|keys %}
+            <tr>
+                <td>
+                    <strong>
+                        {% if modules[module].name %}
+                            {{ modules[module].name }}
+                        {% else %}
+                            {{ module }}
+                        {% endif %}
+                    </strong>
+                </td>
+                <td>
+                    {% if modules[module].author %}
+                        {{ modules[module].author }}
+                    {% else %}
+                        <span>Unknown</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if modules[module].version %}
+                    v{{ modules[module].version }}
+                    {% else %}
+                    <span>Unknown</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if modules[module].website %}
+                    <a href="http://{{ modules[module].website }}" target="_blank">{{ modules[module].website }}</a>
+                    {% else %}
+                    <span>Unknown</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="#">Uninstall</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>{{ 'admin.module.name'|lang }}</td>
+                <td>{{ 'admin.module.author'|lang }}</td>
+                <td>{{ 'admin.module.version'|lang }}</td>
+                <td>{{ 'admin.module.website'|lang }}</td>
+                <td>{{ 'admin.module.install'|lang }}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

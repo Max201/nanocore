@@ -15,8 +15,8 @@ class Control extends NCControl
     static $fa_icon = 'dashboard';
     static $menu = [
         'admin.dashboard'   => '/admin/',
-        'admin.services'    => '/admin/services/',
         'admin.settings'    => '/admin/settings/',
-        'admin.packer'      => '/admin/packer/',
+        'admin.services'    => '/admin/services/',
+        'admin.modules'      => '/admin/modules/',
     ];
 } 

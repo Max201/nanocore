@@ -8,6 +8,7 @@ namespace Module\Admin;
 
 
 use Service\Application\Translate;
+use System\Engine\NCService;
 
 class Helper
 {
@@ -42,8 +43,7 @@ class Helper
      */
     static function modules()
     {
-        $root = ROOT . S . 'engine' . S . 'Module';
-        return array_reverse(static::dirs($root, 'Admin'));
+        return NCService::load('Module')->modules();
     }
 
     /**
@@ -102,7 +102,13 @@ class Helper
     static function build_menu(Translate $lang)
     {
         $groups = [];
-        $modules = static::modules();
+
+        # Get all modules and make Admin first item
+        $modules = static::dirs(ROOT. S . 'engine' . S . 'Module', ['Admin']);
+        $modules[] = 'Admin';
+        $modules = array_reverse($modules);
+
+        # Obtain modules information
         foreach ( $modules as $module ) {
             // Control class
             $admin_class = '\\Module\\' . $module . '\\Control';
@@ -111,7 +117,7 @@ class Helper
             }
 
             // Translate module name ( $module_name.module )
-            $group_name = strtolower($module) . '.module';
+            $group_name = strtolower($module) . '.title';
             if ( $lang->translate($group_name) != $group_name ) {
                 $group_name = $lang->translate($group_name);
             } else {

@@ -10,6 +10,8 @@ namespace Service\Database;
 
 
 use ActiveRecord\Config;
+use ActiveRecord\Connection;
+use ActiveRecord\ConnectionManager;
 use System\Engine\NCService;
 
 
@@ -39,5 +41,18 @@ class Database extends NCService
         }
 
         return static::$instance;
+    }
+
+    /**
+     * @param string $connection
+     * @return Connection
+     */
+    public static function connection($connection = null)
+    {
+        if ( is_null($connection) ) {
+            $connection = static::config('database')->get('default_connection', 'default');
+        }
+
+        return ConnectionManager::get_connection($connection);
     }
 }

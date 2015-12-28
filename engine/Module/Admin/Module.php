@@ -29,6 +29,7 @@ class Module extends NCControl
         $this->map->addRoute('login', [$this, 'login'], 'login');
         $this->map->addRoute('settings', [$this, 'settings'], 'settings');
         $this->map->addRoute('services', [$this, 'services'], 'services');
+        $this->map->addRoute('modules', [$this, 'modules'], 'modules');
     }
 
     public function access()
@@ -43,6 +44,15 @@ class Module extends NCControl
         }
 
         return parent::access();
+    }
+
+    public function modules(Request $request)
+    {
+        $modules = Helper::modules();
+        return $this->view->render('dashboard/modules.twig', [
+            'title'     => $this->lang->translate('admin.modules'),
+            'modules'   => NCService::load('Module')->modules_dict()
+        ]);
     }
 
     public function services(Request $request)

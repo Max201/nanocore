@@ -2,13 +2,13 @@
 
 {% block body %}
     <menu>
-        <a href="/admin/users/" class="item">{{ 'user.list'|lang }}</a>
-        <a href="/admin/users/groups/" class="item active">{{ 'user.group.list'|lang }}</a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users'|url }}" class="item">{{ 'user.list'|lang }}</a>
+        <a href="{{ 'groups'|url }}" class="item active">{{ 'user.group.list'|lang }}</a>
+        <a href="{{ 'settings'|url }}" class="item">
             <i class="fa fa-cog"></i>
             {{ 'user.settings'|lang }}
         </a>
-        <a href="/admin/users/groups/" class="item">
+        <a href="{{ 'users.create'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'user.group.create'|lang }}
         </a>

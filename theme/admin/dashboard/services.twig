@@ -13,7 +13,15 @@
         <tbody>
         {% for service in services|keys %}
             <tr>
-                <td><strong>{{ service }}</strong></td>
+                <td>
+                    <strong>
+                        {% if services[service].name %}
+                            {{ services[service].name }}
+                        {% else %}
+                            {{ service }}
+                        {% endif %}
+                    </strong>
+                </td>
                 <td>
                     {% if services[service].author %}
                         {{ services[service].author }}
