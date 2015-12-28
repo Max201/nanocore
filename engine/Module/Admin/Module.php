@@ -96,7 +96,8 @@ class Module extends NCControl
     public function dashboard(Request $request)
     {
         return $this->view->render('dashboard/index.twig', [
-            'title' => $this->lang->translate('admin.dashboard')
+            'title'     => $this->lang->translate('admin.dashboard'),
+            'widgets'   => Helper::build_widgets($this->view)
         ]);
     }
 

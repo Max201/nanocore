@@ -5,6 +5,7 @@
 /* Theme */
 @import "component/layout.css";
 @import "component/form.css";
+@import "component/widget.css";
 @import "component/menu.css";
 @import "component/table.css";
 @import "component/modal.css";

@@ -1,1 +1,14 @@
 {% extends '@admin/base.twig' %}
+
+{% block body %}
+    {% for group in widgets|keys %}
+        <div class="widget-group">
+            <header>{{ group|lang }}</header>
+            {% for widget in widgets[group] %}
+            <div class="widget">
+                {{ widget|raw }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

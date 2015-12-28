@@ -8,7 +8,9 @@ namespace Module\Admin;
 
 
 use Service\Application\Translate;
+use Service\Render\Theme;
 use System\Engine\NCService;
+use System\Engine\NCWidget;
 
 class Helper
 {
@@ -93,6 +95,38 @@ class Helper
     {
         $root = ROOT . S . 'theme';
         return static::dirs($root, ['admin', 'assets', '.tmp']);
+    }
+
+    /**
+     * @param Theme $view
+     * @return array
+     */
+    static function build_widgets(Theme $view)
+    {
+        $widgets = [];
+        $modules = static::dirs(ROOT. S . 'engine' . S . 'Module');
+        foreach ( $modules as $module ) {
+            // Control class
+            $admin_class = '\\Module\\' . $module . '\\Control';
+            if ( !class_exists($admin_class) ) {
+                continue;
+            }
+
+            $module_widgets = $admin_class::widget();
+            if ( !$module_widgets ) {
+                continue;
+            }
+
+            // Render widgets
+            $group_name = strtolower($module) . '.title';
+            $widgets[$group_name] = [];
+            /** @var NCWidget $wgt  */
+            foreach ( $module_widgets as $wgt ) {
+                $widgets[$group_name][] = $wgt->render($view);
+            }
+        }
+
+        return $widgets;
     }
 
     /**

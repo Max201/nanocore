@@ -11,6 +11,7 @@ use Service\Paginator\Listing;
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCControl;
 use System\Engine\NCService;
+use System\Engine\NCWidget;
 use System\Environment\Arguments;
 use System\Environment\Env;
 
@@ -21,6 +22,17 @@ class Control extends NCControl
         'user.list' => '/control/user/',
         'user.groups' => '/control/user/groups/',
     ];
+
+    static function widget()
+    {
+        // Users widget
+        $users_widget = new NCWidget('admin.dashboard', 'users/widgets/dash.twig');
+        $users_widget->context(['created' => \User::count()]);
+
+        return [
+            $users_widget,
+        ];
+    }
 
     public function route()
     {

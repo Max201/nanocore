@@ -15,6 +15,14 @@ class NCControl extends NCModule
     static $menu = [];
 
     /**
+     * @return NCWidget[]
+     */
+    static function widget()
+    {
+        return [];
+    }
+
+    /**
      * @param $url
      * @param $theme
      */
