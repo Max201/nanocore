@@ -7,12 +7,12 @@
 namespace Module\Admin;
 
 
-use Service\Application\Settings;
-use Service\User\Auth;
 use Symfony\Component\HttpFoundation\Request;
+use Service\Application\Settings;
 use System\Engine\NCControl;
 use System\Engine\NCService;
 use System\Environment\Env;
+use Service\User\Auth;
 
 
 class Module extends NCControl

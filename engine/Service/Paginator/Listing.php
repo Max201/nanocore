@@ -49,6 +49,10 @@ class Listing extends NCService
         $this->num_rows = intval($rows);
         $this->pages = ceil($this->num_rows / $this->per_page);
 
+        if ( $this->pages == 0 ) {
+            $this->pages = 1;
+        }
+
         $this->cur_page = $page > $this->pages ? $this->pages : intval($page);
         if ( $this->cur_page < 1 ) {
             $this->cur_page = 1;

@@ -8,7 +8,6 @@ namespace Module\Admin;
 
 
 use System\Engine\NCControl;
-use System\Engine\NCWidget;
 
 
 class Control extends NCControl

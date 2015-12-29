@@ -1,0 +1,71 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <menu>
+        <a href="{{ 'page.new'|url }}" class="item">
+            <i class="fa fa-plus"></i>
+            {{ 'page.create'|lang }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+
+    <table>
+        <thead>
+            <tr>
+                <td class="primary">ID</td>
+                <td>{{ 'page.name'|lang }}</td>
+                <td>{{ 'page.slug'|lang }}</td>
+                <td>{{ 'page.author'|lang }}</td>
+                <td>{{ 'page.created'|lang }}</td>
+                <td>{{ 'page.updated'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% if not pages_list %}
+            <tr>
+                <td colspan="6" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+        {% for page in pages_list %}
+            <tr onclick="gui.go('')">
+                <td class="primary">#{{ page.id }}</td>
+                <td>{{ page.title }}</td>
+                <td>{{ page.slug }}</td>
+                <td>{{ page.author }}</td>
+                <td>{{ page.created_at }}</td>
+                <td>{{ page.updated_at }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="primary">ID</td>
+                <td>{{ 'page.name'|lang }}</td>
+                <td>{{ 'page.slug'|lang }}</td>
+                <td>{{ 'page.author'|lang }}</td>
+                <td>{{ 'page.created'|lang }}</td>
+                <td>{{ 'page.updated'|lang }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <menu>
+        <a href="#" class="item">
+            <i class="fa fa-plus"></i>
+            {{ 'page.create'|lang }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+{% endblock %}

@@ -7,8 +7,8 @@
 namespace Module\User;
 
 
-use Service\Paginator\Listing;
 use Symfony\Component\HttpFoundation\Request;
+use Service\Paginator\Listing;
 use System\Engine\NCControl;
 use System\Engine\NCService;
 use System\Engine\NCWidget;
@@ -40,7 +40,7 @@ class Control extends NCControl
         $users_today_widget = new NCWidget('admin.dashboard', 'users/widgets/today.twig');
         $users_today_widget->context([
             'created' => \User::count([
-                'conditions' => ['last_visit > ?', mktime(0, 0, 0)]
+                'conditions' => ['last > ?', mktime(0, 0, 0)]
             ])
         ]);
 

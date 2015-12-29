@@ -10,8 +10,16 @@ namespace Service\Module;
 use System\Engine\NCService;
 
 
+/**
+ * Class Module
+ * @package Service\Module
+ */
 class Module extends NCService
 {
+    /**
+     * @param $zip_file
+     * @return array|string
+     */
     static function install($zip_file)
     {
         $already_installed = static::modules();
@@ -44,6 +52,10 @@ class Module extends NCService
         return $new;
     }
 
+    /**
+     * @param $module_name
+     * @return array
+     */
     static function info($module_name)
     {
         $info_file = ROOT . S . 'engine' . S . 'Module' . S . ucfirst($module_name) . S . 'module.ini';
@@ -54,6 +66,10 @@ class Module extends NCService
         return parse_ini_file($info_file);
     }
 
+    /**
+     * @param bool $all
+     * @return array
+     */
     static function modules($all = false)
     {
         $skip = [];
@@ -78,6 +94,9 @@ class Module extends NCService
         return $dirs;
     }
 
+    /**
+     * @return array
+     */
     static function modules_dict()
     {
         $modules = static::modules();
