@@ -7,9 +7,7 @@
 namespace Service\Render;
 
 
-use Service\Module\Module;
 use Service\Application\Translate;
-use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCBlock;
 use System\Engine\NCModule;
 use System\Engine\NCService;
@@ -238,7 +236,7 @@ class Theme extends NCService
     }
 
     /**
-     * @param Request $request
+     * @param NCModule $module
      * @param Translate $lang
      */
     public function load_globals(NCModule $module, Translate $lang)

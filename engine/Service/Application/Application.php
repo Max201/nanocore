@@ -9,6 +9,7 @@ namespace Service\Application;
 
 use System\Engine\NCModule;
 use System\Engine\NCService;
+use System\Engine\NCSitemapBuilder;
 use System\Engine\NCUrlSegments;
 use System\Environment\Env;
 use System\Environment\Options;
@@ -46,8 +47,18 @@ class Application extends NCService
     {
         $this->conf = $this->config('application');
 
-        // Call request URL
+        // Parse URL
         $url = reset(explode('?', $url, 2));
+
+        // If sitemap request
+        if ( $url == '/sitemap.xml' ) {
+            Env::$response->setContent( $this->sitemap() );
+            Env::$response->headers->set('Content-Type', 'application/xml');
+            Env::$response->send();
+            exit;
+        }
+
+        // Call request URL
         $this->app = $this->call($url);
         if ( !$this->app || $url == '/' ) {
             $this->app = $this->call($this->conf->get('home', '/'));
@@ -89,6 +100,27 @@ class Application extends NCService
         }
 
         return new $module_class($module_url, $this->conf->get('theme', 'default'));
+    }
+
+    /**
+     * @return string
+     */
+    public function sitemap()
+    {
+        $builder = new NCSitemapBuilder([], NCSitemapBuilder::TYPE_SITEMAP_INDEX);
+        $modules = $this->load('Module')->modules('all');
+
+        foreach ( $modules as $mdl_dir ) {
+            /** @var NCModule $class_name */
+            $class_name = '\\Module\\' . $mdl_dir . '\\Module';
+            if ( !class_exists($class_name) || !$class_name::SITEMAP ) {
+                continue;
+            }
+
+            $builder->add_sitemap('/' . strtolower($mdl_dir) . '/sitemap.xml');
+        }
+
+        return strval($builder);
     }
 
     /**

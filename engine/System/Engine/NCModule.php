@@ -16,6 +16,8 @@ use System\Environment\Env;
 
 class NCModule
 {
+    const SITEMAP = false;
+
     /**
      * @var NCRouter
      */
@@ -45,59 +47,76 @@ class NCModule
      * @param $url
      * @param $theme
      * @param $namespace
+     * @param $no_output
      */
-    public function __construct($url, $theme = 'default', $namespace = '')
+    public function __construct($url, $theme = 'default', $namespace = '', $no_output = false)
     {
         // Authentication
         $this->auth = NCService::load('User.Auth');
         $this->user = $this->auth->identify(Env::$request->cookies->get('sess'));
 
+        if ( $no_output === false ) {
+            // Renderring
+            /** @var Theme view */
+            $this->view = NCService::load('Render.Theme', [$theme]);
+
+            // Translation
+            /** @var Translate lang */
+            $this->lang = NCService::load('Application.Translate');
+        }
+
         // Module level routing
+        /** @var NCRouter map */
         $this->map = new NCRouter($this, $namespace);
 
         // Adding sitemap to urls
         $this->map->addRoute('sitemap.xml', [$this, 'sitemap'], 'sitemap');
 
+        if ( $no_output === false ) {
+            // Register reverse url filter
+            $this->view->twig->addFilter(new \Twig_SimpleFilter('url', [$this->map, 'reverse_filter']));
+
+            // Register translate filter
+            $this->view->twig->addFilter(new \Twig_SimpleFilter('lang', [$this->lang, 'translate']));
+
+            // Assign user
+            $this->view->assign('user', $this->user);
+
+            // Loading modules globals
+            $this->view->load_globals($this, $this->lang);
+        }
+
         // Build current module map
         $this->route();
-
-        // Translation
-        $this->lang = NCService::load('Application.Translate');
-
-        // Renderring
-        $this->view = NCService::load('Render.Theme', [$theme]);
-
-        // Register reverse url filter
-        $this->view->twig->addFilter(new \Twig_SimpleFilter('url', [$this->map, 'reverse_filter']));
-
-        // Register translate filter
-        $this->view->twig->addFilter(new \Twig_SimpleFilter('lang', [$this->lang, 'translate']));
-
-        // Assign user
-        $this->view->assign('user', $this->user);
-
-        // Loading modules globals
-        $this->view->load_globals($this, $this->lang);
 
         /** @var NCRoute $route */
         $route = $this->map->match($url);
 
         // Bufferization content
-        if ( $this->access() ) {
+        if ( $this->access() && $no_output === false ) {
             if ( is_callable($route->callback) ) {
                 ob_start();
                 $this->configure();
-                $response = call_user_func($route->callback, Env::$request, $route->matches);
+                if ( strpos($url, 'sitemap.xml') > -1 ) {
+                    Env::$response->headers->set('Content-Type', 'application/xml');
+                    $response = call_user_func($route->callback, new NCSitemapBuilder(), $this->map);
+                    $response = strval($response);
+                } else {
+                    $response = call_user_func($route->callback, Env::$request, $route->matches);
+                }
+
                 Env::$response->setContent(!is_null($response) ? $response : ob_get_clean());
             } else {
                 $this->error404(Env::$request);
             }
-        } else {
+        } elseif ( $no_output === false ) {
             $this->error403(Env::$request);
         }
 
-        // Flush content
-        Env::$response->send();
+        if ( $no_output === false ) {
+            // Flush content
+            Env::$response->send();
+        }
     }
 
     /**
@@ -111,11 +130,12 @@ class NCModule
     /**
      * Build sitemap of your module
      *
-     * @param $builder
+     * @param NCSitemapBuilder $builder
+     * @return NCSitemapBuilder
      */
-    public function sitemap($builder)
+    public function sitemap(NCSitemapBuilder $builder)
     {
-
+        return $builder;
     }
 
     /**
