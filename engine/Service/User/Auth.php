@@ -33,7 +33,13 @@ class Auth extends NCService
      */
     public function identify($session)
     {
-        return User::find_by_session_id($session);
+        $user = User::find_by_session_id($session);
+        if ( $user && $user->id ) {
+            $user->last_visit = time();
+            $user->save();
+        }
+
+        return $user;
     }
 
     /**

@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCControl;
 use System\Engine\NCService;
 use System\Engine\NCWidget;
-use System\Environment\Arguments;
 use System\Environment\Env;
 
 
@@ -25,12 +24,30 @@ class Control extends NCControl
 
     static function widget()
     {
-        // Users widget
-        $users_widget = new NCWidget('admin.dashboard', 'users/widgets/dash.twig');
+        // Users total
+        $users_widget = new NCWidget('admin.dashboard', 'users/widgets/total.twig');
         $users_widget->context(['created' => \User::count()]);
+
+        // Users month
+        $users_month_widget = new NCWidget('admin.dashboard', 'users/widgets/month.twig');
+        $users_month_widget->context([
+            'created' => \User::count([
+                    'conditions' => ['register_date > ?', mktime(0, 0, 0, date('m'), 1, date('Y'))]
+                ])
+        ]);
+
+        // Users today
+        $users_today_widget = new NCWidget('admin.dashboard', 'users/widgets/today.twig');
+        $users_today_widget->context([
+            'created' => \User::count([
+                'conditions' => ['last_visit > ?', mktime(0, 0, 0)]
+            ])
+        ]);
 
         return [
             $users_widget,
+            $users_today_widget,
+            $users_month_widget,
         ];
     }
 

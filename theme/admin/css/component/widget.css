@@ -1,5 +1,6 @@
 .widget-group {
-    margin: 20px 5px 0 5px;
+    margin: 20px 5px 0 7px;
+    text-align: center;
 }
 
 .widget-group > header {
@@ -11,10 +12,31 @@
 .widget-group .widget {
     border: 1px solid #eeeeee;
     display: inline-block;
-    width: 33%;
+    width: 324px;
     background: #f5f5f5;
+    margin: 5px 0 0 0;
+    min-height: 120px;
 }
 
 .widget-group .widget p {
     padding: 0 5px 5px 10px;
+}
+
+.widget-group .widget strong.number {
+    font-size: 48px;
+    display: block;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.widget-group .widget strong.number.green {
+    color: green;
+}
+
+.widget-group .widget strong.number.red {
+    color: red;
+}
+
+.widget-group .widget strong.number.orange {
+    color: darkorange;
 }

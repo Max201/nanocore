@@ -9,6 +9,13 @@ namespace System\Engine;
 
 use Service\Render\Theme;
 
+
+/**
+ * Class NCWidget
+ * Admin panel widget for dashboard
+ *
+ * @package System\Engine
+ */
 class NCWidget
 {
     /**
@@ -72,6 +79,7 @@ class NCWidget
      */
     public function render(Theme $view)
     {
+        $this->context['name'] = $this->name;
         return $view->render($this->template, $this->context);
     }
 } 
