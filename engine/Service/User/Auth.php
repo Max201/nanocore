@@ -9,11 +9,11 @@
 namespace Service\User;
 
 
-use ActiveRecord\DateTime;
 use Symfony\Component\HttpFoundation\Cookie;
-use System\Environment\Env;
-use User;
 use System\Engine\NCService;
+use System\Environment\Env;
+use ActiveRecord\DateTime;
+use User;
 
 
 /**
@@ -22,6 +22,8 @@ use System\Engine\NCService;
  */
 class Auth extends NCService
 {
+    const DEFAULT_LOGIN_TIME = '+50 weeks';
+
     /**
      * @var Auth
      */
@@ -58,7 +60,7 @@ class Auth extends NCService
      * @param string $expiry
      * @return bool
      */
-    public function login(User $user, $expiry = '+50 weeks')
+    public function login(User $user, $expiry = self::DEFAULT_LOGIN_TIME)
     {
         $session = User::encrypt($user->session_id . microtime(true));
         Env::$response->headers->setCookie(new Cookie('sess', $session, new DateTime($expiry), '/'));

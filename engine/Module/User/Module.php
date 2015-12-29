@@ -7,9 +7,12 @@
 namespace Module\User;
 
 
-use User;
 use Symfony\Component\HttpFoundation\Request;
+use Service\Application\Translate;
+use System\Engine\NCService;
 use System\Engine\NCModule;
+use Service\Render\Theme;
+use User;
 
 
 /**
@@ -18,7 +21,7 @@ use System\Engine\NCModule;
  */
 class Module extends NCModule
 {
-    public function urls()
+    public function route()
     {
         $this->map->addRoute('new', [$this, 'registration'], 'user.new');
     }

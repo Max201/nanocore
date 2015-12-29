@@ -54,9 +54,12 @@ class Module extends NCService
         return parse_ini_file($info_file);
     }
 
-    static function modules()
+    static function modules($all = false)
     {
-        $skip = ['Admin', 'User'];
+        $skip = [];
+        if ( !$all ) {
+            $skip = ['Admin', 'User'];
+        }
         $root = ROOT . S . 'engine' . S . 'Module';
         if ( !is_dir($root) ) {
             return [];

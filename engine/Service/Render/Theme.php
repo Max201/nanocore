@@ -7,6 +7,11 @@
 namespace Service\Render;
 
 
+use Service\Module\Module;
+use Service\Application\Translate;
+use Symfony\Component\HttpFoundation\Request;
+use System\Engine\NCBlock;
+use System\Engine\NCModule;
 use System\Engine\NCService;
 use System\Environment\Options;
 
@@ -230,5 +235,37 @@ class Theme extends NCService
         }
 
         return '';
+    }
+
+    /**
+     * @param Request $request
+     * @param Translate $lang
+     */
+    public function load_globals(NCModule $module, Translate $lang)
+    {
+        /** @var array $modules */
+        $modules = NCService::load('Module')->modules('all');
+        foreach ( $modules as $mdl_dir ) {
+            $globalize = '\\Module\\' . $mdl_dir . '\\Module::globalize';
+            if ( !is_callable($globalize) ) {
+                continue;
+            }
+
+            $globals = call_user_func($globalize, $module, $this, $lang);
+            if ( $globals ) {
+                foreach ( $globals as $k => $v ) {
+                    if ( is_int($k) ) {
+                        break;
+                    }
+
+                    if ( $v instanceof NCBlock ) {
+                        $this->assign($k, $v->render($this));
+                        continue;
+                    }
+
+                    $this->assign($k, $v);
+                }
+            }
+        }
     }
 } 

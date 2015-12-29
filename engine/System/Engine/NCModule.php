@@ -52,25 +52,32 @@ class NCModule
         $this->auth = NCService::load('User.Auth');
         $this->user = $this->auth->identify(Env::$request->cookies->get('sess'));
 
+        // Module level routing
+        $this->map = new NCRouter($this, $namespace);
+
+        // Adding sitemap to urls
+        $this->map->addRoute('sitemap.xml', [$this, 'sitemap'], 'sitemap');
+
+        // Build current module map
+        $this->route();
+
         // Translation
         $this->lang = NCService::load('Application.Translate');
 
         // Renderring
         $this->view = NCService::load('Render.Theme', [$theme]);
-        $this->view->assign('user', $this->user);
-
-        // Subrouting
-        $this->map = new NCRouter($this, $namespace);
-        $this->route();
-
-        // Adding sitemap to urls
-        $this->map->addRoute('sitemap.xml', [$this, 'sitemap'], 'sitemap');
 
         // Register reverse url filter
         $this->view->twig->addFilter(new \Twig_SimpleFilter('url', [$this->map, 'reverse_filter']));
 
         // Register translate filter
         $this->view->twig->addFilter(new \Twig_SimpleFilter('lang', [$this->lang, 'translate']));
+
+        // Assign user
+        $this->view->assign('user', $this->user);
+
+        // Loading modules globals
+        $this->view->load_globals($this, $this->lang);
 
         /** @var NCRoute $route */
         $route = $this->map->match($url);
@@ -127,6 +134,19 @@ class NCModule
     public function configure()
     {
 
+    }
+
+    /**
+     * Globalize array into templates
+     *
+     * @param NCModule $module
+     * @param Theme $view
+     * @param Translate $lang
+     * @return array|NCBlock[]
+     */
+    static function globalize(NCModule $module, Theme $view, Translate $lang)
+    {
+        return [];
     }
 
     /**
