@@ -70,6 +70,36 @@ INSERT INTO `groups` VALUES (1,'Пользователь',''),(2,'Постоян
 UNLOCK TABLES;
 
 --
+-- Table structure for table `pages`
+--
+
+DROP TABLE IF EXISTS `pages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT 'Untitled',
+  `content` longtext NOT NULL,
+  `slug` varchar(255) NOT NULL DEFAULT 'untitled',
+  `author_id` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `author_id` (`author_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pages`
+--
+
+LOCK TABLES `pages` WRITE;
+/*!40000 ALTER TABLE `pages` DISABLE KEYS */;
+INSERT INTO `pages` VALUES (1,'\n        Название\n    ','...','',1,1451485333,1451485333),(2,'\n        \n        \n        \n        \n        Главная страница\n    \n    ','<h3>\n        \n        Привет всем</h3>','home-page',1,1451485404,1451487700),(3,'\n        \n        \n        \n        \n        Название 23232323','<font color=\"#ff0000\">...&nbsp;</font><div>asdasdasdasdasdasd</div>','asdasdasdasdasdasd',1,1451488085,1451488238);
+/*!40000 ALTER TABLE `pages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -94,7 +124,7 @@ CREATE TABLE `users` (
   KEY `group_id` (`group_id`),
   KEY `email_2` (`email`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +133,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'maxik','',NULL,'f2917a90e9108f832fd264911214f78a','da392947fb16ee2b19c4865851d30528',1,1450873196,0);
+INSERT INTO `users` VALUES (1,'maxik','',NULL,'f9af52153d739cf859eddbfce970acc0','2eeeba6e5239ff77f09e3789e60b45b5',1,1451488240,0),(2,'Eugen','eugen@mail.com',NULL,'7fe139ea10497fe2146e95dae08eb4b0','36c1f684cc8d96843dc8dba0291ab79f',1,0,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -116,4 +146,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-23 14:50:36
+-- Dump completed on 2015-12-30 17:11:15

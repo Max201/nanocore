@@ -76,6 +76,12 @@ class Control extends NCControl
 
             $page->save();
             $page = $page->to_array();
+
+            Env::$response->headers->set('Content-Type', 'application/json');
+            return json_encode([
+                'success'   => true,
+                'message'   => $this->lang->translate('form.saved')
+            ]);
         }
 
         return $this->view->render('pages/create.twig', [

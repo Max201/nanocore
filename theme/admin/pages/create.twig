@@ -11,6 +11,21 @@
             };
 
             $.post('{{ 'page.new'|url }}?id={{ page.id }}', data, function(r){
+                $('.message').text(r.message).slideDown();
+                setTimeout(function(){
+                    document.location = '{{ 'list'|url }}';
+                }, 2000)
+            });
+        }
+
+        function remove_page()
+        {
+            var data = {
+                'remove': true,
+                'id': '{{ page.id }}'
+            };
+
+            $.post('{{ 'page.edit'|url }}', data, function(r){
             });
         }
 
@@ -22,18 +37,26 @@
 {% endblock %}
 {% block body %}
     <menu>
-        <a class="item" href="{{ 'list'|url }}">
-            <i class="fa fa-arrow-left"></i>
-            {{ 'button.cancel'|lang }}
+        <a class="item" href="#" onclick="submit();">
+            <i class="fa fa-save"></i>
+            {{ 'button.save'|lang }}
         </a>
+        {% if page.id %}
+            <a class="item" href="#" onclick="remove_page();">
+                <i class="fa fa-trash"></i>
+                {{ 'button.delete'|lang }}
+            </a>
+        {% endif %}
 
         <nav class="right">
-            <a class="item" href="#" onclick="submit();">
-                <i class="fa fa-save"></i>
-                {{ 'button.save'|lang }}
+            <a class="item" href="{{ 'list'|url }}">
+                <i class="fa fa-arrow-right"></i>
+                {{ 'button.cancel'|lang }}
             </a>
         </nav>
     </menu>
+
+    <div class="message success" style="display: none;"></div>
 
     <h1 id="title" onblur="if ($(this).text().trim().length < 1) $(this).text('{{ 'page.name'|lang }}');">
         {{ page.title|raw }}
