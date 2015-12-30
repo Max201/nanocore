@@ -168,7 +168,7 @@ class NCRouter
                 $pattern = str_replace($src, '(' . $mask . ')', $pattern);
             }
 
-            $pattern = '#' . str_replace('/', '\/', $pattern) . '#i';
+            $pattern = '#^' . str_replace('/', '\/', $pattern) . '$#i';
 
             // Compare with source
             preg_match_all($pattern, $source, $matches);
