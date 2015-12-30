@@ -89,3 +89,8 @@ a.active, a:active {
     color: #808080;
     margin-bottom: 5px;
 }
+
+*[contenteditable] {
+    outline: none;
+    border-bottom: 1px solid #eeeeee;
+}

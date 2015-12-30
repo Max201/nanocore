@@ -25,7 +25,8 @@ class Control extends NCControl
     public function route()
     {
         $this->map->addRoute('/', [$this, 'pages_list'], 'list');
-        $this->map->addRoute('create', [$this, 'create_page'], 'page.new');
+        $this->map->addRoute('create', [$this, 'edit_page'], 'page.new');
+        $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_page'], 'page.edit');
     }
 
     public function pages_list($request)
@@ -45,12 +46,41 @@ class Control extends NCControl
         ]);
     }
 
-    public function create_page($request, $matches)
+    public function edit_page(Request $request, $matches)
     {
+        $id = intval($matches->get('id', $request->get('id')));
+        if ( $id > 0 ) {
+            $page = \Page::find_by_id($id)->to_array();
+        } else {
+            $page = [
+                'title'     => $this->lang->translate('page.name'),
+                'content'   => '...'
+            ];
+        }
 
+        // Create page
+        if ( $request->isMethod('post') ) {
+            if ( !$id ) {
+                $page = new \Page([
+                    'title'     => $request->get('title'),
+                    'content'   => $request->get('content'),
+                    'slug'      => $request->get('slug'),
+                    'author_id' => $this->user->id
+                ]);
+            } else {
+                $page = \Page::find_by_id($id);
+                $page->title = $request->get('title');
+                $page->content = $request->get('content');
+                $page->slug = $request->get('slug');
+            }
+
+            $page->save();
+            $page = $page->to_array();
+        }
 
         return $this->view->render('pages/create.twig', [
-            'title'         => $this->lang->translate('page.create')
+            'page'          => $page,
+            'title'         => $this->lang->translate('page.create'),
         ]);
     }
 } 

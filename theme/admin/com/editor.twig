@@ -1,0 +1,47 @@
+<div class="wysiwyg">
+    <nav class="wy-tool">
+        <button class="button" type="button" onclick="{{ wyi }}.bold()" title="{{ 'admin.editor.bold'|lang }}">
+            <i class="fa fa-bold"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.undeline()" title="{{ 'admin.editor.underline'|lang }}">
+            <i class="fa fa-underline"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.undeline()" title="{{ 'admin.editor.italic'|lang }}">
+            <i class="fa fa-italic"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.bgcolor(prompt('Background Color'))" title="{{ 'admin.editor.background'|lang }}">
+            {{ 'admin.editor.background'|lang }}
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.color(prompt('Font Color'))" title="{{ 'admin.editor.color'|lang }}">
+            {{ 'admin.editor.color'|lang }}
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.justify('left')" title="{{ 'admin.editor.left'|lang }}">
+            <i class="fa fa-align-left"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.justify('center')" title="{{ 'admin.editor.center'|lang }}">
+            <i class="fa fa-align-center"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.justify('right')" title="{{ 'admin.editor.right'|lang }}">
+            <i class="fa fa-align-right"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.justify('full')" title="{{ 'admin.editor.full'|lang }}">
+            <i class="fa fa-align-justify"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.heading('3')" title="{{ 'admin.editor.header'|lang }}">
+            <i class="fa fa-header"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.link(prompt('URL:'))" title="{{ 'admin.editor.link'|lang }}">
+            <i class="fa fa-link"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.unlink()" title="{{ 'admin.editor.unlink'|lang }}">
+            <i class="fa fa-unlink"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.image(prompt('URL:'))" title="{{ 'admin.editor.image'|lang }}">
+            <i class="fa fa-picture-o"></i>
+        </button>
+        <button class="button" type="button" onclick="{{ wyi }}.copy()" title="{{ 'admin.editor.copy'|lang }}">
+            <i class="fa fa-clipboard"></i>
+        </button>
+    </nav>
+    <div class="wy-body" id="wy-edit">{{ content|raw }}</div>
+</div>

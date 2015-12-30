@@ -34,11 +34,11 @@
             </tr>
         {% endif %}
         {% for page in pages_list %}
-            <tr onclick="gui.go('')">
+            <tr onclick="gui.go('{{ 'page.edit'|url(page.id) }}')">
                 <td class="primary">#{{ page.id }}</td>
                 <td>{{ page.title }}</td>
                 <td>{{ page.slug }}</td>
-                <td>{{ page.author }}</td>
+                <td>{{ page.author.username }}</td>
                 <td>{{ page.created_at }}</td>
                 <td>{{ page.updated_at }}</td>
             </tr>
@@ -57,7 +57,7 @@
     </table>
 
     <menu>
-        <a href="#" class="item">
+        <a href="{{ 'page.new'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'page.create'|lang }}
         </a>

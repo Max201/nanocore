@@ -105,7 +105,8 @@ class NCModule
                     $response = call_user_func($route->callback, Env::$request, $route->matches);
                 }
 
-                Env::$response->setContent(!is_null($response) ? $response : ob_get_clean());
+                $buffer = ob_get_clean();
+                Env::$response->setContent(!is_null($response) ? $response : $buffer);
             } else {
                 $this->error404(Env::$request);
             }

@@ -150,7 +150,7 @@ class NCRouter
             if ( $source == $route ) {
                 list($callback, $name) = $data;
 
-                return new NCRoute($source, $route, $callback, $name);
+                return new NCRoute($source, $route, $callback, $name, new Arguments());
             }
         }
 
@@ -168,7 +168,8 @@ class NCRouter
                 $pattern = str_replace($src, '(' . $mask . ')', $pattern);
             }
 
-            $pattern = '/^' . str_replace('/', '\/', $pattern) . '$/i';
+            $pattern = '#' . str_replace('/', '\/', $pattern) . '#i';
+
             // Compare with source
             preg_match_all($pattern, $source, $matches);
             if ( $matches && !empty($matches[0]) ) {
