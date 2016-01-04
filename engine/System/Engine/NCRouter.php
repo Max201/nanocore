@@ -173,8 +173,10 @@ class NCRouter
             // Compare with source
             preg_match_all($pattern, $source, $matches);
             if ( $matches && !empty($matches[0]) ) {
+                $values = array_map(function($i){ return $i[0]; }, $matches);
+                array_shift($values);
                 $args = new Arguments($args);
-                $args->values($matches[1]);
+                $args->values($values);
 
                 return new NCRoute($source, $pattern, $callback, $name, $args);
             }

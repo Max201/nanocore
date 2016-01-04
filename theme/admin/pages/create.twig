@@ -21,11 +21,11 @@
         function remove_page()
         {
             var data = {
-                'remove': true,
-                'id': '{{ page.id }}'
+                'remove': '{{ page.id }}'
             };
 
             $.post('{{ 'page.edit'|url }}', data, function(r){
+                console.log(r);
             });
         }
 
@@ -42,9 +42,13 @@
             {{ 'button.save'|lang }}
         </a>
         {% if page.id %}
-            <a class="item" href="#" onclick="remove_page();">
+            <a class="item" href="{{ 'list'|url }}?delete={{ page.id }}">
                 <i class="fa fa-trash"></i>
                 {{ 'button.delete'|lang }}
+            </a>
+            <a class="item" href="/page/{{ page.id }}-{{ page.slug }}.html" target="_blank">
+                <i class="fa fa-eye"></i>
+                {{ 'page.view'|lang }}
             </a>
         {% endif %}
 
@@ -64,7 +68,7 @@
 
     <div class="form">
         <label for="slug">
-            <input class="wide" type="text" value="{{ page.slug }}" id="slug"/>
+            <input title="{{ 'page.slug'|lang }}" class="wide" type="text" value="{{ page.slug }}" id="slug"/>
         </label>
     </div>
 

@@ -21,7 +21,7 @@ class Module extends NCModule
 {
     public function route()
     {
-        $this->map->addRoute('page/<id:\d+>/<slug:.+>/', [$this, 'page'], 'page');
+        $this->map->addPattern('<id:\d+>-<slug:.+>.html', [$this, 'page'], 'page');
     }
 
     /**
@@ -29,8 +29,11 @@ class Module extends NCModule
      */
     public function page(Request $request, $matches)
     {
-
-
-        return $this->view->twig->render('user/registration.twig');
+        try {
+            $page = \Page::find_by_id($matches->get('id'));
+            return $this->view->render('page/default.twig', ['page'=>$page->to_array()]);
+        } catch (\Exception $e) {
+            return $this->error404($request);
+        }
     }
 } 

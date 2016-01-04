@@ -192,4 +192,15 @@ class NCModule
             file_get_contents($this->view->assetpath('permission_denied.html'))
         );
     }
+
+    /**
+     * @param $array
+     * @param bool $pretty_print
+     * @return string
+     */
+    static function json_response($array, $pretty_print = false)
+    {
+        Env::$response->headers->set('Content-Type', 'application/json');
+        return json_encode($array, $pretty_print ? JSON_PRETTY_PRINT : 0);
+    }
 } 

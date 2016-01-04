@@ -14,6 +14,12 @@
         </nav>
     </menu>
 
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
     <table>
         <thead>
             <tr>
@@ -23,6 +29,7 @@
                 <td>{{ 'page.author'|lang }}</td>
                 <td>{{ 'page.created'|lang }}</td>
                 <td>{{ 'page.updated'|lang }}</td>
+                <td>{{ 'page'|lang }}</td>
             </tr>
         </thead>
         <tbody>
@@ -34,13 +41,18 @@
             </tr>
         {% endif %}
         {% for page in pages_list %}
-            <tr onclick="gui.go('{{ 'page.edit'|url(page.id) }}')">
-                <td class="primary">#{{ page.id }}</td>
-                <td>{{ page.title }}</td>
+            <tr>
+                <td onclick="gui.go('{{ 'page.edit'|url(page.id) }}')" class="primary">#{{ page.id }}</td>
+                <td onclick="gui.go('/page/{{ page.id }}-{{ page.slug }}.html')">{{ page.title }}</td>
                 <td>{{ page.slug }}</td>
                 <td>{{ page.author.username }}</td>
                 <td>{{ page.created_at|tz|dlang }}</td>
                 <td>{{ page.updated_at|tz|dlang }}</td>
+                <td onclick="gui.go('?delete={{ page.id }}')">
+                    <span class="button">
+                        <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
+                    </span>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -52,6 +64,7 @@
                 <td>{{ 'page.author'|lang }}</td>
                 <td>{{ 'page.created'|lang }}</td>
                 <td>{{ 'page.updated'|lang }}</td>
+                <td>{{ 'page'|lang }}</td>
             </tr>
         </tfoot>
     </table>
