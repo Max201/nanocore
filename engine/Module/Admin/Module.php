@@ -48,7 +48,6 @@ class Module extends NCControl
 
     public function modules(Request $request)
     {
-        $modules = Helper::modules();
         return $this->view->render('dashboard/modules.twig', [
             'title'     => $this->lang->translate('admin.modules'),
             'modules'   => NCService::load('Module')->modules_dict()
