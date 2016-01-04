@@ -34,14 +34,28 @@ class Translate extends NCService
     static $instance;
 
     /**
+     * @var string
+     */
+    private $pack;
+
+    /**
+     * @var array
+     */
+    private $dates;
+
+    /**
      * Create translate object
      */
     public function __construct()
     {
-        $this->_root = ROOT . S . 'engine' . S . 'Language' . S . $this->config('application')->get('lang');
+        $this->pack = $this->config('application')->get('lang');
+        $this->_root = ROOT . S . 'engine' . S . 'Language' . S . $this->pack;
         if ( is_dir($this->_root) ) {
             $this->_loadCache();
         }
+
+        $this->dates = file_get_contents($this->_root . S . 'system.json');
+        $this->dates = json_decode($this->dates, true);
     }
 
     /**
@@ -66,6 +80,31 @@ class Translate extends NCService
         }
 
         return $this->_noTranslate($string);
+    }
+
+    public function translate_date($string)
+    {
+        $langs = $this->_root . S . 'system.json';
+        $langs = json_decode(file_get_contents($langs), true);
+        $string = strtolower($string);
+
+        foreach ( $this->dates['week'] as $src => $day ) {
+            if ( is_numeric($src) ) {
+                continue;
+            }
+
+            $string = str_replace($src, $day, $string);
+        }
+
+        foreach ( $this->dates['month'] as $src => $day ) {
+            if ( is_numeric($src) ) {
+                continue;
+            }
+
+            $string = str_replace($src, $day, $string);
+        }
+
+        return $string;
     }
 
     /**

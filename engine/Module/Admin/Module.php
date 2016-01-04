@@ -13,6 +13,7 @@ use System\Engine\NCControl;
 use System\Engine\NCService;
 use System\Environment\Env;
 use Service\User\Auth;
+use System\Util\Calendar;
 
 
 class Module extends NCControl
@@ -96,7 +97,10 @@ class Module extends NCControl
     {
         return $this->view->render('dashboard/index.twig', [
             'title'     => $this->lang->translate('admin.dashboard'),
-            'widgets'   => Helper::build_widgets($this->view)
+            'widgets'   => Helper::build_widgets($this->view),
+            'calendar'  => new Calendar(),
+            'month'     => $this->lang->translate('system.month.' . strtolower(date('M'))),
+            'active'    => date('d')
         ]);
     }
 

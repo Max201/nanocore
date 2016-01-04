@@ -1,6 +1,30 @@
 {% extends '@admin/base.twig' %}
 
 {% block body %}
+    <div class="widget-group">
+        <header>{{ month }} {{ ''|date('Y') }}</header>
+        <table class="calendar">
+            <thead>
+            <tr>
+                {% for i in 0..6 %}
+                <td>{{ ('system.week.' ~ i ) |lang }}</td>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for w in calendar %}
+            <tr>
+                {% for d in w %}
+                    <td{% if not d %} class="empty"{% endif %}>
+                        <strong class="number{% if d == active %} active{% endif %}">{{ d }}</strong>
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     {% for group in widgets|keys %}
         <div class="widget-group">
             <header>{{ group|lang }}</header>

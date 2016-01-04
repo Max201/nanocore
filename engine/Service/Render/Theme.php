@@ -7,6 +7,7 @@
 namespace Service\Render;
 
 
+use Service\Application\Settings;
 use Service\Application\Translate;
 use System\Engine\NCBlock;
 use System\Engine\NCModule;
@@ -233,6 +234,24 @@ class Theme extends NCService
         }
 
         return '';
+    }
+
+    /**
+     * @param $timestamp
+     * @param null $dateformat
+     * @return string
+     */
+    public function tzdate($timestamp, $dateformat = null)
+    {
+        /** @var Settings $set */
+        $set = $this->load('Application.Settings');
+        $shift = $set->conf->get('timezone', '+0');
+        $timestamp = strtotime($shift . ' hours', $timestamp);
+        if ( is_null($dateformat) ) {
+            $dateformat = $set->conf->get('format', 'd-m-Y H:i');
+        }
+
+        return gmdate($dateformat, $timestamp);
     }
 
     /**

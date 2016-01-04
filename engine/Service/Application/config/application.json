@@ -1,5 +1,7 @@
 {
     "home": "\/",
     "theme": "default",
-    "lang": "ru_RU"
+    "lang": "ru_RU",
+    "timezone": "+2",
+    "format": "d M Y H:i"
 }

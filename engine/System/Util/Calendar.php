@@ -37,9 +37,13 @@ class Calendar extends \ArrayObject
      * @param int $month
      * @param string $year
      */
-    public function __construct($month = 1, $year = 'now')
+    public function __construct($month = null, $year = null)
     {
-        if ( $year == 'now' ) {
+        if ( is_null($month) ) {
+            $month = date('m');
+        }
+
+        if ( is_null($year) ) {
             $year = date('Y');
         }
 

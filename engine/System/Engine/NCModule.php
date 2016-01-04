@@ -76,8 +76,9 @@ class NCModule
             // Register reverse url filter
             $this->view->twig->addFilter(new \Twig_SimpleFilter('url', [$this->map, 'reverse_filter']));
 
-            // Register translate filter
+            // Register translate filters
             $this->view->twig->addFilter(new \Twig_SimpleFilter('lang', [$this->lang, 'translate']));
+            $this->view->twig->addFilter(new \Twig_SimpleFilter('dlang', [$this->lang, 'translate_date']));
 
             // Assign user
             $this->view->assign('user', $this->user);

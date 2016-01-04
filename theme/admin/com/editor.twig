@@ -6,15 +6,13 @@
         <button class="button" type="button" onclick="{{ wyi }}.undeline()" title="{{ 'admin.editor.underline'|lang }}">
             <i class="fa fa-underline"></i>
         </button>
-        <button class="button" type="button" onclick="{{ wyi }}.undeline()" title="{{ 'admin.editor.italic'|lang }}">
+        <button class="button" type="button" onclick="{{ wyi }}.italic()" title="{{ 'admin.editor.italic'|lang }}">
             <i class="fa fa-italic"></i>
         </button>
-        <button class="button" type="button" onclick="{{ wyi }}.bgcolor(prompt('Background Color'))" title="{{ 'admin.editor.background'|lang }}">
-            {{ 'admin.editor.background'|lang }}
-        </button>
-        <button class="button" type="button" onclick="{{ wyi }}.color(prompt('Font Color'))" title="{{ 'admin.editor.color'|lang }}">
-            {{ 'admin.editor.color'|lang }}
-        </button>
+
+        <input value="#000" type="color" onchange="{{ wyi }}.color($(this).val())" title="{{ 'admin.editor.color'|lang }}"/>
+        <input value="#000" type="color" onchange="{{ wyi }}.bgcolor($(this).val())" title="{{ 'admin.editor.background'|lang }}"/>
+
         <button class="button" type="button" onclick="{{ wyi }}.justify('left')" title="{{ 'admin.editor.left'|lang }}">
             <i class="fa fa-align-left"></i>
         </button>
@@ -27,18 +25,26 @@
         <button class="button" type="button" onclick="{{ wyi }}.justify('full')" title="{{ 'admin.editor.full'|lang }}">
             <i class="fa fa-align-justify"></i>
         </button>
+
+
         <button class="button" type="button" onclick="{{ wyi }}.heading('3')" title="{{ 'admin.editor.header'|lang }}">
             <i class="fa fa-header"></i>
         </button>
+
+
         <button class="button" type="button" onclick="{{ wyi }}.link(prompt('URL:'))" title="{{ 'admin.editor.link'|lang }}">
             <i class="fa fa-link"></i>
         </button>
         <button class="button" type="button" onclick="{{ wyi }}.unlink()" title="{{ 'admin.editor.unlink'|lang }}">
             <i class="fa fa-unlink"></i>
         </button>
+
+
         <button class="button" type="button" onclick="{{ wyi }}.image(prompt('URL:'))" title="{{ 'admin.editor.image'|lang }}">
             <i class="fa fa-picture-o"></i>
         </button>
+
+
         <button class="button" type="button" onclick="{{ wyi }}.copy()" title="{{ 'admin.editor.copy'|lang }}">
             <i class="fa fa-clipboard"></i>
         </button>

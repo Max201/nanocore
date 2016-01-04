@@ -17,6 +17,7 @@
     "local_path": ["$this", "filepath"],
     "asset": ["$this", "asseturl"],
     "asset_path": ["$this", "assetpath"],
-    "cdn": ["$this", "lib"]
+    "cdn": ["$this", "lib"],
+    "tz": ["$this", "tzdate"]
   }
 }
