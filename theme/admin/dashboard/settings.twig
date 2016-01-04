@@ -5,7 +5,7 @@
             <div class="message {{ status }}">  {{ message }}</div>
         {% endif %}
         <form action="" method="post" class="form">
-            <label for="lang">
+            <label for="lang" class="cselect">
                 <span class="title">{{ 'admin.config.lang'|lang }}</span>
                 <select name="lang" id="lang">
                     {% for option in langs %}
@@ -14,7 +14,7 @@
                 </select>
             </label>
 
-            <label for="theme">
+            <label for="theme" class="cselect">
                 <span class="title">{{ 'admin.config.theme'|lang }}</span>
                 <select name="theme" id="theme">
                     {% for option in themes %}

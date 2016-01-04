@@ -1,0 +1,114 @@
+.form 
+  width: auto
+  margin: 5px
+  padding: 1px
+  text-align: left
+  background: #FFFFFF
+  font-size: 14px
+
+
+  footer
+    padding: 15px 0
+    text-align: center
+
+
+  &.margin
+    margin: 100px auto 10px auto
+
+
+  label
+    display: block
+    padding: 10px
+    min-height: 30px
+    margin: 1px 0
+    cursor: pointer
+
+
+    &:hover
+      background: #f5f5f5
+
+    span.title
+      display: block
+      padding: 0 10px 0 0
+      float: left
+      width: 48%
+      text-align: right
+      line-height: 28px
+
+
+.button,
+select,
+input,
+textarea
+  display: inline-block
+  outline: none
+  padding: 5px 10px
+  cursor: pointer
+  border: 1px solid #cecece
+  background: #eeeeee
+  border-radius: 2px
+  min-width: 200px
+  color: #666666
+  font-size: 14px
+  font-weight: 100
+  +font-open-sans()
+
+
+select.wide,
+input.wide,
+textarea.wide
+  display: block
+  width: 100%
+
+
+input[type="submit"],
+input[type="button"],
+.button
+  min-width: 80px
+
+
+.button.active, .button:active, .button:focus,
+select.active, select:active, select:focus,
+input.active, input:active, input:focus,
+textarea.active, textarea:active, textarea:focus 
+  border: 1px solid dodgerblue
+
+
+.button.disabled, .button[disabled],
+section.disabled, section[disabled],
+input.disabled, input[disabled],
+textarea.disabled, textarea[disabled] 
+  color: #808080
+  cursor: not-allowed
+  border: 1px solid #eeeeee
+
+
+input[type="checkbox"] 
+  outline: none
+  display: block
+  margin: 6px 0
+
+  &:after
+    font: normal normal normal 18px/1 FontAwesome
+    color: #ccc
+    outline: none
+    display: inline-block
+    content: "\f046"
+    background: #FFFFFF
+
+  &:checked:after
+    outline: none
+    content: "\f096"
+
+
+.message 
+  padding: 8px 16px
+  margin: 8px 16px
+  border-radius: 4px
+  border: 1px solid #eee
+  background: #f5f5f5
+  font-weight: bold
+
+  &.success
+    background: #ADE6CE
+    border: 1px solid #a6dcc5
