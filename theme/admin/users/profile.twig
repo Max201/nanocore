@@ -8,6 +8,13 @@
         <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.edit').show();" class="item">{{ 'user.edit.title'|lang }}</a>
         <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.ban').show();" class="item">{{ 'user.ban.title'|lang }}</a>
         <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.change-password').show();" class="item">{{ 'user.edit.password'|lang }}</a>
+
+        <nav class="right">
+            <a href="{{ 'users'|url }}" class="item">
+                <i class="fa fa-arrow-left"></i>
+                {{ 'button.cancel'|lang }}
+            </a>
+        </nav>
     </menu>
 
     <table>
@@ -44,11 +51,11 @@
             </tr>
             <tr>
                 <td>{{ 'user.profile.last_visit'|lang }}</td>
-                <td>{{ profile.last_visit }}</td>
+                <td>{{ profile.last_visit|tz|dlang }}</td>
             </tr>
             <tr>
                 <td>{{ 'user.profile.register_date'|lang }}</td>
-                <td>{{ profile.register_date }}</td>
+                <td>{{ profile.register_date|tz|dlang }}</td>
             </tr>
         </tbody>
     </table>

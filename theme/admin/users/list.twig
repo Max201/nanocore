@@ -49,8 +49,8 @@
                         Undefined
                     {% endif %}
                 </td>
-                <td>{{ profile.register_date }}</td>
-                <td>{{ profile.last_visit }}</td>
+                <td>{{ profile.register_date|tz|dlang }}</td>
+                <td>{{ profile.last_visit|tz|dlang }}</td>
                 <td>{{ profile.group.name }}</td>
             </tr>
         {% endfor %}
