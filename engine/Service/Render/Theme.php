@@ -243,6 +243,10 @@ class Theme extends NCService
      */
     public function tzdate($timestamp, $dateformat = null)
     {
+        if ( $timestamp == 'now' ) {
+            $timestamp = time();
+        }
+
         /** @var Settings $set */
         $set = $this->load('Application.Settings');
         $shift = $set->conf->get('timezone', '+0');

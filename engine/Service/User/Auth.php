@@ -67,4 +67,13 @@ class Auth extends NCService
         $user->session_id = $session;
         $user->save();
     }
+
+    /**
+     * @return bool
+     */
+    public function logout()
+    {
+        $session = User::encrypt(microtime(true));
+        Env::$response->headers->setCookie(new Cookie('sess', $session, new DateTime('+1 second'), '/'));
+    }
 }

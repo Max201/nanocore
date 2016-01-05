@@ -29,6 +29,7 @@ class Module extends NCControl
         // Routes
         $this->map->addRoute('/', [$this, 'dashboard'], 'dashboard');
         $this->map->addRoute('login', [$this, 'login'], 'login');
+        $this->map->addRoute('logout', [$this, 'logout'], 'logout');
         $this->map->addRoute('settings', [$this, 'settings'], 'settings');
         $this->map->addRoute('services', [$this, 'services'], 'services');
         $this->map->addRoute('modules', [$this, 'modules'], 'modules');
@@ -115,7 +116,7 @@ class Module extends NCControl
             /** @var Auth $service */
             $service = NCService::load('User.Auth');
             $user = $service->authenticate($request->get('username'), $request->get('password'));
-            if ( $user->can('access') ) {
+            if ( $user && $user->can('access') ) {
                 $service->login($user);
                 return json_encode(['status' => 'ok']);
             } else {
@@ -126,6 +127,17 @@ class Module extends NCControl
         return $this->view->render('users/login.twig', [
             'title' => 'Authorization'
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        /** @var Auth $service */
+        $service = NCService::load('User.Auth');
+        $service->logout();
+
+        Env::$response->sendHeaders();
+        header('Location: ' . $this->map->reverse('login'));
+        die;
     }
 
     public function fmanager(Request $request)

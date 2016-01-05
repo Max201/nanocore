@@ -28,6 +28,16 @@
                 <input type="text" id="home" name="home" value="{{ conf.home }}"/>
             </label>
 
+            <label for="timezone">
+                <span class="title">{{ 'admin.config.date_fix'|lang }} <small>Server: {{ 'now'|tz|dlang }}</small></span>
+                <input type="text" id="timezone" name="timezone" value="{{ conf.timezone }}"/>
+            </label>
+
+            <label for="format">
+                <span class="title">{{ 'admin.config.date_format'|lang }}</span>
+                <input type="text" id="format" name="format" value="{{ conf.format }}"/>
+            </label>
+
             <footer>
                 <input class="button" type="submit" id="save" value="{{ 'button.save'|lang }}"/>
             </footer>
