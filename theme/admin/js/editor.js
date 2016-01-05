@@ -3,7 +3,11 @@
  * @website www.nanolab.pw
  */
 
-var WyEdit = function ($field) {
+var WyEdit = function ($field, use_fm) {
+    if ( use_fm ) {
+        _wyi_name = use_fm;
+    }
+
     $field.attr('contenteditable', true);
     this.field = $field;
 };
@@ -13,6 +17,7 @@ var WyEdit = function ($field) {
  * @returns {*}
  */
 WyEdit.prototype.content = function() {
+    this.field.focus();
     return this.field.html();
 };
 
@@ -21,6 +26,7 @@ WyEdit.prototype.content = function() {
  * @returns {boolean}
  */
 WyEdit.prototype.copy = function() {
+    this.field.focus();
     return document.execCommand('copy');
 };
 
@@ -29,6 +35,7 @@ WyEdit.prototype.copy = function() {
  * @returns {boolean}
  */
 WyEdit.prototype.bold = function() {
+    this.field.focus();
     return document.execCommand('bold');
 };
 
@@ -37,6 +44,7 @@ WyEdit.prototype.bold = function() {
  * @returns {boolean}
  */
 WyEdit.prototype.italic = function() {
+    this.field.focus();
     return document.execCommand('italic');
 };
 
@@ -45,6 +53,7 @@ WyEdit.prototype.italic = function() {
  * @returns {boolean}
  */
 WyEdit.prototype.undeline = function() {
+    this.field.focus();
     return document.execCommand('underline');
 };
 
@@ -53,6 +62,7 @@ WyEdit.prototype.undeline = function() {
  * @returns {boolean}
  */
 WyEdit.prototype.bgcolor = function(color) {
+    this.field.focus();
     return document.execCommand('backColor', false, color);
 };
 
@@ -61,6 +71,7 @@ WyEdit.prototype.bgcolor = function(color) {
  * @returns {boolean}
  */
 WyEdit.prototype.color = function(color) {
+    this.field.focus();
     return document.execCommand('foreColor', false, color);
 };
 
@@ -69,6 +80,7 @@ WyEdit.prototype.color = function(color) {
  * @returns {boolean}
  */
 WyEdit.prototype.link = function(url) {
+    this.field.focus();
     return document.execCommand('createLink', false, url);
 };
 
@@ -77,6 +89,7 @@ WyEdit.prototype.link = function(url) {
  * @returns {boolean}
  */
 WyEdit.prototype.unlink = function() {
+    this.field.focus();
     return document.execCommand('unlink');
 };
 
@@ -85,6 +98,7 @@ WyEdit.prototype.unlink = function() {
  * @returns {boolean}
  */
 WyEdit.prototype.image = function(src) {
+    this.field.focus();
     return document.execCommand('insertImage', false, src);
 };
 
@@ -93,6 +107,7 @@ WyEdit.prototype.image = function(src) {
  * @returns {boolean}
  */
 WyEdit.prototype.justify = function(by) {
+    this.field.focus();
     by = by[0].toUpperCase() + by.substr(1);
     return document.execCommand('justify' + by);
 };
@@ -102,6 +117,7 @@ WyEdit.prototype.justify = function(by) {
  * @returns {boolean}
  */
 WyEdit.prototype.heading = function(hnum) {
+    this.field.focus();
     return document.execCommand('formatBlock', false, '<H' + hnum + '>');
 };
 

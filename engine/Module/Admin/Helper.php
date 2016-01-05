@@ -39,6 +39,80 @@ class Helper
     }
 
     /**
+     * @param $root
+     * @param array $skip
+     * @return array
+     */
+    static function items($root, $skip = [])
+    {
+        if ( !is_dir($root) ) {
+            return [];
+        }
+
+        $handler = opendir($root);
+        $items = [];
+        while ( $item = readdir($handler) ) {
+            if ( in_array($item, $skip) ) {
+                continue;
+            }
+
+            $items[] = [
+                'name'  => $item,
+                'path'  => $root . S . $item,
+                'ext'   => strtolower(end(explode('.', $item))),
+                'file'  => !is_dir($root . S . $item),
+                'time'  => filectime($root . S . $item),
+                'image' => static::is_image(strtolower(end(explode('.', $item))))
+            ];
+        }
+
+        return $items;
+    }
+
+    /**
+     * Recursive folder deletion
+     *
+     * @param $file
+     * @return bool
+     */
+    static function delete($file)
+    {
+        if ( !is_dir($file) ) {
+            return @unlink($file);
+        }
+
+        $handler = opendir($file);
+        while ( $item = readdir($handler) ) {
+            if ( $item == '.' || $item == '..' ) {
+                continue;
+            }
+
+            $path = $file . S . $item;
+            static::delete($path);
+        }
+
+        return @rmdir($file);
+    }
+
+    /**
+     * @param $extension
+     * @return bool
+     */
+    static function is_image($extension)
+    {
+        $image_extensions = [
+            'png',
+            'jpeg',
+            'jpg',
+            'gif',
+            'bmp',
+            'svg'
+        ];
+
+        return in_array($extension, $image_extensions);
+    }
+
+    /**
      * Installed modules list
      *
      * @return array

@@ -100,7 +100,7 @@ class FileUploader
         $result = [];
         foreach ( $this->files as $file ) {
             // Get file data from request
-            $data = Env::$request->files->get($file);
+            $data = isset($_FILES[$file]) ? $_FILES[$file] : null;
             if ( !$data ) {
                 $result[$file] = ['empty'];
             }
@@ -128,6 +128,8 @@ class FileUploader
             $dest = $upload_to . $name;
             if ( move_uploaded_file($data['tmp_name'], $dest) ) {
                 $result[$file] = ['uploaded', $data['name']];
+            } else {
+                $result[$file] = ['cantmove', $data['name']];
             }
 
             // Max files

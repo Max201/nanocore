@@ -2,3 +2,4 @@
 engine/Service/Render/cdn/*
 theme/.tmp/*
 *.map
+static/*

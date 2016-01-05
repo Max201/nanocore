@@ -14,6 +14,7 @@ use System\Engine\NCService;
 use System\Environment\Env;
 use Service\User\Auth;
 use System\Util\Calendar;
+use System\Util\FileUploader;
 
 
 class Module extends NCControl
@@ -31,6 +32,8 @@ class Module extends NCControl
         $this->map->addRoute('settings', [$this, 'settings'], 'settings');
         $this->map->addRoute('services', [$this, 'services'], 'services');
         $this->map->addRoute('modules', [$this, 'modules'], 'modules');
+
+        $this->map->addRoute('files', [$this, 'fmanager'], 'filemanager');
     }
 
     public function access()
@@ -122,6 +125,75 @@ class Module extends NCControl
 
         return $this->view->render('users/login.twig', [
             'title' => 'Authorization'
+        ]);
+    }
+
+    public function fmanager(Request $request)
+    {
+        $root = ROOT . S . 'static';
+        $method = strtolower($request->get('m', 'list'));
+        $dir = $root . $request->get('d', S);
+
+        // Assign current directory path
+        $this->view->assign('dir', $request->get('d', S));
+
+        // Assign prev directory path
+        $up_dir = explode(S, $request->get('d', S));
+        array_pop($up_dir);
+        $up_dir = implode(S, $up_dir);
+        $this->view->assign('up', $up_dir ? $up_dir : S);
+
+        // Base URL for any item
+        $url = '/static/' . str_replace(S, '/', trim($request->get('d', S), S));
+        $this->view->assign('base_url', $url);
+
+        // Define wyi name
+        $this->view->assign('wyi', $request->get('wyi', 'edit'));
+        switch ( $method ) {
+            // Delete file
+            case 'delete':
+                $filename = rtrim($dir, S) . S . $request->get('f');
+                if ( file_exists($filename) ) {
+                    Helper::delete($filename);
+                }
+
+                break;
+
+            // Upload file
+            case 'upload':
+                $uploader = new FileUploader(['file']);
+                $r = $uploader->upload($dir);
+                var_dump($r);
+                break;
+
+            // Rename file
+            case 'rename':
+                $filename = rtrim($dir, S) . S . $request->get('f');
+                $newname = rtrim($dir, S) . S . $request->get('n');
+                if ( file_exists($newname) ) {
+                    Helper::delete($newname);
+                }
+
+                if ( file_exists($filename) ) {
+                    rename($filename, $newname);
+                }
+
+                break;
+
+            // Create folder
+            case 'create':
+                $dirname = rtrim($dir, S) . S . $request->get('f');
+                if ( !file_exists($dirname) && $request->get('f', false) ) {
+                    @mkdir($dirname, 0777, true);
+                }
+
+                break;
+
+            default: break;
+        }
+
+        return $this->view->render('com/filemanager.twig', [
+            'items' => Helper::items($dir, ['.', '..'])
         ]);
     }
 } 

@@ -1,0 +1,63 @@
+<form action="" method="post" id="upload">
+    <input type="hidden" name="m" value="upload"/>
+    <input type="hidden" name="d" value="{{ dir }}"/>
+    <label class="button" for="fm-upload"><i class="fa fa-file"></i> {{ 'admin.file.upload'|lang }}</label>
+    <input style="display: none" id="fm-upload" onchange="gui.fm.upload()" type="file" name="file"/>
+    <span class="number" id="progress"></span>
+    <a class="button" href="javascript:void(0);" onclick="gui.fm.request({'d': '{{ dir }}', 'm': 'create', 'f': prompt('{{ 'admin.file.dirname'|lang }}')})">
+        <i class="fa fa-plus"></i> {{ 'admin.file.create_dir'|lang }}
+    </a>
+</form>
+<header>{{ dir }}</header>
+    <li>
+        <span class="name" onclick="gui.fm.request({'d': '{{ up }}'});">
+            <i class="fa fa-arrow-up"></i>
+            ..
+        </span>
+
+    </li>
+{% for file in items %}
+    {% if file.name != '.' %}
+    <li>
+        <span class="name" {% if not file.file %}onclick="gui.fm.request({'d': '{{ dir~file.name }}'});"{% endif %}>
+            {% if file.file %}
+                <i class="fa fa-file"></i>
+            {% elseif file.image %}
+                <i class="fa fa-image"></i>
+            {% else %}
+                <i class="fa fa-folder"></i>
+            {% endif %}
+            <strong ondblclick="$(this).css('display', 'none');$(this).parent().find('input').fadeIn();">
+                {{ file.name }}
+            </strong>
+            <input type="text" style="display: none;" value="{{ file.name }}" onblur="gui.fm.reload()" onchange="gui.fm.request({'m': 'rename', 'd': '{{ dir }}', 'f': '{{ dir~file.name }}', 'n': '{{ dir }}' + $(this).val()})"/>
+        </span>
+
+        {% if file.time %}
+        <span class="option">{{ file.time|tz|dlang }}</span>
+        {% endif %}
+        <a href="javascript: void(0);" onclick="gui.fm.request({'d': '{{ dir }}', 'f': '{{ file.name }}', 'm': 'delete'});">
+            <span class="option">
+                <i class="fa fa-trash"></i>
+            </span>
+        </a>
+
+        {% if file.file %}
+            <a href="javascript: void(0);" onclick="{{ wyi }}.link('{{ base_url ~ file.name }}')">
+                    <span class="option">
+                        <i class="fa fa-link"></i>
+                    </span>
+            </a>
+
+            {% if file.image %}
+                <a href="javascript: void(0);" onclick="{{ wyi }}.image('{{ base_url ~ file.name }}')">
+                    <span class="option">
+                        <i class="fa fa-image"></i>
+                    </span>
+                </a>
+
+            {% endif %}
+        {% endif %}
+    </li>
+    {% endif %}
+{% endfor %}

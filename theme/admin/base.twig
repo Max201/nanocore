@@ -5,12 +5,15 @@
     <title>{% block title %}{% if title %}{{ title }}{% else %}{{ 'admin.name'|lang }}{% endif %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ 'custom.css'|local('css') }}"/>
     <script type="text/javascript" src="{{ 'jquery.js'|local('js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ 'webgui.js'|local('js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ 'filemanager.js'|local('js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ 'cselect.js'|local('js') }}" charset="UTF-8"></script>
-    <script type="text/javascript" src="{{ 'webgui.js'|local('js') }}"></script>
     {% block head %}{% endblock %}
 </head>
 <body>
     <section id="wrapper">
+        <section id="filemanager"></section>
+
         <section id="main-menu">
             <a href="#" id="logo">
                 <span class="preloader">N</span>ano Core
@@ -31,6 +34,10 @@
 
             <a href="https://github.com/Max201/nanocore/issues" title="{{ 'admin.bug'|lang }}" target="_blank" class="right">
                 <i class="fa fa-bug"></i>
+            </a>
+
+            <a onclick="gui.fm.toggle();" href="javascript:void(0);" title="{{ 'admin.bug'|lang }}" target="_blank" class="right">
+                <i class="fa fa-file"></i>
             </a>
 
             <a href="/admin/services/" title="{{ 'admin.services'|lang }}" class="right">
