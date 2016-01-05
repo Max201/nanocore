@@ -9,6 +9,7 @@ namespace Module\Page;
 
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCModule;
+use System\Environment\Env;
 use System\Util\Calendar;
 use User;
 
@@ -31,9 +32,11 @@ class Module extends NCModule
     {
         try {
             $page = \Page::find_by_id($matches->get('id'));
-            return $this->view->render('page/default.twig', ['page'=>$page->to_array()]);
+            Env::$response->headers->set('Last-Modified', date('D, d M Y H:i:s \G\M\T', $page->updated_at));
+            return $this->view->render('pages/default.twig', ['page'=>$page->to_array()]);
         } catch (\Exception $e) {
-            return $this->error404($request);
+            die($e->getMessage());
+            $this->error404($request);
         }
     }
 } 
