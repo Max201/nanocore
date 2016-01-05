@@ -33,7 +33,10 @@ class Module extends NCModule
         try {
             $page = \Page::find_by_id($matches->get('id'));
             Env::$response->headers->set('Last-Modified', date('D, d M Y H:i:s \G\M\T', $page->updated_at));
-            return $this->view->render('pages/default.twig', ['page'=>$page->to_array()]);
+            return $this->view->render('pages/default.twig', [
+                'page'  => $page->to_array(),
+                'title' => $page->title,
+            ]);
         } catch (\Exception $e) {
             die($e->getMessage());
             $this->error404($request);

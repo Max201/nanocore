@@ -1,0 +1,48 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic,800,800italic,300,300italic&subset=latin,cyrillic-ext,latin-ext,vietnamese,greek-ext,greek,cyrillic)
+@import url(https://fonts.googleapis.com/css?family=Jura:400,300,500,600&subset=latin,cyrillic-ext,cyrillic,latin-ext,greek)
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css)
+
+@import "settings"
+@import "fonts"
+@import "header"
+
+*
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+
+.cb
+  clear: both
+
+html,
+body
+  margin: 0
+  padding: 0
+  background: $bg_color
+  +font-open-sans(14px, $font_color, 500)
+
+a
+  text-decoration: none
+  color: $link_color
+
+  &:hover
+    color: lighten($link_color, 30)
+    text-decoration: underline
+  &:active
+    color: lighten($link_color, 50)
+    text-decoration: inherit
+
+h1, h2, h3, h4, h5, h6
+  +font-open-sans(auto, $font_color, 100)
+
+#container
+  width: 900px
+  min-height: 500px
+  margin: 50px auto
+  padding: 10px
+  background: white
+  border: 1px solid #cacaca
+  -webkit-box-shadow: 0 2px 1px 2px #666
+  -moz-box-shadow: 0 2px 0 1px 2px #666
+  box-shadow: 0 2px 0 1px 2px #666
+  border-radius: 2px
