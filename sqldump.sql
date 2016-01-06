@@ -86,7 +86,7 @@ CREATE TABLE `pages` (
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `author_id` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'\n        Название\n    ','...','',1,1451485333,1451485333),(2,'\n        \n        \n        \n        \n        Главная страница\n    \n    ','<h3>\n        \n        Привет всем</h3>','home-page',1,1451485404,1451487700),(3,'\n        \n        \n        \n        \n        Название 23232323','<font color=\"#ff0000\">...&nbsp;</font><div>asdasdasdasdasdasd</div>','asdasdasdasdasdasd',1,1451488085,1451488238);
+INSERT INTO `pages` VALUES (5,'\n        Главная страница','<h3>Hello world!</h3>','index',1,1451919323,1451919323);
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,6 +114,9 @@ CREATE TABLE `users` (
   `session_id` varchar(32) DEFAULT NULL,
   `password` varchar(32) NOT NULL,
   `group_id` int(10) unsigned NOT NULL DEFAULT '1',
+  `ban_user_id` int(10) unsigned DEFAULT NULL,
+  `ban_time` int(10) DEFAULT NULL,
+  `ban_reason` varchar(256) DEFAULT NULL,
   `last_visit` int(10) unsigned NOT NULL,
   `register_date` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
@@ -123,8 +126,9 @@ CREATE TABLE `users` (
   KEY `password` (`password`),
   KEY `group_id` (`group_id`),
   KEY `email_2` (`email`),
+  KEY `ban_user` (`ban_user_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +137,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'maxik','',NULL,'f9af52153d739cf859eddbfce970acc0','2eeeba6e5239ff77f09e3789e60b45b5',1,1451488240,0),(2,'Eugen','eugen@mail.com',NULL,'7fe139ea10497fe2146e95dae08eb4b0','36c1f684cc8d96843dc8dba0291ab79f',1,0,0);
+INSERT INTO `users` VALUES (1,'maxik','cods.max@gmail.com',NULL,'d3c1325aa77068598171580a98058929','36c1f684cc8d96843dc8dba0291ab79f',6,NULL,NULL,NULL,1452070694,0),(2,'Eugen','eugen@mail.com',NULL,'ed2f502db504443c85a552374301d90e','36c1f684cc8d96843dc8dba0291ab79f',1,NULL,NULL,NULL,1452000984,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -146,4 +150,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-30 17:11:15
+-- Dump completed on 2016-01-06 11:09:40
