@@ -193,7 +193,7 @@ function createGroup(form)
     });
 
     $.post(
-        '/control/user/groups/profile/' + groupId,
+        '/control/user/groups/create/',
         data,
         function (response) {
             var mclass = response['class'];

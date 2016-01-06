@@ -27,11 +27,19 @@
             </tr>
         </thead>
         <tbody>
+        {% if not groups_list %}
+            <tr>
+                <td colspan="5" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+
         {% for group in groups_list %}
             <tr>
                 <td class="primary" onclick="gui.go('{{ 'groups.profile'|url(group.id) }}')">#{{ group.id }}</td>
                 <td>{{ group.name }}</td>
-                <td>undefined</td>
+                <td>{{ group.icon }}</td>
                 <td>
                     {% if group.use_admin %}
                         <span class="fa fa-check"></span>
@@ -41,7 +49,7 @@
                         {{ 'button.closed'|lang }}
                     {% endif %}
                 </td>
-                <td>{{ group.users }}</td>
+                <td onclick="gui.go('{{ 'users'|url }}?group={{ group.id }}')">{{ group.users }}</td>
             </tr>
         {% endfor %}
         </tbody>

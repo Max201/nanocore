@@ -274,7 +274,7 @@ class Control extends NCControl
             }
         }
 
-        return $this->view->render('users/group_profile.twig', [
+        return $this->view->render('users/group_create.twig', [
             'title'         => $this->lang->translate('user.group.create'),
             'perms'         => $perms,
         ]);
@@ -348,9 +348,14 @@ class Control extends NCControl
 
     public function users_list(Request $request, $matches)
     {
+        $filter = [];
+        if ( $request->get('group') ) {
+            $filter['conditions'] = ['group_id = ?', intval($request->get('group'))];
+        }
+
         /** @var Listing $paginator */
-        $paginator = NCService::load('Paginator.Listing', [$request->get('page', 1), \User::count()]);
-        $filter = $paginator->limit();
+        $paginator = NCService::load('Paginator.Listing', [$request->get('page', 1), $filter ? \User::count($filter) : \User::count()]);
+        $filter = array_merge($filter, $paginator->limit());
 
         // Filter users
         $users = \User::all($filter);

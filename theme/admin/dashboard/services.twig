@@ -11,6 +11,14 @@
             </tr>
         </thead>
         <tbody>
+        {% if not services %}
+            <tr>
+                <td colspan="4" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+
         {% for service in services|keys %}
             <tr>
                 <td>

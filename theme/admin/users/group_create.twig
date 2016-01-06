@@ -5,7 +5,7 @@
 
 {% block body %}
     <menu>
-        <a href="javascript:void(0);" onclick="updateGroup('{{ group.id }}', 'table.edit');" class="item">
+        <a href="javascript:void(0);" onclick="createGroup('table.create');" class="item">
             <i class="fa fa-save"></i> {{ 'button.save'|lang }}
         </a>
 
@@ -19,7 +19,7 @@
 
     <div class="message" id="save" style="display: none;"></div>
 
-    <table class="edit">
+    <table class="create">
         <thead>
             <tr>
                 <td class="x3">{{ title }}</td>
@@ -60,7 +60,7 @@
         </tbody>
     </table>
 
-    <table class="edit">
+    <table class="create">
         <thead>
             <tr>
                 <td class="x3">{{ 'user.group.permissions'|lang }}</td>

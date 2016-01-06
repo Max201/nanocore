@@ -28,6 +28,13 @@
             </tr>
         </thead>
         <tbody>
+        {% if not users_list %}
+            <tr>
+                <td colspan="6" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
         {% for profile in users_list %}
             <tr>
                 <td class="primary" onclick="gui.go('{{ 'users.profile'|url(profile.id) }}')">#{{ profile.id }}</td>
