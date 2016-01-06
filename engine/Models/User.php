@@ -21,7 +21,8 @@ class User extends Model
      * @var array
      */
     static $belongs_to = array(
-        ['group', 'class_name' => 'Group', 'foreign_key' => 'group_id']
+        ['group', 'class_name' => 'Group', 'foreign_key' => 'group_id'],
+        ['ban_user', 'class_name' => 'User', 'foreign_key' => 'ban_user_id'],
     );
 
     /**
@@ -64,6 +65,21 @@ class User extends Model
     public function register_date()
     {
         $this->assign_attribute('register_date', time());
+    }
+
+    /**
+     * Ban user
+     *
+     * @param User $from
+     * @param int  $time
+     * @param null $reason
+     */
+    public function ban(User $from, $time = -1, $reason = null)
+    {
+        $this->assign_attribute('ban_time', $time);
+        $this->assign_attribute('ban_user_id', $from->id);
+        $this->assign_attribute('ban_reason', $reason);
+        $this->save();
     }
 
     /**

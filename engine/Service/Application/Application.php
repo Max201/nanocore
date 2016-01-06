@@ -45,7 +45,7 @@ class Application extends NCService
      */
     public function __construct($url)
     {
-        $this->conf = $this->config('application');
+        $this->conf = $this->load('Application.Settings')->conf;
 
         // Parse URL
         $url = reset(explode('?', $url, 2));

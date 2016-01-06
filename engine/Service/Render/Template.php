@@ -10,6 +10,11 @@ namespace Service\Render;
 trait Template
 {
     /**
+     * @var \Twig_Environment
+     */
+    public $twig;
+
+    /**
      * Render & Display selected template
      *
      * @param $template
@@ -17,7 +22,7 @@ trait Template
      */
     public function display($template, $context = null)
     {
-        echo $this->twig->render($template, $context);
+        $this->twig->display($template, $context);
     }
 
     /**
@@ -41,6 +46,20 @@ trait Template
      */
     public function assign($varname, $value = null)
     {
-        return $this->twig->addGlobal($varname, $value);
+        $this->twig->addGlobal($varname, $value);
+    }
+
+    /**
+     * Get existing global template variable
+     * or return default value
+     *
+     * @param $varname
+     * @param null $default
+     * @return null
+     */
+    public function get($varname, $default = null)
+    {
+        $globals = $this->twig->getGlobals();
+        return isset($globals[$varname]) ? $globals[$varname] : $default;
     }
 } 

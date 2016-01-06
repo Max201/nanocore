@@ -47,23 +47,20 @@ class NCModule
      * @param $url
      * @param $theme
      * @param $namespace
-     * @param $no_output
      */
-    public function __construct($url, $theme = 'default', $namespace = '', $no_output = false)
+    public function __construct($url, $theme = 'default', $namespace = '')
     {
         // Authentication
         $this->auth = NCService::load('User.Auth');
         $this->user = $this->auth->identify(Env::$request->cookies->get('sess'));
 
-        if ( $no_output === false ) {
-            // Renderring
-            /** @var Theme view */
-            $this->view = NCService::load('Render.Theme', [$theme]);
+        // Renderring
+        /** @var Theme view */
+        $this->view = NCModuleCore::load_view($theme);
 
-            // Translation
-            /** @var Translate lang */
-            $this->lang = NCService::load('Application.Translate');
-        }
+        // Translation
+        /** @var Translate lang */
+        $this->lang = NCModuleCore::load_lang();
 
         // Module level routing
         /** @var NCRouter map */
@@ -72,19 +69,31 @@ class NCModule
         // Adding sitemap to urls
         $this->map->addRoute('sitemap.xml', [$this, 'sitemap'], 'sitemap');
 
-        if ( $no_output === false ) {
-            // Register reverse url filter
-            $this->view->twig->addFilter(new \Twig_SimpleFilter('url', [$this->map, 'reverse_filter']));
+        // Register reverse url filter
+        $this->view->twig->addFilter(new \Twig_SimpleFilter('url', [$this->map, 'reverse_filter']));
 
-            // Register translate filters
-            $this->view->twig->addFilter(new \Twig_SimpleFilter('lang', [$this->lang, 'translate']));
-            $this->view->twig->addFilter(new \Twig_SimpleFilter('dlang', [$this->lang, 'translate_date']));
+        // Register translate filters
+        $this->view->twig->addFilter(new \Twig_SimpleFilter('lang', [$this->lang, 'translate']));
+        $this->view->twig->addFilter(new \Twig_SimpleFilter('dlang', [$this->lang, 'translate_date']));
 
-            // Assign user
-            $this->view->assign('user', $this->user);
+        // Assign user
+        $this->view->assign('user', $this->user);
 
-            // Loading modules globals
-            $this->view->load_globals($this, $this->lang);
+        // Loading modules globals
+        $this->view->load_globals($this, $this->lang);
+
+        // Disable access to banned users
+        if ( $this->user->ban_time > time() || $this->user->ban_time == -1 ) {
+            $this->errorBanned(Env::$request, $this->user->ban_reason);
+            Env::$response->send();
+            return;
+        }
+
+        // Check access to current module
+        if ( !$this->access() ) {
+            $this->error403(Env::$request);
+            Env::$response->send();
+            return;
         }
 
         // Build current module map
@@ -93,32 +102,29 @@ class NCModule
         /** @var NCRoute $route */
         $route = $this->map->match($url);
 
-        // Bufferization content
-        if ( $this->access() && $no_output === false ) {
-            if ( is_callable($route->callback) ) {
-                ob_start();
-                $this->configure();
-                if ( strpos($url, 'sitemap.xml') > -1 ) {
-                    Env::$response->headers->set('Content-Type', 'application/xml');
-                    $response = call_user_func($route->callback, new NCSitemapBuilder(), $this->map);
-                    $response = strval($response);
-                } else {
-                    $response = call_user_func($route->callback, Env::$request, $route->matches);
-                }
-
-                $buffer = ob_get_clean();
-                Env::$response->setContent(!is_null($response) ? $response : $buffer);
-            } else {
-                $this->error404(Env::$request);
-            }
-        } elseif ( $no_output === false ) {
-            $this->error403(Env::$request);
-        }
-
-        if ( $no_output === false ) {
-            // Flush content
+        // Check route
+        if ( !is_callable($route->callback) ) {
+            $this->error404(Env::$request);
             Env::$response->send();
+            return;
         }
+
+        // Bufferization content
+        ob_start();
+        $this->configure();
+        if ( strpos($url, 'sitemap.xml') > -1 ) {
+            Env::$response->headers->set('Content-Type', 'application/xml');
+            $response = call_user_func($route->callback, new NCSitemapBuilder(), $this->map);
+            $response = strval($response);
+        } else {
+            $response = call_user_func($route->callback, Env::$request, $route->matches);
+        }
+
+        $buffer = ob_get_clean();
+        Env::$response->setContent(!is_null($response) ? $response : $buffer);
+
+        // Flush content
+        Env::$response->send();
     }
 
     /**
@@ -174,22 +180,41 @@ class NCModule
     /**
      * Page not found
      */
-    public function error404(Request $request)
+    public function error404(Request $request, $matches = null)
     {
         Env::$response->setStatusCode(404, 'Page not found');
         Env::$response->setContent(
-            file_get_contents($this->view->assetpath('not_found.html'))
+            $this->view->twig->render('@assets/not_found.twig')
         );
     }
 
     /**
      * Page not found
      */
-    public function error403(Request $request)
+    public function error403(Request $request, $matches = null)
     {
         Env::$response->setStatusCode(403, 'Permission denied');
         Env::$response->setContent(
-            file_get_contents($this->view->assetpath('permission_denied.html'))
+            $this->view->twig->render('@assets/permission_denied.twig')
+        );
+    }
+
+    /**
+     * Page not found
+     */
+    public function errorBanned(Request $request, $matches = null)
+    {
+        $reason = $this->user->ban_reason;
+        if ( !$reason ) {
+            $reason = $this->lang->translate('user.ban.reason_unknown');
+        }
+
+        Env::$response->setStatusCode(403, 'Permission denied');
+        Env::$response->setContent(
+            $this->view->twig->render('@assets/banned.twig', [
+                'reason'    => $reason,
+                'ban'       => $this->user->ban_user->asArrayFull()
+            ])
         );
     }
 

@@ -3,7 +3,7 @@
         "access": true,
         "view_profile": true,
         "view_profile_detail": false,
-        "use_admin": true,
+        "use_admin": false,
         "manage_users": true
     },
     "2": {
@@ -37,8 +37,8 @@
     "6": {
         "access": true,
         "view_profile": true,
-        "view_profile_detail": false,
-        "use_admin": false,
-        "manage_users": false
+        "view_profile_detail": true,
+        "use_admin": true,
+        "manage_users": true
     }
 }

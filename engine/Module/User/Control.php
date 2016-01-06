@@ -76,22 +76,77 @@ class Control extends NCControl
         }
 
         if ( $request->isMethod('post') ) {
-            $new_password = $request->get('new_password');
-            if ( $new_password ) {
-                Env::$response->headers->set('Content-Type', 'application/json');
+            $changed = false;
 
-                $user->password = $new_password;
-                if ( $user->save() ) {
-                    return json_encode([
-                        'status'    => $this->lang->translate('form.saved'),
-                        'code'      => 'success'
+            // Edit username
+            $new_login = $request->get('username');
+            if ( $new_login && $new_login != $user->username ) {
+                $exists = \User::find_by_username($new_login);
+                if ( $exists && $exists->id ) {
+                    return static::json_response([
+                        'status'    => $this->lang->translate('user.edit.exists', $new_login),
+                        'class'     => 'error'
                     ]);
                 } else {
-                    return json_encode([
+                    $changed = true;
+                    $user->username = $new_login;
+                }
+            }
+
+            // Edit email
+            $new_email = $request->get('email');
+            if ( $new_email && $new_email != $user->email ) {
+                $exists = \User::find_by_email($new_email);
+                if ( $exists && $exists->id ) {
+                    return static::json_response([
+                        'status'    => $this->lang->translate('user.edit.exists_email', $new_email),
+                        'class'     => 'error'
+                    ]);
+                } else {
+                    $changed = true;
+                    $user->email = $new_email;
+                }
+            }
+
+            // Edit group
+            $new_group = intval($request->get('group', $user->group_id));
+            if ( !\Group::find($new_group) ) {
+                return static::json_response([
+                    'status'    => $this->lang->translate('user.edit.wrong_group'),
+                    'class'     => 'error'
+                ]);
+            } else {
+                $changed = true;
+                $user->group_id = $new_group;
+            }
+
+            // Change password
+            $new_password = $request->get('new_password');
+            if ( $new_password ) {
+                $user->password = $new_password;
+                if ( strlen($new_password) > 5 && $user->save() ) {
+                    return static::json_response([
+                        'status'    => $this->lang->translate('form.saved'),
+                        'class'     => 'success'
+                    ]);
+                } else {
+                    return static::json_response([
                         'status'    => $this->lang->translate('form.failed'),
-                        'code'      => 'error'
+                        'class'     => 'error'
                     ]);
                 }
+            }
+
+            if ( $changed && $user->save() ) {
+                return static::json_response([
+                    'status'    => $this->lang->translate('form.saved'),
+                    'class'     => 'success'
+                ]);
+            } else {
+                return static::json_response([
+                    'status'    => $this->lang->translate('form.failed'),
+                    'class'     => 'error'
+                ]);
             }
         }
 
