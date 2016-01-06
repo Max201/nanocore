@@ -87,18 +87,20 @@ input[type="checkbox"]
   outline: none
   display: block
   margin: 6px 0
+  min-width: 0
 
   &:after
     font: normal normal normal 18px/1 FontAwesome
-    color: #ccc
+    color: #666
     outline: none
     display: inline-block
     content: "\f046"
-    background: #FFFFFF
+    background: inherit
 
   &:checked:after
     outline: none
     content: "\f096"
+    color: #ccc !important
 
 
 .message 

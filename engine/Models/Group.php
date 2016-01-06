@@ -32,4 +32,14 @@ class Group extends Model
     {
         return (bool)$this->getPermissions()[$permission];
     }
+
+    public function to_array()
+    {
+        $array = parent::to_array();
+        $array['use_admin'] = $this->can('use_admin');
+        $array['users'] = User::count([
+            'conditions' => ['group_id = ?', $this->id]
+        ]);
+        return $array;
+    }
 }

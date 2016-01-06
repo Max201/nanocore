@@ -46,7 +46,7 @@ class Permission extends \ArrayObject
     public function save()
     {
         $perms = GroupPermission::getPermissionsMap();
-        $perms[$this->group->id] = $this->getArrayCopy();
+        $perms->map[$this->group->id] = $this->getArrayCopy();
 
         return $perms->save();
     }

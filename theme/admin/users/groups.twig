@@ -4,11 +4,7 @@
     <menu>
         <a href="{{ 'users'|url }}" class="item">{{ 'user.list'|lang }}</a>
         <a href="{{ 'groups'|url }}" class="item active">{{ 'user.group.list'|lang }}</a>
-        <a href="{{ 'settings'|url }}" class="item">
-            <i class="fa fa-cog"></i>
-            {{ 'user.settings'|lang }}
-        </a>
-        <a href="{{ 'users.create'|url }}" class="item">
+        <a href="{{ 'groups.create'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'user.group.create'|lang }}
         </a>
@@ -32,12 +28,12 @@
         </thead>
         <tbody>
         {% for group in groups_list %}
-            <tr onclick="gui.go('{{ group.id }}/')">
-                <td class="primary">#{{ group.id }}</td>
+            <tr>
+                <td class="primary" onclick="gui.go('{{ 'groups.profile'|url(group.id) }}')">#{{ group.id }}</td>
                 <td>{{ group.name }}</td>
                 <td>undefined</td>
                 <td>
-                    {% if group.can('use_admin') %}
+                    {% if group.use_admin %}
                         <span class="fa fa-check"></span>
                         {{ 'button.opened'|lang }}
                     {% else %}
@@ -45,7 +41,7 @@
                         {{ 'button.closed'|lang }}
                     {% endif %}
                 </td>
-                <td>1</td>
+                <td>{{ group.users }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -63,11 +59,7 @@
     <menu>
         <a href="{{ 'users'|url }}" class="item">{{ 'user.list'|lang }}</a>
         <a href="{{ 'groups'|url }}" class="item active">{{ 'user.group.list'|lang }}</a>
-        <a href="{{ 'settings'|url }}" class="item">
-            <i class="fa fa-cog"></i>
-            {{ 'user.settings'|lang }}
-        </a>
-        <a href="{{ 'users.create'|url }}" class="item">
+        <a href="{{ 'groups.create'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'user.group.create'|lang }}
         </a>

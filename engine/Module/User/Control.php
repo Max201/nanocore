@@ -60,15 +60,84 @@ class Control extends NCControl
 
         // Groups
         $this->map->addRoute('groups', [$this, 'groups_list'], 'groups');
-        $this->map->addRoute('groups/create', [$this, 'create_group'], 'groups.create');
+        $this->map->addPattern('groups/profile/<id:\d+?>', [$this, 'group_profile'], 'groups.profile');
+        $this->map->addRoute('groups/create', [$this, 'group_create'], 'groups.create');
 
         // Settings
         $this->map->addRoute('settings', [$this, 'users_settings'], 'settings');
     }
 
+    public function create_user(Request $request, $matches = null)
+    {
+        if ( $request->isMethod('post') ) {
+            $errors = [];
+            $data = [
+                'username'  => $request->get('username'),
+                'password'  => $request->get('password'),
+                'email'     => $request->get('email'),
+                'group_id'     => $request->get('group')
+            ];
+
+            $this->view->assign('data', $data);
+
+            // Validate username
+            if ( strlen($data['username']) < 4 ) {
+                $errors[] = $this->lang->translate('user.edit.short_username');
+            }
+
+            if ( \User::find_by_username($data['username']) ) {
+                $errors[] = $this->lang->translate('user.edit.exists', $data['username']);
+            }
+
+            // Validate password
+            if ( strlen($data['password']) < 6 ) {
+                $errors[] = $this->lang->translate('user.edit.short_password');
+            }
+
+            // Validate email
+            if ( strpos($data['email'], '@') < 1 ) {
+                $errors[] = $this->lang->translate('user.edit.wrong_email', $data['email']);
+            }
+
+            if ( \User::find_by_email($data['email']) ) {
+                $errors[] = $this->lang->translate('user.edit.exists_email', $data['email']);
+            }
+
+            // Validate group
+            if ( !\Group::find($data['group_id']) ) {
+                $errors[] = $this->lang->translate('user.edit.wrong_group');
+            }
+
+            if ( count($errors) ) {
+                return static::json_response([
+                    'errors'    => implode('<br />', $errors),
+                    'class'     => 'error'
+                ]);
+            } else {
+                if ( \User::create($data) ) {
+                    return static::json_response([
+                        'message'   => $this->lang->translate('form.saved'),
+                        'class'     => 'success'
+                    ]);
+                } else {
+                    return static::json_response([
+                        'errors'    => $this->lang->translate('form.failed'),
+                        'class'     => 'error'
+                    ]);
+                }
+            }
+        }
+
+        return $this->view->render('users/create.twig', [
+            'title'     => $this->lang->translate('user.create'),
+            'groups'    => array_map(function($i){ return $i->to_array(); }, \Group::all()),
+        ]);
+    }
+
     public function profile(Request $request, $matches)
     {
         try {
+            /** @var \User $user */
             $user = \User::find($matches['id']);
         } catch ( \Exception $e ) {
             $this->error404($request);
@@ -77,6 +146,20 @@ class Control extends NCControl
 
         if ( $request->isMethod('post') ) {
             $changed = false;
+
+            // Change ban user
+            $ban_time = $request->get('ban_time', false);
+            $ban_reason = $request->get('ban_reason', false);
+            if ( $ban_time ) {
+                if ( $ban_time == '-1' || strtolower($ban_time) == 'forever' ) {
+                    $ban_time = -1;
+                } else {
+                    $ban_time = strtotime($ban_time, time());
+                }
+
+                $user->ban($this->user, $ban_time, $ban_reason);
+                $changed = true;
+            }
 
             // Edit username
             $new_login = $request->get('username');
@@ -154,6 +237,95 @@ class Control extends NCControl
             'title'         => $this->lang->translate('user.profile.name', $user->username),
             'profile'       => $user->asArrayFull(),
             'groups'        => array_map(function($i){ return $i->to_array(); }, \Group::all())
+        ]);
+    }
+
+    public function group_create(Request $request, $matches)
+    {
+        $perms = \GroupPermission::defaultMap();
+
+        if ( $request->isMethod('post') ) {
+            // Saving permissions
+            foreach ( $perms as $key => $val ) {
+                $new_val = $request->get('perm_'.$key) == 'true';
+                $perms[$key] = $new_val;
+            }
+
+            $data = [
+                'name'  => $request->get('name'),
+                'icon'  => $request->get('icon')
+            ];
+
+            $group = \Group::create($data);
+            if ( $group ) {
+                /** @var \Permission $gperms */
+                $gperms = $group->getPermissions();
+                $gperms->exchangeArray($perms);
+                $gperms->save();
+                return static::json_response([
+                    'status'    => $this->lang->translate('form.saved'),
+                    'class'     => 'success'
+                ]);
+            } else {
+                return static::json_response([
+                    'status'    => $this->lang->translate('form.failed'),
+                    'class'     => 'error'
+                ]);
+            }
+        }
+
+        return $this->view->render('users/group_profile.twig', [
+            'title'         => $this->lang->translate('user.group.create'),
+            'perms'         => $perms,
+        ]);
+    }
+
+    public function group_profile(Request $request, $matches)
+    {
+        try {
+            /** @var \Group $user */
+            $group = \Group::find($matches['id']);
+            $perms = $group->getPermissions();
+        } catch ( \Exception $e ) {
+            $this->error404($request);
+            return;
+        }
+
+        if ( $request->isMethod('post') ) {
+            // Saving permissions
+            foreach ( $perms as $key => $val ) {
+                $new_val = $request->get('perm_'.$key) == 'true';
+                $perms[$key] = $new_val;
+            }
+
+            // Saving data
+            $new_name = $request->get('name');
+            $new_icon = $request->get('icon');
+            if ( $new_name != $group->name ) {
+                $group->name = $new_name;
+            }
+
+            if ( $new_icon != $group->icon ) {
+                $group->icon = $new_icon;
+            }
+
+            if ( $group->save() && $perms->save() ) {
+                return static::json_response([
+                    'status'    => $this->lang->translate('form.saved'),
+                    'class'     => 'success'
+                ]);
+            } else {
+                return static::json_response([
+                    'status'    => $this->lang->translate('form.failed'),
+                    'class'     => 'error'
+                ]);
+            }
+        }
+
+        return $this->view->render('users/group_profile.twig', [
+            'title'         => $this->lang->translate('user.group.name', $group->name),
+            'group'         => $group->to_array(),
+            'perms'         => $perms,
         ]);
     }
 

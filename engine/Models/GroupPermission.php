@@ -40,7 +40,9 @@ class GroupPermission extends Model
     {
         return new Permission(
             $group,
-            static::getPermissionsMap()->map->get($group->id)
+            static::getPermissionsMap()->map->get(
+                $group->id, static::defaultMap()
+            )
         );
     }
 
@@ -90,6 +92,21 @@ class GroupPermission extends Model
         }
 
         return static::$permissionsMap;
+    }
+
+    /**
+     * @return array
+     */
+    public static function defaultMap()
+    {
+        $perms = GroupPermission::all();
+        $map = [];
+
+        foreach ( $perms as $rule ) {
+            $map[$rule->permission] = boolval(intval($rule->default));
+        }
+
+        return $map;
     }
 
     /**

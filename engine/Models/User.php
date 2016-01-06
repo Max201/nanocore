@@ -83,6 +83,14 @@ class User extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function banned()
+    {
+        return $this->ban_time > time() || $this->ban_time == -1;
+    }
+
+    /**
      * @return Permission
      */
     public function getPermissions()
@@ -119,7 +127,9 @@ class User extends Model
 
         return array_merge(
             array(
-                'group' => $this->group->to_array(),
+                'banned'        => $this->banned(),
+                'ban_user'      => $this->ban_user ? $this->ban_user->asArrayFull() : [],
+                'group'         => $this->group->to_array(),
                 'permissions'   => $this->getPermissions()->getArrayCopy()
             ),
             $this->to_array()

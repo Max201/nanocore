@@ -63,3 +63,153 @@ function editUser(userId, newEmail, newUsername, newGroup)
         }
     );
 }
+
+/**
+ * Changing user
+ *
+ * @param form
+ */
+function createUser(form)
+{
+    var data = {};
+    $(form).find('input, select, textarea').each(function(i, e){
+        data[$(e).attr('name')] = $(e).val();
+    });
+
+    $.post(
+        '/control/user/create/',
+        data,
+        function (response) {
+            var mclass = response['class'];
+            var errors = response['errors'];
+            var message = response['message'];
+            var $msg = $('#create');
+
+            $msg
+                .removeClass('success')
+                .removeClass('error')
+                .addClass(mclass)
+                .html(message || errors)
+                .show();
+
+            if ( !errors ) {
+                setTimeout(function(){
+                    document.location.href = '/control/user/';
+                }, 3000);
+            }
+        }
+    );
+}
+
+/**
+ * Ban user
+ *
+ * @param userId
+ * @param time
+ * @param reason
+ */
+function banUser(userId, time, reason)
+{
+    $.post(
+        '/control/user/profile/' + userId,
+        {
+            'ban_time': time,
+            'ban_reason': reason
+        },
+        function (response) {
+            var mclass = response['class'];
+            var message = response['status'];
+            var $msg = $('#edit');
+
+            $msg
+                .removeClass('success')
+                .removeClass('error')
+                .addClass(mclass)
+                .text(message)
+                .show();
+
+            setTimeout(function(){
+                $msg.hide();
+            }, 3000);
+        }
+    );
+}
+
+
+/**
+ * Updating group
+ *
+ * @param groupId
+ * @param form
+ */
+function updateGroup(groupId, form)
+{
+    var data = {};
+    $(form).find('input, select, textarea').each(function(i, e){
+        if ( $(e).is('[type="checkbox"]') ) {
+            data[$(e).attr('name')] = $(e).is(':not(:checked)')
+        } else {
+            data[$(e).attr('name')] = $(e).val();
+        }
+    });
+
+    $.post(
+        '/control/user/groups/profile/' + groupId,
+        data,
+        function (response) {
+            var mclass = response['class'];
+            var message = response['status'];
+            var $msg = $('#save');
+
+            $msg
+                .removeClass('success')
+                .removeClass('error')
+                .addClass(mclass)
+                .text(message)
+                .show();
+
+            setTimeout(function(){
+                $msg.hide();
+            }, 3000);
+        }
+    );
+}
+
+
+/**
+ * Creation group
+ *
+ * @param form
+ */
+function createGroup(form)
+{
+    var data = {};
+    $(form).find('input, select, textarea').each(function(i, e){
+        if ( $(e).is('[type="checkbox"]') ) {
+            data[$(e).attr('name')] = $(e).is(':not(:checked)')
+        } else {
+            data[$(e).attr('name')] = $(e).val();
+        }
+    });
+
+    $.post(
+        '/control/user/groups/profile/' + groupId,
+        data,
+        function (response) {
+            var mclass = response['class'];
+            var message = response['status'];
+            var $msg = $('#save');
+
+            $msg
+                .removeClass('success')
+                .removeClass('error')
+                .addClass(mclass)
+                .text(message)
+                .show();
+
+            setTimeout(function(){
+                $msg.hide();
+            }, 3000);
+        }
+    );
+}

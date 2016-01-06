@@ -5,63 +5,39 @@
 
 {% block body %}
     <menu>
-        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.edit').show();" class="item">
-            <i class="fa fa-edit"></i> {{ 'user.edit.title'|lang }}
-        </a>
-        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.ban').show();" class="item">
-            <i class="fa fa-lock"></i> {{ 'user.ban.title'|lang }}
-        </a>
-        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.change-password').show();" class="item">
-            <i class="fa fa-shield"></i> {{ 'user.edit.password'|lang }}
+        <a href="javascript:void(0);" onclick="updateGroup('{{ group.id }}', 'table.edit');" class="item">
+            <i class="fa fa-save"></i> {{ 'button.save'|lang }}
         </a>
 
         <nav class="right">
-            <a href="{{ 'users'|url }}" class="item">
+            <a href="{{ 'groups'|url }}" class="item">
                 <i class="fa fa-arrow-left"></i>
                 {{ 'button.cancel'|lang }}
             </a>
         </nav>
     </menu>
 
-    <table>
+    <div class="message" id="save" style="display: none;"></div>
+
+    <table class="edit">
         <thead>
             <tr>
                 <td class="x3">{{ title }}</td>
-                <td>#{{ profile.id }}</td>
+                <td>#{{ group.id }}</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ 'user.profile.username'|lang }}</td>
-                <td>{{ profile.username }}</td>
+                <td>{{ 'user.group.title'|lang }}</td>
+                <td><input type="text" value="{{ group.name }}" name="name"/></td>
             </tr>
             <tr>
-                <td>{{ 'user.profile.group'|lang }}</td>
-                <td>{{ profile.group.name }}</td>
+                <td>{{ 'user.group.icon'|lang }}</td>
+                <td><input type="text" value="{{ group.icon }}" name="icon"/></td>
             </tr>
             <tr>
-                <td>{{ 'user.profile.email'|lang }}</td>
-                <td>
-                    {% if not profile.confirm_code %}
-                        <span class="fa fa-check"></span>
-                    {% else %}
-                        <span class="fa fa-times"></span>
-                    {% endif %}
-
-                    {% if profile.email %}
-                        {{ profile.email }}
-                    {% else %}
-                        Undefined
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td>{{ 'user.profile.last_visit'|lang }}</td>
-                <td>{{ profile.last_visit|tz|dlang }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'user.profile.register_date'|lang }}</td>
-                <td>{{ profile.register_date|tz|dlang }}</td>
+                <td>{{ 'user.count'|lang }}</td>
+                <td>{{ group.users }}</td>
             </tr>
 
             {% if profile.banned %}
@@ -81,6 +57,25 @@
                     <td>{% if profile.ban_reason %}{{ profile.ban_reason }}{% else %}{{ 'user.ban.reason_unknown'|lang }}{% endif %}</td>
                 </tr>
             {% endif %}
+        </tbody>
+    </table>
+
+    <table class="edit">
+        <thead>
+            <tr>
+                <td class="x3">{{ 'user.group.permissions'|lang }}</td>
+                <td>{{ 'user.group.allowed'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for perm in perms|keys %}
+            <tr>
+                <td>{{ ('group.' ~ perm)|lang }}</td>
+                <td>
+                    <input type="checkbox" name="perm_{{ perm }}" value="1" {% if not perms[perm] %}checked="checked"{% else %}{% endif %}/>
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 

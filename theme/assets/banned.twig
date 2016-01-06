@@ -9,5 +9,10 @@
     <hr/>
     <p><strong>{{ 'user.ban.author'|lang }}:</strong> {{ ban.group.name }} {{ ban.username }}</p>
     <p><strong>{{ 'user.ban.reason'|lang }}:</strong> {{ reason }}</p>
+    {% if user.ban_time == -1 %}
+        <p><strong>{{ 'user.ban.time'|lang }}:</strong> -- </p>
+    {% else %}
+        <p><strong>{{ 'user.ban.time'|lang }}:</strong> {{ user.ban_time|tz|dlang }} </p>
+    {% endif %}
 </body>
 </html>
