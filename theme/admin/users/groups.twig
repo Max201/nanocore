@@ -19,9 +19,9 @@
     <table>
         <thead>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'user.group.title'|lang }}</td>
-                <td class="x3">{{ 'user.group.icon'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('name')})">{{ 'user.group.title'|lang }} <i class="fa {{ 'name'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('icon')})" class="x3">{{ 'user.group.icon'|lang }} <i class="fa {{ 'icon'|ord }}"></i></td>
                 <td class="x3">{{ 'user.group.admin'|lang }}</td>
                 <td class="x5">{{ 'user.count'|lang }}</td>
             </tr>
@@ -55,11 +55,11 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'user.group.title'|lang }}</td>
-                <td>{{ 'user.group.icon'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('name')})">{{ 'user.group.title'|lang }} <i class="fa {{ 'name'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('icon')})" class="x3">{{ 'user.group.icon'|lang }} <i class="fa {{ 'icon'|ord }}"></i></td>
                 <td class="x3">{{ 'user.group.admin'|lang }}</td>
-                <td>{{ 'user.count'|lang }}</td>
+                <td class="x5">{{ 'user.count'|lang }}</td>
             </tr>
         </tfoot>
     </table>

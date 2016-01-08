@@ -7,9 +7,12 @@
 namespace Module\Admin;
 
 
+use Service\Application\Translate;
+use Service\Render\Theme;
 use Symfony\Component\HttpFoundation\Request;
 use Service\Application\Settings;
 use System\Engine\NCControl;
+use System\Engine\NCModule;
 use System\Engine\NCService;
 use System\Environment\Env;
 use Service\User\Auth;
@@ -35,6 +38,20 @@ class Module extends NCControl
         $this->map->addRoute('modules', [$this, 'modules'], 'modules');
 
         $this->map->addRoute('files', [$this, 'fmanager'], 'filemanager');
+    }
+
+    static function globalize(NCModule $module, Theme $view, Translate $lang)
+    {
+        $view->twig->addFilter(new \Twig_SimpleFilter('ord', function($order){
+            $cur = Env::$request->get('order');
+            if ( strpos($cur, $order) > -1 ) {
+                return $cur[0] == '-' ? 'fa-chevron-down' : 'fa-chevron-up';
+            }
+
+            return strpos($cur, $order);
+        }));
+
+        return [];
     }
 
     public function access()

@@ -2,6 +2,7 @@
  * GUI Package
  */
 var gui = {
+    'get': {},
     'init': function() {
         $.ajaxSetup({
             'beforeSend': function() {
@@ -12,6 +13,18 @@ var gui = {
         $(document).ajaxComplete(function() {
             gui.preloader.stop();
         });
+
+        (window.onpopstate = function () {
+            var match,
+                pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                search = /([^&=]+)=?([^&]*)/g,
+                decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                query  = window.location.search.substring(1);
+
+            gui.get = {};
+            while (match = search.exec(query))
+                gui.get[decode(match[1])] = decode(match[2]);
+        })();
     },
     'go': function(url, timeout) {
         timeout = timeout || 0;
@@ -20,6 +33,30 @@ var gui = {
         } else {
             document.location = url;
         }
+    },
+    'uri': function(data, timeout) {
+        // Updating data
+        data = data || {};
+        $.each(gui.get, function(k, v){
+            if ( !data.hasOwnProperty(k) ) {
+                data[k] = v;
+            }
+        });
+
+        // Build url
+        var params = new Array();
+        $.each(data, function(k, v){
+            params.push(k + '=' + encodeURIComponent(v));
+        });
+
+        gui.go(document.location.pathname + '?' + params.join('&'), timeout);
+    },
+    'order_toggle': function (order) {
+        if ( typeof gui.get.order != 'undefined' && gui.get.order == order ) {
+            return '-' + order;
+        }
+
+        return order;
     },
     'preloader': {
         'start': function() {

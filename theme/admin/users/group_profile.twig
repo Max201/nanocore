@@ -36,8 +36,17 @@
                 <td><input type="text" value="{{ group.icon }}" name="icon"/></td>
             </tr>
             <tr>
-                <td>{{ 'user.count'|lang }}</td>
-                <td>{{ group.users }}</td>
+                <td>{{ 'user.move'|lang }}</td>
+                <td>
+                    <span class="cselect">
+                        <select name="new_group" id="new_group" data-width="200">
+                            {% for g in groups %}
+                                <option {% if group.id == g.id %}selected="selected" {% endif %}value="{{ g.id }}">{{ g.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </span>
+                    <a href="{{ 'users'|url }}?group={{ group.id }}">{{ 'user.count'|lang }}: {{ group.users }}</a>
+                </td>
             </tr>
 
             {% if profile.banned %}

@@ -129,6 +129,20 @@ class Request
     public $headers;
 
     /**
+     * Parse ordering from request
+     *
+     * @var string
+     */
+    public $order;
+
+    /**
+     * Current page
+     *
+     * @var int
+     */
+    public $page = 1;
+
+    /**
      * @var string
      */
     protected $content;
@@ -219,6 +233,18 @@ class Request
     public function __construct(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null)
     {
         $this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
+
+        if ( $this->get('order') ) {
+            $order = preg_replace('/[^A-Za-z0-9\_]/i', '', $this->get('order'));
+            $this->order = $order[0] == '-' ? substr($order, 1) . ' DESC' : $order . ' ASC';
+        }
+
+        if ( $this->get('page') ) {
+            $this->page = intval($this->get('page', 1));
+            if ( $this->page < 1 ) {
+                $this->page = 1;
+            }
+        }
     }
 
     /**

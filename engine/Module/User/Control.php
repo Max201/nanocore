@@ -292,6 +292,13 @@ class Control extends NCControl
         }
 
         if ( $request->isMethod('post') ) {
+            // Moving users
+            $new_group = intval($request->get('new_group', $group->id));
+            if ( $new_group != $group->id ) {
+                $update = ['group_id' => $new_group];
+                \User::table()->update($update, ['group_id' => $group->id]);
+            }
+
             // Saving permissions
             foreach ( $perms as $key => $val ) {
                 $new_val = $request->get('perm_'.$key) == 'true';
@@ -322,18 +329,28 @@ class Control extends NCControl
             }
         }
 
+        // Filter groups
+        $groups = \Group::all();
+        $groups = array_map(function($i){ return $i->to_array(); }, $groups);
+
         return $this->view->render('users/group_profile.twig', [
             'title'         => $this->lang->translate('user.group.name', $group->name),
             'group'         => $group->to_array(),
             'perms'         => $perms,
+            'groups'        => $groups
         ]);
     }
 
     public function groups_list(Request $request)
     {
+        $filter = [];
+        if ( $request->order ) {
+            $filter['order'] = $request->order;
+        }
+
         /** @var Listing $paginator */
-        $paginator = NCService::load('Paginator.Listing', [$request->get('page', 1), \Group::count()]);
-        $filter = $paginator->limit();
+        $paginator = NCService::load('Paginator.Listing', [$request->page, \Group::count()]);
+        $filter = array_merge($filter, $paginator->limit());
 
         // Filter groups
         $groups = \Group::all($filter);
@@ -349,19 +366,28 @@ class Control extends NCControl
     public function users_list(Request $request, $matches)
     {
         $filter = [];
+        $title = $this->lang->translate('user.list');
         if ( $request->get('group') ) {
             $filter['conditions'] = ['group_id = ?', intval($request->get('group'))];
+            $group = \Group::find($request->get('group'));
+            if ( $group ) {
+                $title = $this->lang->translate('user.profile.group') . ' "' . $group->name . '"';
+            }
+        }
+
+        if ( $request->order ) {
+            $filter['order'] = $request->order;
         }
 
         /** @var Listing $paginator */
-        $paginator = NCService::load('Paginator.Listing', [$request->get('page', 1), $filter ? \User::count($filter) : \User::count()]);
+        $paginator = NCService::load('Paginator.Listing', [$request->page, $filter ? \User::count($filter) : \User::count()]);
         $filter = array_merge($filter, $paginator->limit());
 
         // Filter users
         $users = \User::all($filter);
         $users = array_map(function($i){ return $i->asArrayFull(); }, $users);
         return $this->view->render('users/list.twig', [
-            'title'         => $this->lang->translate('user.list'),
+            'title'         => $title,
             'users_list'    => $users,
             'listing'       => $paginator->pages(),
             'page'          => $paginator->cur_page

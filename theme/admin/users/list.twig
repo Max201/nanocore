@@ -19,12 +19,12 @@
     <table>
         <thead>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'user.profile.username'|lang }}</td>
-                <td>{{ 'user.profile.email'|lang }}</td>
-                <td>{{ 'user.profile.register_date'|lang }}</td>
-                <td>{{ 'user.profile.last_visit'|lang }}</td>
-                <td>{{ 'user.profile.group'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('username')})">{{ 'user.profile.username'|lang }} <i class="fa {{ 'username'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('email')})">{{ 'user.profile.email'|lang }} <i class="fa {{ 'email'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('register_date')})">{{ 'user.profile.register_date'|lang }} <i class="fa {{ 'register_date'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('last_visit')})">{{ 'user.profile.last_visit'|lang }} <i class="fa {{ 'last_visit'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('group_id')})">{{ 'user.profile.group'|lang }} <i class="fa {{ 'group_id'|ord }}"></i></td>
             </tr>
         </thead>
         <tbody>
@@ -60,12 +60,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'user.profile.username'|lang }}</td>
-                <td>{{ 'user.profile.email'|lang }}</td>
-                <td>{{ 'user.profile.register_date'|lang }}</td>
-                <td>{{ 'user.profile.last_visit'|lang }}</td>
-                <td>{{ 'user.profile.group'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('username')})">{{ 'user.profile.username'|lang }} <i class="fa {{ 'username'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('email')})">{{ 'user.profile.email'|lang }} <i class="fa {{ 'email'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('register_date')})">{{ 'user.profile.register_date'|lang }} <i class="fa {{ 'register_date'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('last_visit')})">{{ 'user.profile.last_visit'|lang }} <i class="fa {{ 'last_visit'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('group_id')})">{{ 'user.profile.group'|lang }} <i class="fa {{ 'group_id'|ord }}"></i></td>
             </tr>
         </tfoot>
     </table>
