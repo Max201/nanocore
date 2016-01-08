@@ -9,10 +9,10 @@ use ActiveRecord\Model;
 
 
 /**
- * Class Page
+ * Class Post
  * @package Model
  */
-class Page extends Model
+class Post extends Model
 {
     static $before_create = ['created_at'];
     static $before_save = ['updated_at'];
