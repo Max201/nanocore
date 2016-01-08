@@ -6,7 +6,7 @@
         {
             var data = {
                 'content': content.content(),
-                'title': title.content(),
+                'title': $('#title').content(),
                 'slug': $('#slug').val()
             };
 
@@ -30,7 +30,6 @@
         }
 
         $(function(){
-            title = new WyEdit($('#title'));
             content = new WyEdit($('#wy-edit'), 'content');
         });
     </script>
@@ -62,9 +61,11 @@
 
     <div class="message success" style="display: none;"></div>
 
-    <h1 id="title" onblur="if ($(this).text().trim().length < 1) $(this).text('{{ 'page.name'|lang }}');">
-        {{ page.title|raw }}
-    </h1>
+    <div class="form">
+        <label for="title">
+            <input placeholder="{{ 'page.title'|lang }}" title="{{ 'page.title'|lang }}" class="wide" type="text" value="{{ page.title }}" id="title"/>
+        </label>
+    </div>
 
     <div class="form">
         <label for="slug">
