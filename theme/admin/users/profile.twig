@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td>{{ 'user.profile.group'|lang }}</td>
-                <td>{{ profile.group.name }}</td>
+                <td><a href="{{ 'groups.profile'|url(profile.group.id) }}">{{ profile.group.name }}</a></td>
             </tr>
             <tr>
                 <td>{{ 'user.profile.email'|lang }}</td>

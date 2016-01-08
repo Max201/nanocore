@@ -15,25 +15,25 @@ use System\Engine\NCService;
 
 class Control extends NCControl
 {
-    static $fa_icon = 'file';
+    static $fa_icon = 'rss';
     static $menu = [
-        'page.list' => '/control/page/',
+        'post.list' => '/control/post/',
     ];
 
     public function route()
     {
-        $this->map->addRoute('/', [$this, 'pages_list'], 'list');
-        $this->map->addRoute('create', [$this, 'edit_page'], 'page.new');
-        $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_page'], 'page.edit');
+        $this->map->addRoute('/', [$this, 'posts_list'], 'list');
+        $this->map->addRoute('create', [$this, 'edit_post'], 'post.new');
+        $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_post'], 'post.edit');
     }
 
-    public function pages_list($request)
+    public function posts_list(Request $request)
     {
-        // Delete page
+        // Delete post
         if ( $request->get('delete') ) {
             try {
-                $page = \Page::find_by_id(intval($request->get('delete')));
-                if ( $page && $page->delete() ) {
+                $post = \Post::find_by_id(intval($request->get('delete')));
+                if ( $post && $post->delete() ) {
                     $this->view->assign('message', $this->lang->translate('form.deleted'));
                 } else {
                     $this->view->assign('message', $this->lang->translate('form.delete_failed'));
@@ -44,41 +44,41 @@ class Control extends NCControl
         }
 
         /** @var Listing $paginator */
-        $paginator = NCService::load('Paginator.Listing', [$request->get('page', 1), \Page::count()]);
+        $paginator = NCService::load('Paginator.Listing', [$request->page, \Page::count()]);
         $filter = $paginator->limit();
 
         // Filter users
-        $pages = \Page::all($filter);
-        $pages = array_map(function($i){ return $i->asArrayFull(); }, $pages);
-        return $this->view->render('pages/list.twig', [
-            'title'         => $this->lang->translate('page.list'),
-            'pages_list'    => $pages,
+        $posts = \Post::all($filter);
+        $posts = array_map(function($i){ return $i->asArrayFull(); }, $posts);
+        return $this->view->render('posts/list.twig', [
+            'title'         => $this->lang->translate('post.list'),
+            'posts_list'    => $posts,
             'listing'       => $paginator->pages(),
             'page'          => $paginator->cur_page
         ]);
     }
 
-    public function edit_page(Request $request, $matches)
+    public function edit_post(Request $request, $matches)
     {
-        // Get page for updating
+        // Get post for updating
         $id = intval($matches->get('id', $request->get('id')));
         if ( $id > 0 ) {
-            $page = \Page::find_by_id($id);
+            $post = \Post::find_by_id($id);
         } else {
-            $page = [
-                'title'     => $this->lang->translate('page.name'),
+            $post = [
+                'title'     => $this->lang->translate('post.name'),
                 'content'   => ''
             ];
         }
 
         // Create or update page
         if ( $request->isMethod('post') ) {
-            if ( $page instanceof \Page ) {
-                $page->title = $request->get('title');
-                $page->content = $request->get('content');
-                $page->slug = $request->get('slug');
+            if ( $post instanceof \Post ) {
+                $post->title = $request->get('title');
+                $post->content = $request->get('content');
+                $post->slug = $request->get('slug');
             } else {
-                $page = new \Page([
+                $post = new \Post([
                     'title'     => $request->get('title'),
                     'content'   => $request->get('content'),
                     'slug'      => $request->get('slug'),
@@ -87,8 +87,8 @@ class Control extends NCControl
             }
 
             // Updating instance
-            $page->save();
-            $page = $page->to_array();
+            $post->save();
+            $post = $post->to_array();
 
 
             return static::json_response([
@@ -97,9 +97,9 @@ class Control extends NCControl
             ]);
         }
 
-        return $this->view->render('pages/create.twig', [
-            'page'          => $page,
-            'title'         => $this->lang->translate('page.create'),
+        return $this->view->render('posts/create.twig', [
+            'post'          => $post,
+            'title'         => $this->lang->translate('post.create'),
         ]);
     }
 } 

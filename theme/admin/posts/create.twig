@@ -1,0 +1,78 @@
+{% extends 'base.twig' %}
+{% block head %}
+    <script type="text/javascript" src="{{ 'editor.js'|local('js') }}"></script>
+    <script type="text/javascript">
+        function submit()
+        {
+            var data = {
+                'content': content.content(),
+                'title': title.content(),
+                'slug': $('#slug').val()
+            };
+
+            $.post('{{ 'post.new'|url }}?id={{ page.id }}', data, function(r){
+                $('.message').text(r.message).slideDown();
+                setTimeout(function(){
+                    document.location = '{{ 'list'|url }}';
+                }, 2000)
+            });
+        }
+
+        function remove_page()
+        {
+            var data = {
+                'remove': '{{ page.id }}'
+            };
+
+            $.post('{{ 'post.edit'|url }}', data, function(r){
+                console.log(r);
+            });
+        }
+
+        $(function(){
+            title = new WyEdit($('#title'));
+            content = new WyEdit($('#wy-edit'), 'content');
+        });
+    </script>
+{% endblock %}
+{% block body %}
+    <menu>
+        <a class="item" href="#" onclick="submit();">
+            <i class="fa fa-save"></i>
+            {{ 'button.save'|lang }}
+        </a>
+        {% if post.id %}
+            <a class="item" href="{{ 'list'|url }}?delete={{ page.id }}">
+                <i class="fa fa-trash"></i>
+                {{ 'button.delete'|lang }}
+            </a>
+            <a class="item" href="/post/{{ post.id }}-{{ post.slug }}.html" target="_blank">
+                <i class="fa fa-eye"></i>
+                {{ 'post.view'|lang }}
+            </a>
+        {% endif %}
+
+        <nav class="right">
+            <a class="item" href="{{ 'list'|url }}">
+                <i class="fa fa-arrow-right"></i>
+                {{ 'button.cancel'|lang }}
+            </a>
+        </nav>
+    </menu>
+
+    <div class="message success" style="display: none;"></div>
+
+    <h1 id="title" onblur="if ($(this).text().trim().length < 1) $(this).text('{{ 'post.name'|lang }}');">
+        {{ post.title|raw }}
+    </h1>
+
+    <div class="form">
+        <label for="slug">
+            <input title="{{ 'post.slug'|lang }}" class="wide" type="text" value="{{ post.slug }}" id="slug"/>
+        </label>
+    </div>
+
+    {% set wyi='content' %}
+    {% set content=post.content %}
+    {% include 'com/editor.twig' %}
+{% endblock %}
