@@ -84,14 +84,21 @@ class NCModule
 
         // Disable access to banned users
         if ( $this->user->ban_time > time() || $this->user->ban_time == -1 ) {
-            $this->errorBanned(Env::$request, $this->user->ban_reason);
+            Env::$response->setContent(
+                $this->errorBanned(
+                    Env::$request,
+                    $this->user->ban_reason
+                )
+            );
             Env::$response->send();
             return;
         }
 
         // Check access to current module
         if ( !$this->access() ) {
-            $this->error403(Env::$request);
+            Env::$response->setContent(
+                $this->error403(Env::$request)
+            );
             Env::$response->send();
             return;
         }
@@ -104,7 +111,9 @@ class NCModule
 
         // Check route
         if ( !is_callable($route->callback) ) {
-            $this->error404(Env::$request);
+            Env::$response->setContent(
+                $this->error404(Env::$request)
+            );
             Env::$response->send();
             return;
         }
@@ -183,9 +192,7 @@ class NCModule
     public function error404(Request $request, $matches = null)
     {
         Env::$response->setStatusCode(404, 'Page not found');
-        Env::$response->setContent(
-            $this->view->twig->render('@assets/not_found.twig')
-        );
+        return $this->view->twig->render('@assets/not_found.twig');
     }
 
     /**
@@ -194,9 +201,7 @@ class NCModule
     public function error403(Request $request, $matches = null)
     {
         Env::$response->setStatusCode(403, 'Permission denied');
-        Env::$response->setContent(
-            $this->view->twig->render('@assets/permission_denied.twig')
-        );
+        return $this->view->twig->render('@assets/permission_denied.twig');
     }
 
     /**
@@ -210,12 +215,10 @@ class NCModule
         }
 
         Env::$response->setStatusCode(403, 'Permission denied');
-        Env::$response->setContent(
-            $this->view->twig->render('@assets/banned.twig', [
-                'reason'    => $reason,
-                'ban'       => $this->user->ban_user->asArrayFull()
-            ])
-        );
+        return $this->view->twig->render('@assets/banned.twig', [
+            'reason'    => $reason,
+            'ban'       => $this->user->ban_user->asArrayFull()
+        ]);
     }
 
     /**
