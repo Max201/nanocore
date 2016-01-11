@@ -189,7 +189,7 @@ class Control extends NCControl
 
             // Updating instance
             $post->save();
-            $post = $post->to_array();
+            $post = $post->asArrayFull();
 
 
             return static::json_response([
