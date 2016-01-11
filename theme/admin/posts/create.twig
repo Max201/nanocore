@@ -7,14 +7,13 @@
             var data = {
                 'content': content.content(),
                 'title': $('#title').val(),
+                'category': $('#category').val(),
                 'slug': $('#slug').val()
             };
 
             $.post('{{ 'post.new'|url }}?id={{ page.id }}', data, function(r){
                 $('.message').text(r.message).slideDown();
-                setTimeout(function(){
-                    document.location = '{{ 'list'|url }}';
-                }, 2000)
+                gui.go('{{ 'list'|url }}', 2);
             });
         }
 
@@ -36,9 +35,9 @@
 {% endblock %}
 {% block body %}
     <menu>
-        <a class="item" href="#" onclick="submit();">
-            <i class="fa fa-save"></i>
-            {{ 'button.save'|lang }}
+        <a class="item" href="{{ 'list'|url }}">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'button.cancel'|lang }}
         </a>
         {% if post.id %}
             <a class="item" href="{{ 'list'|url }}?delete={{ page.id }}">
@@ -52,9 +51,9 @@
         {% endif %}
 
         <nav class="right">
-            <a class="item" href="{{ 'list'|url }}">
-                <i class="fa fa-arrow-right"></i>
-                {{ 'button.cancel'|lang }}
+            <a class="item" href="#" onclick="submit();">
+                <i class="fa fa-save"></i>
+                {{ 'button.save'|lang }}
             </a>
         </nav>
     </menu>
@@ -62,8 +61,15 @@
     <div class="message success" style="display: none;"></div>
 
     <div class="form">
-        <label for="title">
-            <input placeholder="{{ 'post.title'|lang }}" title="{{ 'post.title'|lang }}" class="wide" type="text" value="{{ post.title }}" id="title"/>
+        <label for="title" class="x50">
+            <input data-url-for="#slug" placeholder="{{ 'post.title'|lang }}" title="{{ 'post.title'|lang }}" class="wide" type="text" value="{{ post.title }}" id="title"/>
+        </label>
+        <label for="category" class="x50 cselect">
+            <select name="category" id="category" data-width="473">
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}"{% if cat.id == post.category.id %} selected{% endif %}>{{ cat.title }}</option>
+                {% endfor %}
+            </select>
         </label>
     </div>
 

@@ -259,6 +259,41 @@ class Theme extends NCService
     }
 
     /**
+     * @param $dir
+     * @return array
+     */
+    public function list_files($dir, $theme = null)
+    {
+        if ( is_null($theme) ) {
+            $dir = $this->path . S . $dir;
+        }
+
+        if ( $theme == '@current' ) {
+            $theme_dir = $this->conf->get('theme_dir');
+            $theme_dir = str_replace('/', S, $theme_dir);
+            $theme_dir = str_replace('[theme]', $this->load('Application.Settings')->conf->get('theme'), $theme_dir);
+            $dir = ROOT . S . $theme_dir . S . $dir;
+        }
+
+        if ( !is_dir($dir) ) {
+            return [];
+        }
+
+        $handler = opendir($dir);
+        $list_files = [];
+        while ( $item = readdir($handler) ) {
+            if ( $item == '.' || $item == '..' ) {
+                continue;
+            }
+            if ( !is_dir($dir . S . $item) ) {
+                $list_files[] = $item;
+            }
+        }
+
+        return $list_files;
+    }
+
+    /**
      * @param NCModule $module
      * @param Translate $lang
      */

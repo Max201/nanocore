@@ -60,7 +60,7 @@ class Module extends NCControl
             if ( Env::$request->server->get('REQUEST_URI') == '/admin/login' ) {
                 return true;
             } else {
-                header('Location: ' . $this->map->reverse('login'));
+                header('Location: /admin/login');
                 die;
             }
         }

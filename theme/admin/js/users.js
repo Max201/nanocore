@@ -93,9 +93,7 @@ function createUser(form)
                 .show();
 
             if ( !errors ) {
-                setTimeout(function(){
-                    document.location.href = '/control/user/';
-                }, 3000);
+                gui.go('/control/user/', 3000);
             }
         }
     );
@@ -207,9 +205,10 @@ function createGroup(form)
                 .text(message)
                 .show();
 
-            setTimeout(function(){
-                $msg.hide();
-            }, 3000);
+
+            if ( mclass == 'success' ) {
+                gui.go('/control/user/groups', 3000);
+            }
         }
     );
 }

@@ -2,6 +2,12 @@
 
 {% block body %}
     <menu>
+        <a href="{{ 'list'|url }}" class="item active">
+            {{ 'post.list'|lang }}
+        </a>
+        <a href="{{ 'list.categories'|url }}" class="item">
+            {{ 'post.categories'|lang }}
+        </a>
         <a href="{{ 'post.new'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'post.create'|lang }}
@@ -23,19 +29,20 @@
     <table>
         <thead>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'post.name'|lang }}</td>
-                <td>{{ 'post.slug'|lang }}</td>
-                <td>{{ 'post.author'|lang }}</td>
-                <td>{{ 'post.created'|lang }}</td>
-                <td>{{ 'post.updated'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('slug')})">{{ 'post.slug'|lang }} <i class="fa {{ 'slug'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'post.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'post.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </thead>
         <tbody>
         {% if not posts_list %}
             <tr>
-                <td colspan="7" class="message">
+                <td colspan="8" class="message">
                     <div>{{ 'form.empty'|lang }}</div>
                 </td>
             </tr>
@@ -45,6 +52,7 @@
                 <td onclick="gui.go('{{ 'post.edit'|url(post.id) }}')" class="primary">#{{ post.id }}</td>
                 <td onclick="gui.go('/post/{{ post.id }}-{{ post.slug }}.html')">{{ post.title }}</td>
                 <td>{{ post.slug }}</td>
+                <td>{{ post.category.title }}</td>
                 <td>{{ post.author.username }}</td>
                 <td>{{ post.created_at|tz|dlang }}</td>
                 <td>{{ post.updated_at|tz|dlang }}</td>
@@ -58,18 +66,25 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'post.name'|lang }}</td>
-                <td>{{ 'post.slug'|lang }}</td>
-                <td>{{ 'post.author'|lang }}</td>
-                <td>{{ 'post.created'|lang }}</td>
-                <td>{{ 'post.updated'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('slug')})">{{ 'post.slug'|lang }} <i class="fa {{ 'slug'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'post.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'post.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </tfoot>
     </table>
 
     <menu>
+        <a href="{{ 'list'|url }}" class="item active">
+            {{ 'post.list'|lang }}
+        </a>
+        <a href="{{ 'list.categories'|url }}" class="item">
+            {{ 'post.categories'|lang }}
+        </a>
         <a href="{{ 'post.new'|url }}" class="item">
             <i class="fa fa-plus"></i>
             {{ 'post.create'|lang }}

@@ -23,12 +23,12 @@
     <table>
         <thead>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'page.name'|lang }}</td>
-                <td>{{ 'page.slug'|lang }}</td>
-                <td>{{ 'page.author'|lang }}</td>
-                <td>{{ 'page.created'|lang }}</td>
-                <td>{{ 'page.updated'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})"  class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'page.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('slug')})">{{ 'page.slug'|lang }} <i class="fa {{ 'slug'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'page.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'page.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'page.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </thead>
@@ -58,12 +58,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="primary">ID</td>
-                <td>{{ 'page.name'|lang }}</td>
-                <td>{{ 'page.slug'|lang }}</td>
-                <td>{{ 'page.author'|lang }}</td>
-                <td>{{ 'page.created'|lang }}</td>
-                <td>{{ 'page.updated'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'page.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('slug')})">{{ 'page.slug'|lang }} <i class="fa {{ 'slug'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'page.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'page.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'page.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </tfoot>

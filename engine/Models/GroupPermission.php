@@ -77,6 +77,7 @@ class GroupPermission extends Model
         $groups = Group::find('all');
         foreach ( $groups as $group ) {
             $permMap->map[$group->id] = static::mergePermissions($modsList, $permMap->map->get($group->id, []));
+            $permMap->save();
         }
 
         return $permMap->save();

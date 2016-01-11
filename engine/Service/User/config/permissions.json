@@ -1,44 +1,42 @@
 {
     "1": {
         "access": true,
-        "view_profile": true,
-        "view_profile_detail": false,
         "use_admin": false,
-        "manage_users": true
+        "publicate": true,
+        "comment": true,
+        "edit_comments": false,
+        "edit_publications": false
     },
     "2": {
         "access": true,
-        "view_profile": true,
-        "view_profile_detail": false,
         "use_admin": false,
-        "manage_users": false
+        "publicate": true,
+        "comment": true,
+        "edit_comments": false,
+        "edit_publications": false
     },
     "3": {
         "access": true,
-        "view_profile": true,
-        "view_profile_detail": false,
         "use_admin": false,
-        "manage_users": false
+        "publicate": true,
+        "comment": true,
+        "edit_comments": false,
+        "edit_publications": false
     },
     "4": {
         "access": true,
-        "view_profile": true,
-        "view_profile_detail": false,
         "use_admin": false,
-        "manage_users": false
+        "publicate": true,
+        "comment": true,
+        "edit_comments": false,
+        "edit_publications": false
     },
     "5": {
         "access": true,
-        "view_profile": true,
-        "view_profile_detail": false,
-        "use_admin": false,
-        "manage_users": false
-    },
-    "6": {
-        "access": true,
-        "view_profile": true,
-        "view_profile_detail": true,
         "use_admin": true,
-        "manage_users": true
+        "publicate": true,
+        "comment": true,
+        "edit_comments": false,
+        "edit_publications": false
     }
 }

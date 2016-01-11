@@ -242,6 +242,7 @@ class Control extends NCControl
 
     public function group_create(Request $request, $matches)
     {
+        \GroupPermission::updatePermissionsList();
         $perms = \GroupPermission::defaultMap();
 
         if ( $request->isMethod('post') ) {
@@ -317,6 +318,7 @@ class Control extends NCControl
             }
 
             if ( $group->save() && $perms->save() ) {
+                \GroupPermission::updatePermissionsList();
                 return static::json_response([
                     'status'    => $this->lang->translate('form.saved'),
                     'class'     => 'success'
@@ -367,6 +369,8 @@ class Control extends NCControl
     {
         $filter = [];
         $title = $this->lang->translate('user.list');
+
+        // Filtering by user
         if ( $request->get('group') ) {
             $filter['conditions'] = ['group_id = ?', intval($request->get('group'))];
             $group = \Group::find($request->get('group'));
@@ -375,6 +379,7 @@ class Control extends NCControl
             }
         }
 
+        // Ordering table
         if ( $request->order ) {
             $filter['order'] = $request->order;
         }

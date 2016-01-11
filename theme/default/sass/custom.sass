@@ -2,10 +2,16 @@
 @import url(https://fonts.googleapis.com/css?family=Jura:400,300,500,600&subset=latin,cyrillic-ext,cyrillic,latin-ext,greek)
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css)
 
+// Theme resources
 @import "settings"
 @import "fonts"
-@import "header"
+@import "util"
 
+// Layout
+@import "header"
+@import "lside"
+
+// Basic styles
 *
   -webkit-box-sizing: border-box
   -moz-box-sizing: border-box
@@ -16,14 +22,36 @@
 
 html,
 body
+  height: 100%
+  min-height: 100%
   margin: 0
   padding: 0
   background: $bg_color
-  +font-open-sans(14px, $font_color, 500)
+  +font-open-sans(14px, $font_color, 600)
+  +transition(all, .3s)
+
+  &.open
+    overflow-y: hidden
+    background: #333333
+
+    #search-box
+      display: none
+
+    #navigation .wrap
+      background: rgba(51, 51, 51, 0.31)
+
+    #close-header
+      display: block !important
+
+    #lside,
+    #container,
+    #title
+      opacity: 0
 
 a
   text-decoration: none
   color: $link_color
+  +font-open-sans(inherit, $font_color, 600)
 
   &:hover
     color: lighten($link_color, 30)
@@ -33,16 +61,42 @@ a
     text-decoration: inherit
 
 h1, h2, h3, h4, h5, h6
-  +font-open-sans(auto, $font_color, 100)
+  +font-open-sans(auto, $font_color, 600)
+
+h1#title
+  +font-jura(24px, $font_color, 500)
+  display: block
+  margin: 20px 50px
+  padding: 0 0 0 0
+
+  .login
+    display: inline-block
+    width: 300px
+    cursor: pointer
+
+  i.fa
+    font-size: 20px
+    color: dodgerblue
+
+a
+  color: #214282
+  &:hover
+    color: lighten(#214282, 20)
+
+#lside
+  width: 300px
+  float: left
+  margin: 0 0 50px 15px
+  opacity: 1
+  +transition(all, .3s)
 
 #container
+  float: left
   width: 900px
   min-height: 500px
-  margin: 50px auto
+  margin: 0 0 50px 15px
   padding: 10px
   background: white
-  border: 1px solid #cacaca
-  -webkit-box-shadow: 0 2px 1px 2px #666
-  -moz-box-shadow: 0 2px 0 1px 2px #666
-  box-shadow: 0 2px 0 1px 2px #666
-  border-radius: 2px
+  opacity: 1
+  +transition(all, .3s)
+  +shadow(#cecece, 0, 3px, 2px, -1px)

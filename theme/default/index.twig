@@ -1,34 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{{ title }}{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ 'font-awesome.min.css'|cdn('fontawesome') }}" type="text/css">
     <link rel="stylesheet" href="{{ 'custom.css'|local('css') }}" type="text/css">
     <script type="text/javascript" src="{{ 'jquery.min.js'|cdn('jquery') }}"></script>
 </head>
 <body>
     <section id="navigation">
-        <div id="logo">NanoLab</div>
-        <ul>
-            <li>
-                <a href="/">Home</a>
-            </li>
-            <li>
-                <a href="/">About</a>
-            </li>
-            <li>
-                <a href="https://github.com/Max201/nanocore">Github</a>
-            </li>
-        </ul>
+        <div class="wrap">
+            <div id="logo">
+                <img src="{{ 'nanolab.png'|local('img') }}" alt="NanoLab Logo">
+                <strong>Nano Lab</strong>
+            </div>
 
-        <div class="cb"></div>
+            <div id="search-box">
+                <form method="post">
+                    <label for="story"><i class="fa fa-chevron-right"></i></label>
+                    <input type="text" id="story" name="story" value="" placeholder="">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+
+            <span id="close-header" onclick="$('#navigation, html, body').toggleClass('open')">
+                <i class="fa fa-close"></i>
+            </span>
+
+            <div class="cb"></div>
+        </div>
+
+        <div class="user-profile">
+            <div class="auth-form">
+                <header>Мой кабинет</header>
+                <input type="text" value="" id="uid" placeholder="Имя пользователя" oninput="$(this).parent().find('button').html('Войти как <i>' + $(this).val() + '</i>')">
+                <input type="password" value="" id="ukey" placeholder="Пароль">
+                <button>Войти как ...</button>
+            </div>
+        </div>
     </section>
 
-    <section id="container">
-        <h1>{% block header %}{{ title }}{% endblock %}</h1>
-        {% block body %}{% endblock %}
-    </section>
+    <h1 id="title">
+        <span class="login" onclick="$('#navigation, html, body').toggleClass('open')">
+            <i class="fa fa-user"></i> {% if user.id %}{{ user.username }}{% else %}Гость{% endif %}
+        </span>
+        <i class="fa fa-chevron-right"></i>
+        {% block header %}{% if header %}{{ header }}{% else %}{{ title }}{% endif %}{% endblock %}
+    </h1>
+
+    <div class="wrapper">
+        <section id="lside">
+            <div class="side-block">
+                <header>
+                    <i class="fa fa-cubes"></i> Лаборатория
+                </header>
+                <div class="side-block-body">
+                    <ul>
+                        <li>
+                            <a href="#">Новости</a>
+                        </li>
+                        <li>
+                            <a href="#">Эксперименты</a>
+                        </li>
+                        <li>
+                            <a href="#">WEB-Разработка</a>
+                        </li>
+                        <li>
+                            <a href="#">IT-Форум</a>
+                        </li>
+                        <li>
+                            <a href="#">Сниппеты</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="container">
+            {% block body %}{% endblock %}
+        </section>
+    </div>
 </body>
 </html>

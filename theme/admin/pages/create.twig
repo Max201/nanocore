@@ -6,15 +6,14 @@
         {
             var data = {
                 'content': content.content(),
-                'title': $('#title').content(),
+                'title': $('#title').val(),
+                'template': $('#template').val(),
                 'slug': $('#slug').val()
             };
 
             $.post('{{ 'page.new'|url }}?id={{ page.id }}', data, function(r){
                 $('.message').text(r.message).slideDown();
-                setTimeout(function(){
-                    document.location = '{{ 'list'|url }}';
-                }, 2000)
+                gui.go('{{ 'list'|url }}', 2);
             });
         }
 
@@ -36,9 +35,9 @@
 {% endblock %}
 {% block body %}
     <menu>
-        <a class="item" href="#" onclick="submit();">
-            <i class="fa fa-save"></i>
-            {{ 'button.save'|lang }}
+        <a class="item" href="{{ 'list'|url }}">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'button.cancel'|lang }}
         </a>
         {% if page.id %}
             <a class="item" href="{{ 'list'|url }}?delete={{ page.id }}">
@@ -52,9 +51,9 @@
         {% endif %}
 
         <nav class="right">
-            <a class="item" href="{{ 'list'|url }}">
-                <i class="fa fa-arrow-right"></i>
-                {{ 'button.cancel'|lang }}
+            <a class="item" href="#" onclick="submit();">
+                <i class="fa fa-save"></i>
+                {{ 'button.save'|lang }}
             </a>
         </nav>
     </menu>
@@ -62,14 +61,21 @@
     <div class="message success" style="display: none;"></div>
 
     <div class="form">
-        <label for="title">
-            <input placeholder="{{ 'page.title'|lang }}" title="{{ 'page.title'|lang }}" class="wide" type="text" value="{{ page.title }}" id="title"/>
+        <label for="title" class="x50">
+            <input data-url-for="#slug" placeholder="{{ 'page.title'|lang }}" title="{{ 'page.title'|lang }}" class="wide x50" type="text" value="{{ page.title }}" id="title"/>
+        </label>
+        <label for="template" class="x50 cselect">
+            <select name="template" id="template" data-width="473">
+                {% for tpl in templates %}
+                    <option value="{{ tpl }}"{% if tpl == page.template %} selected{% endif %}>{{ tpl }}</option>
+                {% endfor %}
+            </select>
         </label>
     </div>
 
     <div class="form">
         <label for="slug">
-            <input title="{{ 'page.slug'|lang }}" class="wide" type="text" value="{{ page.slug }}" id="slug"/>
+            <input placeholder="{{ 'page.slug'|lang }}" title="{{ 'page.slug'|lang }}" class="wide" type="text" value="{{ page.slug }}" id="slug"/>
         </label>
     </div>
 

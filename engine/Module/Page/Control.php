@@ -69,7 +69,8 @@ class Control extends NCControl
         } else {
             $page = [
                 'title'     => $this->lang->translate('page.name'),
-                'content'   => ''
+                'content'   => '',
+                'template'  => 'default.twig'
             ];
         }
 
@@ -79,11 +80,13 @@ class Control extends NCControl
                 $page->title = $request->get('title');
                 $page->content = $request->get('content');
                 $page->slug = $request->get('slug');
+                $page->template = $request->get('template');
             } else {
                 $page = new \Page([
                     'title'     => $request->get('title'),
                     'content'   => $request->get('content'),
                     'slug'      => $request->get('slug'),
+                    'template'  => $request->get('template'),
                     'author_id' => $this->user->id
                 ]);
             }
@@ -102,6 +105,7 @@ class Control extends NCControl
         return $this->view->render('pages/create.twig', [
             'page'          => $page,
             'title'         => $this->lang->translate('page.create'),
+            'templates'     => $this->view->list_files('pages', '@current')
         ]);
     }
 } 

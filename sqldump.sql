@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: nano
 -- ------------------------------------------------------
--- Server version	5.6.27-0ubuntu0.14.04.1
+-- Server version	5.6.27-0ubuntu1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `group_permissions` (
   UNIQUE KEY `permission_2` (`permission`),
   KEY `permission` (`permission`),
   KEY `permission_3` (`permission`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `group_permissions` (
 
 LOCK TABLES `group_permissions` WRITE;
 /*!40000 ALTER TABLE `group_permissions` DISABLE KEYS */;
-INSERT INTO `group_permissions` VALUES (6,'access',1),(7,'view_profile',1),(8,'view_profile_detail',0),(9,'use_admin',0);
+INSERT INTO `group_permissions` VALUES (1,'access',1),(2,'use_admin',0),(3,'publicate',1),(4,'comment',1),(5,'edit_comments',0),(6,'edit_publications',0);
 /*!40000 ALTER TABLE `group_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,7 @@ CREATE TABLE `groups` (
   `icon` varchar(256) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'Пользователь',''),(2,'Постоянный',''),(3,'Наблюдатель',''),(4,'Модератор',''),(5,'Администратор',''),(6,'Директор','');
+INSERT INTO `groups` VALUES (1,'Пользователь',''),(2,'Постоянный',''),(3,'Модератор',''),(4,'Администратор',''),(5,'Директор','');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,12 +81,13 @@ CREATE TABLE `pages` (
   `title` varchar(255) NOT NULL DEFAULT 'Untitled',
   `content` longtext NOT NULL,
   `slug` varchar(255) NOT NULL DEFAULT 'untitled',
+  `template` varchar(255) NOT NULL DEFAULT 'default',
   `author_id` int(10) unsigned NOT NULL,
   `created_at` int(10) unsigned NOT NULL,
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `author_id` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,8 +96,31 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (5,'\n        Главная страница','<h3>Hello world!</h3>','index',1,1451919323,1451919323);
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_category`
+--
+
+DROP TABLE IF EXISTS `post_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `post_category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_category`
+--
+
+LOCK TABLES `post_category` WRITE;
+/*!40000 ALTER TABLE `post_category` DISABLE KEYS */;
+INSERT INTO `post_category` VALUES (1,'Новости');
+/*!40000 ALTER TABLE `post_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -110,12 +134,15 @@ CREATE TABLE `posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `content` longtext NOT NULL,
+  `slug` varchar(255) NOT NULL DEFAULT 'undefined',
+  `category_id` int(10) unsigned NOT NULL,
   `author_id` int(10) unsigned NOT NULL,
   `views` int(10) unsigned NOT NULL,
   `created_at` int(10) unsigned NOT NULL,
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `author_id` (`author_id`),
+  KEY `category` (`category_id`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -167,7 +194,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'maxik','cods.max@gmail.com',NULL,'d3c1325aa77068598171580a98058929','36c1f684cc8d96843dc8dba0291ab79f',6,NULL,NULL,NULL,1452262908,0),(2,'Eugen','eugen@mail.com',NULL,'ed2f502db504443c85a552374301d90e','36c1f684cc8d96843dc8dba0291ab79f',1,1,1452158736,'Reason unknown',1452000984,0),(3,'Maxik2','123123@123.com',NULL,'d3ef12f36d95e0c0598b68839a9bc3bd','da392947fb16ee2b19c4865851d30528',1,NULL,NULL,NULL,0,1452075779);
+INSERT INTO `users` VALUES (1,'maxik','cods.max@gmail.com',NULL,'ba55a4ede6a4c5362d427307992419a3','36c1f684cc8d96843dc8dba0291ab79f',5,NULL,NULL,NULL,1452351323,0),(2,'Eugen','eugen@mail.com',NULL,'ed2f502db504443c85a552374301d90e','36c1f684cc8d96843dc8dba0291ab79f',1,1,1452158736,'Reason unknown',1452000984,0),(3,'Maxik2','123123@123.com',NULL,'d3ef12f36d95e0c0598b68839a9bc3bd','da392947fb16ee2b19c4865851d30528',1,NULL,NULL,NULL,0,1452075779);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -180,4 +207,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-08 16:38:42
+-- Dump completed on 2016-01-11  5:01:41

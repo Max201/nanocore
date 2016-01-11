@@ -1,0 +1,87 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <menu>
+        <a href="{{ 'list'|url }}" class="item">
+            {{ 'post.list'|lang }}
+        </a>
+        <a href="{{ 'list.categories'|url }}" class="item active">
+            {{ 'post.categories'|lang }}
+        </a>
+        <a href="{{ 'post.category_new'|url }}" class="item">
+            <i class="fa fa-plus"></i>
+            {{ 'post.category_new'|lang }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td>{{ 'post.title'|lang }}</td>
+                <td>{{ 'button.delete'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% if not category_list %}
+            <tr>
+                <td colspan="4" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+        {% for cat in category_list %}
+            <tr>
+                <td onclick="gui.go('{{ 'post.edit'|url(cat.id) }}')" class="primary">#{{ cat.id }}</td>
+                <td>{{ cat.title }}</td>
+                <td>{{ cat.posts }}</td>
+                <td onclick="gui.go('?delete={{ post.id }}')">
+                    <span class="button">
+                        <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
+                    </span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td>{{ 'post.title'|lang }}</td>
+                <td>{{ 'button.delete'|lang }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <menu>
+        <a href="{{ 'list'|url }}" class="item">
+            {{ 'post.list'|lang }}
+        </a>
+        <a href="{{ 'list.categories'|url }}" class="item active">
+            {{ 'post.categories'|lang }}
+        </a>
+        <a href="{{ 'post.category_new'|url }}" class="item">
+            <i class="fa fa-plus"></i>
+            {{ 'post.category_new'|lang }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+{% endblock %}

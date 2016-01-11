@@ -5,14 +5,14 @@
 
 {% block body %}
     <menu>
-        <a href="javascript:void(0);" onclick="createUser('.create')" class="item">
-            <i class="fa fa-save"></i> {{ 'button.save'|lang }}
+        <a href="{{ 'users'|url }}" class="item">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'button.cancel'|lang }}
         </a>
 
         <nav class="right">
-            <a href="{{ 'users'|url }}" class="item">
-                <i class="fa fa-arrow-left"></i>
-                {{ 'button.cancel'|lang }}
+            <a href="javascript:void(0);" onclick="createUser('.create')" class="item">
+                <i class="fa fa-save"></i> {{ 'button.save'|lang }}
             </a>
         </nav>
     </menu>

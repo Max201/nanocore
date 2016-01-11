@@ -21,7 +21,8 @@ class Post extends Model
      * @var array
      */
     static $belongs_to = array(
-        ['author', 'class_name' => 'User', 'foreign_key' => 'author_id']
+        ['author', 'class_name' => 'User', 'foreign_key' => 'author_id'],
+        ['category', 'class_name' => 'PostCategory', 'foreign_key' => 'category_id'],
     );
 
     /**
@@ -45,6 +46,9 @@ class Post extends Model
      */
     public function asArrayFull()
     {
-        return array_merge(['author' => $this->author->to_array()], $this->to_array());
+        return array_merge([
+            'author'    => $this->author->to_array(),
+            'category'  => $this->category->to_array()
+        ], $this->to_array());
     }
 }
