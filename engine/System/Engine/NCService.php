@@ -22,23 +22,6 @@ class NCService
     const CONFIG = null;
 
     /**
-     * @var self
-     */
-    public static $instance = null;
-
-    /**
-     * @return self
-     */
-    public static function instance()
-    {
-        if ( is_null(static::$instance) ) {
-            static::$instance = new static();
-        }
-
-        return static::$instance;
-    }
-
-    /**
      * @param string $service_name
      * @param array $args
      * @return NCService
@@ -75,7 +58,7 @@ class NCService
 
         $result = [];
         $file = file_get_contents($path);
-        if ( $file ) {
+        if ( $file && strlen($file) > 2 ) {
             $result = json_decode($file, true);
         }
 

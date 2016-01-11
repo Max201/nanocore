@@ -38,6 +38,18 @@ class Permissions extends NCService
     }
 
     /**
+     * @return Permissions
+     */
+    static function instance()
+    {
+        if ( !static::$instance ) {
+            static::$instance = new Permissions();
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * @return bool
      */
     public function save()

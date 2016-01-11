@@ -59,6 +59,18 @@ class Translate extends NCService
     }
 
     /**
+     * @return Translate
+     */
+    static function instance()
+    {
+        if ( !static::$instance ) {
+            static::$instance = new Translate();
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * @param string $string
      * @return string
      */

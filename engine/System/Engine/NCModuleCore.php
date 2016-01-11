@@ -7,6 +7,7 @@
 namespace System\Engine;
 
 
+use Service\Application\Translate;
 use Service\Render\Theme;
 
 
@@ -36,7 +37,7 @@ class NCModuleCore
 
     /**
      * @param $pack
-     * @return NCService
+     * @return Translate
      */
     static function load_lang($pack = null)
     {

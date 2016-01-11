@@ -7,8 +7,10 @@
 namespace Module\Admin;
 
 
+use Module\Admin\SMP\Driver;
 use Service\Application\Translate;
 use Service\Render\Theme;
+use Service\SocialMedia\SocialMedia;
 use Symfony\Component\HttpFoundation\Request;
 use Service\Application\Settings;
 use System\Engine\NCControl;
@@ -16,6 +18,7 @@ use System\Engine\NCModule;
 use System\Engine\NCService;
 use System\Environment\Env;
 use Service\User\Auth;
+use System\Environment\Options;
 use System\Util\Calendar;
 use System\Util\FileUploader;
 
@@ -36,6 +39,8 @@ class Module extends NCControl
         $this->map->addRoute('settings', [$this, 'settings'], 'settings');
         $this->map->addRoute('services', [$this, 'services'], 'services');
         $this->map->addRoute('modules', [$this, 'modules'], 'modules');
+        $this->map->addRoute('social-posting', [$this, 'smp'], 'smp');
+        $this->map->addPattern('social-posting/<drv:\w+?>', [$this, 'smp'], 'smpp');
 
         $this->map->addRoute('files', [$this, 'fmanager'], 'filemanager');
     }
@@ -66,6 +71,51 @@ class Module extends NCControl
         }
 
         return parent::access();
+    }
+
+    public function smp(Request $request, Options $matches = null)
+    {
+        /** @var SocialMedia $smp */
+        $smp = NCService::load('SocialMedia');
+
+        // Selected network
+        $soc = $smp->network($request->get('soc') ? $request->get('soc') : $matches->get('drv'));
+        if ( $soc || ($matches && $matches->get('drv')) ) {
+            $message = '';
+            $manager = $smp->get_manager($soc['id']);
+            $authorize_redirect = $this->map->reverse('smpp', [$soc['id']]);
+
+            // If saving settings
+            if ( $request->isMethod('post') ) {
+                if ( $request->isMethod('post') && $manager->setup($_POST) ) {
+                    $soc = $smp->network($request->get('soc'));
+                    $message = $this->lang->translate('form.saved');
+                } else {
+                    $message = $this->lang->translate('form.failed');
+                }
+            }
+
+            // Getting token
+            if ( $matches && $matches->get('drv') ) {
+                if ( Driver::process($soc['id'], [$authorize_redirect]) ) {
+                    $message = $this->lang->translate('form.authorized');
+                } else {
+                    $message = $this->lang->translate('form.failed');
+                }
+            }
+
+            return $this->view->render('com/smp/' . $soc['id'] . '.twig', [
+                'title'     => $this->lang->translate('admin.smp.setup', $soc['name']),
+                'network'   => $soc,
+                'message'   => $message,
+                'auth_url'  => $manager->configured() ? $manager->authorize_url($authorize_redirect) : false
+            ]);
+        }
+
+        return $this->view->render('dashboard/smp.twig', [
+            'title'     => $this->lang->translate('admin.smp.title'),
+            'socials'   => $smp->social_list()
+        ]);
     }
 
     public function modules(Request $request)

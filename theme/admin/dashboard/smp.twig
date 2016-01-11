@@ -1,0 +1,17 @@
+{% extends 'base.twig' %}
+{% block body %}
+    <div>
+        <div class="message">
+            {{ 'admin.smp.description'|lang|raw }}
+        </div>
+        <header>{{ 'admin.smp.supported_networks'|lang }}</header>
+        {% for soc in socials %}
+            <div class="soc-item">
+                <a href="?soc={{ soc.id }}">
+                    <i class="fa fa-{{ soc.icon }}"></i>
+                    {{ soc.name }}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

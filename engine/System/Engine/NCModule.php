@@ -51,6 +51,7 @@ class NCModule
     public function __construct($url, $theme = 'default', $namespace = '')
     {
         // Authentication
+        /** @var Auth auth */
         $this->auth = NCService::load('User.Auth');
         $this->user = $this->auth->identify(Env::$request->cookies->get('sess'));
 

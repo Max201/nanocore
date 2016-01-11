@@ -40,4 +40,16 @@ class Settings extends NCService
     {
         return $this->update_config('application', $this->conf->getArrayCopy());
     }
+
+    /**
+     * @return Settings
+     */
+    static function instance()
+    {
+        if ( !static::$instance ) {
+            static::$instance = new Settings();
+        }
+
+        return static::$instance;
+    }
 } 

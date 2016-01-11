@@ -1,0 +1,40 @@
+{% extends 'base.twig' %}
+{% block body %}
+    <div>
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+        <form action="" method="post" class="form">
+            <label for="app_id">
+                <span class="title">{{ 'admin.smp.app_id'|lang }}</span>
+                <input type="text" name="id" id="id" value="{{ network.data.id }}" placeholder="APP ID" />
+            </label>
+            <label for="api_secret">
+                <span class="title">{{ 'admin.smp.api_secret'|lang }}</span>
+                <input type="password" name="secret" id="secret" value="{{ network.data.secret }}" placeholder="API Secret" />
+            </label>
+
+            <footer>
+                <button type="submit" class="button">{{ 'button.save'|lang }}</button>
+            </footer>
+        </form>
+
+        {% if auth_url %}
+        <header>{{ 'admin.smp.connect'|lang }}</header>
+
+        <div class="form">
+            <label for="token">
+                <span class="title">{{ 'admin.smp.token'|lang }}</span>
+                <input type="password" disabled value="{{ network.data.token }}"/>
+            </label>
+            <label for="expires">
+                <span class="title">{{ 'admin.smp.expires'|lang }}</span>
+                <input type="text" disabled value="{% if network.data.expires == 0 %}---{% else %}{{ network.data.expires|tz|dlang }}{% endif %}"/>
+            </label>
+            <footer>
+                <a class="button" href="{{ auth_url }}">{{ 'button.authorize'|lang }}</a>
+            </footer>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

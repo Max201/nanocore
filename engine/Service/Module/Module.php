@@ -16,6 +16,20 @@ use System\Engine\NCService;
  */
 class Module extends NCService
 {
+    static $instance;
+
+    /**
+     * @return Module
+     */
+    static function instance()
+    {
+        if ( !static::$instance ) {
+            static::$instance = new Module();
+        }
+
+        return static::$instance;
+    }
+
     /**
      * @param $zip_file
      * @return array|string

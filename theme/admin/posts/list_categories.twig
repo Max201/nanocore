@@ -45,7 +45,7 @@
         {% endif %}
         {% for cat in category_list %}
             <tr>
-                <td onclick="gui.go('{{ 'post.edit'|url(cat.id) }}')" class="primary">#{{ cat.id }}</td>
+                <td onclick="gui.go('{{ 'post.category_edit'|url(cat.id) }}')" class="primary">#{{ cat.id }}</td>
                 <td>{{ cat.title }}</td>
                 <td>{{ cat.posts }}</td>
                 <td onclick="gui.go('?delete={{ post.id }}')">

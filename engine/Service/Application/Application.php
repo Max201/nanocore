@@ -130,7 +130,7 @@ class Application extends NCService
     public static function instance($base_uri = null)
     {
         if ( !static::$instance ) {
-            static::$instance = new static($base_uri);
+            static::$instance = new Application($base_uri);
         }
 
         return static::$instance;

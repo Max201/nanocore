@@ -30,6 +30,18 @@ class Auth extends NCService
     static $instance;
 
     /**
+     * @return User
+     */
+    static function instance()
+    {
+        if ( !static::$instance ) {
+            static::$instance = new Auth();
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * @param string $session
      * @return User
      */

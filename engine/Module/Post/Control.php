@@ -7,10 +7,13 @@
 namespace Module\Post;
 
 
+use Service\SocialMedia\SocialMedia;
 use Symfony\Component\HttpFoundation\Request;
 use Service\Paginator\Listing;
 use System\Engine\NCControl;
 use System\Engine\NCService;
+use System\Environment\Env;
+use System\Environment\Options;
 
 
 class Control extends NCControl
@@ -27,7 +30,68 @@ class Control extends NCControl
         $this->map->addRoute('categories', [$this, 'posts_categories'], 'list.categories');
         $this->map->addRoute('categories/create', [$this, 'posts_categories'], 'post.category_new');
         $this->map->addRoute('create', [$this, 'edit_post'], 'post.new');
+
+        $this->map->addPattern('categories/edit/<id:\d+?>', [$this, 'edit_post_category'], 'post.category_edit');
         $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_post'], 'post.edit');
+    }
+
+    public function edit_post_category(Request $request, Options $matches = null)
+    {
+        // Looking for category
+        $category = null;
+        if ( $matches && $matches->get('id') ) {
+            $category = \PostCategory::find($matches->get('id'));
+        }
+
+        if ( !$category ) {
+            $category = [
+                'title'     => $this->lang->translate('post.name')
+            ];
+        }
+
+        // Loading possible social postings
+        /** @var SocialMedia $smp */
+        $smp = NCService::load('SocialMedia');
+        $available_postings = [];
+        foreach ( $smp->social_list() as $sn ) {
+            $manager = $smp->get_manager($sn['id']);
+            if ( $manager->configured() && $manager->active() ) {
+                $available_postings[] = $sn;
+            }
+        }
+
+        // Create or update page
+        if ( $request->isMethod('post') ) {
+            if ( $category instanceof \PostCategory ) {
+                $category->title = $request->get('title');
+                $category->post_vkontakte = $request->get('post_vkontakte');
+                $category->post_twitter = $request->get('post_twitter');
+                $category->post_facebook = $request->get('post_facebook');
+            } else {
+                $post = new \Post([
+                    'title'             => $request->get('title'),
+                    'post_vkontakte'    => $request->get('post_vkontakte'),
+                    'post_twitter'      => $request->get('post_twitter'),
+                    'post_facebook'     => $request->get('post_facebook')
+                ]);
+            }
+
+            // Updating instance
+            $category->save();
+            $category = $category->to_array();
+
+
+            return static::json_response([
+                'success'   => true,
+                'message'   => $this->lang->translate('form.saved')
+            ]);
+        }
+
+        return $this->view->render('posts/create.twig', [
+            'post'          => $post,
+            'title'         => $this->lang->translate('post.create'),
+            'categories'    => array_map(function($i){ return $i->to_array(); }, \PostCategory::all())
+        ]);
     }
 
     public function posts_categories(Request $request)

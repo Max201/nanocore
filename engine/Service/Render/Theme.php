@@ -165,7 +165,7 @@ class Theme extends NCService
     public static function instance($name = null)
     {
         if ( !static::$instance ) {
-            static::$instance = new static($name);
+            static::$instance = new Theme($name);
         }
 
         return static::$instance;
