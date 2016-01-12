@@ -1,0 +1,92 @@
+{% extends 'base.twig' %}
+{% block head %}
+    <script type="text/javascript" src="{{ 'editor.js'|local('js') }}"></script>
+    <script type="text/javascript">
+        function submit()
+        {
+            var data = {
+                'title': $('#title').val(),
+                'parent_id': $('#parent').val()
+            };
+
+            $('[name^="post_"]').each(function(i,e){
+                data[$(e).attr('name')] = $(e).val();
+            });
+
+            $.post('{{ 'post.category_new'|url }}?id={{ category.id }}', data, function(r){
+                $('.message').text(r.message).slideDown();
+                gui.go('{{ 'list.categories'|url }}', 2);
+            });
+        }
+
+        function remove_page()
+        {
+            var data = {
+                'remove': '{{ category.id }}'
+            };
+
+            $.post('{{ 'post.edit'|url }}', data, function(r){
+                console.log(r);
+            });
+        }
+    </script>
+{% endblock %}
+{% block body %}
+    <menu>
+        <a class="item" href="{{ 'list.categories'|url }}">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'button.cancel'|lang }}
+        </a>
+        {% if category.id %}
+            <a class="item" href="{{ 'list.categories'|url }}?delete={{ category.id }}">
+                <i class="fa fa-trash"></i>
+                {{ 'button.delete'|lang }}
+            </a>
+        {% endif %}
+
+        <nav class="right">
+            <a class="item" href="#" onclick="submit();">
+                <i class="fa fa-save"></i>
+                {{ 'button.save'|lang }}
+            </a>
+        </nav>
+    </menu>
+
+    <div class="message success" style="display: none;"></div>
+
+    <div class="form">
+        <label for="title">
+            <span class="title wide">{{ 'post.category'|lang }}</span>
+            <input placeholder="{{ 'post.category'|lang }}" title="{{ 'post.category'|lang }}" class="wide" type="text" value="{{ category.title }}" id="title"/>
+        </label>
+        <label for="parent" class="cselect">
+            <span class="title wide">{{ 'post.parent_category'|lang }}</span>
+            <select name="parent_id" id="parent" data-width="965">
+                <option value=""{% if "" == category.parent_id %} selected{% endif %}>{{ 'post.parent'|lang }}</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}"{% if cat.id == category.parent_id %} selected{% endif %}>{{ cat.title }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+
+    {% if not posting %}
+        <div class="message">{{ 'post.setup_social_network_integration'|lang }}</div>
+    {% else %}
+        <header>{{ 'post.smp'|lang }}</header>
+
+        {% if posting.vk %}
+            <div class="form">
+                <label for="smp_vk" class="cselect">
+                    <span class="title"><i class="fa fa-vk"></i> VKontakte</span>
+                    <select name="post_vkontakte" id="smp_vk">
+                        <option value=""{% if "" == category.post_vkontakte %} selected{% endif %}>{{ 'post.not_smp'|lang }}</option>
+                        {% for cat in posting.vk %}
+                            <option value="{{ cat.id }}"{% if cat.id == category.post_vkontakte %} selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

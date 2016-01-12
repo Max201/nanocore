@@ -76,6 +76,16 @@ var gui = {
         }
 
         return randomstring;
+    },
+    'popup': function(url, options) {
+        var $opt = $.extend({
+            'name': "Untitled",
+            'width': 600,
+            'height': 300
+        }, options || {});
+
+        _wnd = window.open(url, $opt.name, 'height=' + $opt.height + ',width=' + $opt.width);
+        return _wnd;
     }
 };
 

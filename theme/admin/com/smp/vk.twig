@@ -1,4 +1,7 @@
 {% extends 'base.twig' %}
+{% block head %}
+    <script src="{{ 'smp.js'|local('js') }}" type="text/javascript"></script>
+{% endblock %}
 {% block body %}
     <div>
         {% if message %}
@@ -23,16 +26,16 @@
         <header>{{ 'admin.smp.connect'|lang }}</header>
 
         <div class="form">
-            <label for="token">
-                <span class="title">{{ 'admin.smp.token'|lang }}</span>
-                <input type="password" disabled value="{{ network.data.token }}"/>
+            <label for="code">
+                <span class="title">{{ 'admin.smp.vkcode'|lang }}</span>
+                <input type="text" value="" onchange="document.location.href = '{{ 'smpp'|url('vk') }}?code=' + $(this).val();"/>
             </label>
             <label for="expires">
                 <span class="title">{{ 'admin.smp.expires'|lang }}</span>
                 <input type="text" disabled value="{% if network.data.expires == 0 %}---{% else %}{{ network.data.expires|tz|dlang }}{% endif %}"/>
             </label>
             <footer>
-                <a class="button" href="{{ auth_url }}">{{ 'button.authorize'|lang }}</a>
+                <a class="button" href="javascript: void(0);" onclick="(new Smp()).vkcode('{{ auth_url }}');$(this).attr('onclick', '').addClass('disabled');">{{ 'button.authorize'|lang }}</a>
             </footer>
         </div>
         {% endif %}

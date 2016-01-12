@@ -32,6 +32,7 @@
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
                 <td>{{ 'post.title'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('parent_id')})">{{ 'post.parent'|lang }} <i class="fa {{ 'parent_id'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </thead>
@@ -45,9 +46,10 @@
         {% endif %}
         {% for cat in category_list %}
             <tr>
-                <td onclick="gui.go('{{ 'post.category_edit'|url(cat.id) }}')" class="primary">#{{ cat.id }}</td>
+                <td onclick="gui.go('{{ 'post.category_new'|url() }}?id={{ cat.id }}')" class="primary">#{{ cat.id }}</td>
                 <td>{{ cat.title }}</td>
-                <td>{{ cat.posts }}</td>
+                <td onclick="gui.go('{{ 'list'|url }}?category={{ cat.id }}')">{{ cat.posts }}</td>
+                <td onclick="gui.uri({'category': '{{ cat.parent_id }}'})">{{ cat.parent.title }}</td>
                 <td onclick="gui.go('?delete={{ post.id }}')">
                     <span class="button">
                         <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
@@ -61,6 +63,7 @@
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
                 <td>{{ 'post.title'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('parent_id')})">{{ 'post.parent'|lang }} <i class="fa {{ 'parent_id'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </tfoot>

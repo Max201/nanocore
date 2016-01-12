@@ -83,7 +83,7 @@ class Module extends NCControl
         if ( $soc || ($matches && $matches->get('drv')) ) {
             $message = '';
             $manager = $smp->get_manager($soc['id']);
-            $authorize_redirect = $this->map->reverse('smpp', [$soc['id']]);
+            $authorize_redirect = 'http://api.vk.com/blank.html';
 
             // If saving settings
             if ( $request->isMethod('post') ) {

@@ -8,7 +8,6 @@ namespace Service\SocialMedia;
 
 
 use System\Engine\NCService;
-use System\Environment\Env;
 use System\Environment\Options;
 
 
@@ -28,7 +27,7 @@ class Vkontakte extends NCService
     /**
      * VK API Version
      */
-    const API_V = '5.42';
+    const API_V = '5.44';
 
     /**
      * @var Vkontakte
@@ -162,13 +161,25 @@ class Vkontakte extends NCService
     /**
      * @param $method
      * @param array $params
+     * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    public function request($method, $params = [])
+    public function request($method, $params = [], $key = null, $default = null)
     {
         $params['access_token'] = $this->conf->get('token');
-        $request_url = 'https://api.vk.com/method/' . $method . '?' . static::build_request($params);
-        return json_decode(file_get_contents($request_url), true);
+        $params['v'] = static::API_V;
+        $request_url = 'https://api.vk.com/method/' . $method;
+        $response = json_decode(static::GET($request_url, $params, 'http://vk.com'), true);
+        if ( is_null($key) ) {
+            return $response;
+        }
+
+        if ( is_array($response) && array_key_exists($key, $response) ) {
+            return $response[$key];
+        }
+
+        return $default;
     }
 
     /**
@@ -176,11 +187,12 @@ class Vkontakte extends NCService
      */
     public function m_groups()
     {
-        return $this->request('groups.get', [
+        $response = $this->request('groups.get', [
             'user_id'       => $this->conf->get('user_id'),
             'filter'        => 'admin',
             'extended'      => 1
-        ]);
+        ], 'response', [])['items'];
+        return $response;
     }
 
     /**
@@ -191,8 +203,9 @@ class Vkontakte extends NCService
      */
     public function m_post($wall_id, $message, $params = [])
     {
-        $params['owner_id'] = intval($wall_id);
+        $params['owner_id'] = '-' . strval($wall_id);
         $params['message'] = strip_tags($message);
-        return $this->request('wall.post', $params);
+        $params['from_group'] = '1';
+        return $this->request('wall.post', $params, 'response', ['post_id' => null])['post_id'];
     }
 } 
