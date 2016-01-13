@@ -1,10 +1,17 @@
 {% extends 'index.twig' %}
 
 {% block body %}
-    <h1>{{ category.title }}</h1>
     <div class="content">
         {% for post in posts %}
-            <h3>{{ post.title }}</h3>
+            <div style="padding: 20px;">
+                <h3><a href="{{ 'post'|url(post.id, post.slug) }}">{{ post.title }}</a></h3>
+                <hr>
+                <p style="color: #888;">
+                    <small>Author: {{ post.author.username }}</small> /
+                    <small>Published: {{ post.updated_at|tz|dlang }}</small> /
+                    <small>Category: <a href="{{ 'category'|url(post.category_id) }}">{{ post.category.title }}</a></small>
+                </p>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}

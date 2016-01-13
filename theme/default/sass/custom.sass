@@ -9,7 +9,7 @@
 
 // Layout
 @import "header"
-@import "lside"
+@import "rside"
 
 // Basic styles
 *
@@ -29,24 +29,6 @@ body
   background: $bg_color
   +font-open-sans(14px, $font_color, 600)
   +transition(all, .3s)
-
-  &.open
-    overflow-y: hidden
-    background: #333333
-
-    #search-box
-      display: none
-
-    #navigation .wrap
-      background: rgba(51, 51, 51, 0.31)
-
-    #close-header
-      display: block !important
-
-    #lside,
-    #container,
-    #title
-      opacity: 0
 
 a
   text-decoration: none
@@ -70,8 +52,9 @@ h1#title
   padding: 0 0 0 0
 
   .login
+    float: right
     display: inline-block
-    width: 300px
+    width: 235px
     cursor: pointer
 
   i.fa
@@ -83,9 +66,20 @@ a
   &:hover
     color: lighten(#214282, 20)
 
-#lside
+hr
+  display: block
+  width: auto
+  height: 0
+  border: none
+  border-bottom: 1px solid #cacaca
+
+.center
+  width: 1250px
+  margin: 0 auto
+
+#rside
   width: 300px
-  float: left
+  float: right
   margin: 0 0 50px 15px
   opacity: 1
   +transition(all, .3s)

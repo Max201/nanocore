@@ -9,7 +9,7 @@
 </head>
 <body>
     <section id="navigation">
-        <div class="wrap">
+        <div class="wrap center">
             <div id="logo">
                 <img src="{{ 'nanolab.png'|local('img') }}" alt="NanoLab Logo">
                 <strong>Nano Lab</strong>
@@ -29,56 +29,39 @@
 
             <div class="cb"></div>
         </div>
-
-        <div class="user-profile">
-            <div class="auth-form">
-                <header>Мой кабинет</header>
-                <input type="text" value="" id="uid" placeholder="Имя пользователя" oninput="$(this).parent().find('button').html('Войти как <i>' + $(this).val() + '</i>')">
-                <input type="password" value="" id="ukey" placeholder="Пароль">
-                <button>Войти как ...</button>
-            </div>
-        </div>
     </section>
 
-    <h1 id="title">
-        <span class="login" onclick="$('#navigation, html, body').toggleClass('open')">
-            <i class="fa fa-user"></i> {% if user.id %}{{ user.username }}{% else %}Гость{% endif %}
-        </span>
-        <i class="fa fa-chevron-right"></i>
-        {% block header %}{% if header %}{{ header }}{% else %}{{ title }}{% endif %}{% endblock %}
-    </h1>
+    <div class="center">
+        <h1 id="title">
+            <span class="login" onclick="$('#navigation, html, body').toggleClass('open')">
+                <i class="fa fa-user"></i> {% if user.id %}{{ user.username }}{% else %}Гость{% endif %}
+            </span>
+            <i class="fa fa-chevron-right"></i>
+            {% block header %}{% if header %}{{ header }}{% else %}{{ title }}{% endif %}{% endblock %}
+        </h1>
 
-    <div class="wrapper">
-        <section id="lside">
-            <div class="side-block">
-                <header>
-                    <i class="fa fa-cubes"></i> Лаборатория
-                </header>
-                <div class="side-block-body">
-                    <ul>
-                        <li>
-                            <a href="#">Новости</a>
-                        </li>
-                        <li>
-                            <a href="#">Эксперименты</a>
-                        </li>
-                        <li>
-                            <a href="#">WEB-Разработка</a>
-                        </li>
-                        <li>
-                            <a href="#">IT-Форум</a>
-                        </li>
-                        <li>
-                            <a href="#">Сниппеты</a>
-                        </li>
-                    </ul>
+        <div class="wrapper">
+            <section id="rside">
+                <div class="side-block">
+                    <header>
+                        <i class="fa fa-cubes"></i> Лаборатория
+                    </header>
+                    <div class="side-block-body">
+                        <ul>
+                            {% for category in post_categories %}
+                                <li>
+                                    <a href="{{ category.link }}">{{ category.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="container">
-            {% block body %}{% endblock %}
-        </section>
+            <section id="container">
+                {% block body %}{% endblock %}
+            </section>
+        </div>
     </div>
 </body>
 </html>

@@ -2,6 +2,12 @@
 
 {% block body %}
     <div class="content">
+        <p style="color: #888;">
+            <small>Author: {{ post.author.username }}</small> /
+            <small>Published: {{ post.updated_at|tz|dlang }}</small> /
+            <small>Category: <a href="{{ 'category'|url(post.category_id) }}">{{ post.category.title }}</a></small>
+        </p>
+        <hr>
         {{ post.content|raw }}
     </div>
 {% endblock %}
