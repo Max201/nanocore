@@ -5,98 +5,18 @@
   background: url(/theme/default/img/logo-bg.png) no-repeat
   +background-position(cover)
 
-  #close-header
-    padding: 10px 20px
-    color: dodgerblue
-    font-size: 28px
-    float: right
-    display: none
-    cursor: pointer
-    border-radius: 50%
-
-    &:hover
-      background: rgba(68, 68, 68, 0.3)
-
   .wrap
     display: block
     padding: 10px
     +transition(background, .3s)
 
-  &.open
-    height: 100%
-
-  .user-profile
-    width: 600px
-    margin: 35px auto 0 auto
-
-    .auth-form
-      header
-        display: block
-        text-align: center
-        +font-jura(28px, #333, bold)
-        border-bottom: 1px solid black
-
-      input
-        display: block
-        margin: 35px auto 0 auto
-        width: 500px
-        border: none
-        outline: none
-        padding: 15px 30px
-        background: rgba(255, 255, 255, .6)
-        +font-jura(20px, #333, bold)
-
-      button
-        outline: none
-        border: none
-        display: block
-        width: 500px
-        margin: 10px auto 0 auto
-        background: none
-        padding: 15px
-        text-align: center
-        cursor: pointer
-        +font-open-sans(22px, black, 600)
-        &:hover
-          border-bottom: 3px solid lightgreen
-
-  #search-box
+  .menu
     float: right
-    padding: 15px 0
-
-    label
-      margin-right: -20px
+    padding: 12px
+    a
       color: white
-
-    input
-      border: none
-      border-bottom: 3px solid dodgerblue
-      background: transparent
-      padding: 1px 0 1px 20px
-      line-height: 22px
-      outline: none
-      width: 300px
-      +font-jura(20px, #fff, 500)
-      +transition(border, .3s)
-
-      &:focus
-        border-bottom-color: lightgreen
-
-    button
       display: inline-block
-      border: none
-      padding: 5px 5px
-      background: dodgerblue
-      cursor: pointer
-      border-radius: 50%
-      width: 32px
-      height: 32px
-      +font-jura(20px, #fff, 500)
-      +transition(color, .3s)
-
-      &:hover
-        color: lightgreen
-
+      padding: 8px 10px
 
   #logo
     display: inline-block

@@ -1,6 +1,5 @@
 {% extends 'base.twig' %}
 {% block head %}
-    <script type="text/javascript" src="{{ 'editor.js'|local('js') }}"></script>
     <script type="text/javascript">
         function submit()
         {
@@ -10,7 +9,11 @@
             };
 
             $('[name^="post_"]').each(function(i,e){
-                data[$(e).attr('name')] = $(e).val();
+                if ( $(e).attr('type') == 'checkbox' ) {
+                    data[$(e).attr('name')] = $(e).is(':checked') ? $(e).attr('value') : 0;
+                } else {
+                    data[$(e).attr('name')] = $(e).val();
+                }
             });
 
             $.post('{{ 'post.category_new'|url }}?id={{ category.id }}', data, function(r){
@@ -85,6 +88,15 @@
                             <option value="{{ cat.id }}"{% if cat.id == category.post_vkontakte %} selected{% endif %}>{{ cat.name }}</option>
                         {% endfor %}
                     </select>
+                </label>
+            </div>
+        {% endif %}
+
+        {% if posting.tw %}
+            <div class="form">
+                <label for="smp_tw">
+                    <span class="title"><i class="fa fa-twitter"></i> Twitter</span>
+                    <input type="checkbox" id="smp_tw" value="1" {% if category.post_twitter %}checked="true" {% endif %}name="post_twitter"/>
                 </label>
             </div>
         {% endif %}

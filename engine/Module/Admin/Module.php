@@ -57,7 +57,8 @@ class Module extends NCControl
         }));
 
         return [
-            'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix')
+            'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix'),
+            'lang_code'     => $lang->pack
         ];
     }
 
@@ -85,7 +86,7 @@ class Module extends NCControl
         if ( $soc || ($matches && $matches->get('drv')) ) {
             $message = '';
             $manager = $smp->get_manager($soc['id']);
-            $authorize_redirect = 'http://api.vk.com/blank.html';
+            $redirect_uri = $manager::$redirect_uri ? $manager::$redirect_uri : $this->map->reverse('smpp', $soc['id']);
 
             // If saving settings
             if ( $request->isMethod('post') ) {
@@ -99,7 +100,7 @@ class Module extends NCControl
 
             // Getting token
             if ( $matches && $matches->get('drv') ) {
-                if ( Driver::process($soc['id'], [$authorize_redirect]) ) {
+                if ( Driver::process($soc['id'], [$redirect_uri]) ) {
                     $message = $this->lang->translate('form.authorized');
                 } else {
                     $message = $this->lang->translate('form.failed');
@@ -110,7 +111,7 @@ class Module extends NCControl
                 'title'     => $this->lang->translate('admin.smp.setup', $soc['name']),
                 'network'   => $soc,
                 'message'   => $message,
-                'auth_url'  => $manager->configured() ? $manager->authorize_url($authorize_redirect) : false
+                'auth_url'  => $manager->configured() ? $manager->authorize_url($redirect_uri) : false
             ]);
         }
 

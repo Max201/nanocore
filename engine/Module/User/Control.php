@@ -302,7 +302,7 @@ class Control extends NCControl
 
             // Saving permissions
             foreach ( $perms as $key => $val ) {
-                $new_val = $request->get('perm_'.$key) == 'true';
+                $new_val = intval($request->get('perm_'.$key));
                 $perms[$key] = $new_val;
             }
 

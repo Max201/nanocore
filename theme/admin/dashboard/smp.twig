@@ -1,17 +1,31 @@
 {% extends 'base.twig' %}
 {% block body %}
     <div>
-        <div class="message">
+        <div class="plain">
             {{ 'admin.smp.description'|lang|raw }}
         </div>
         <header>{{ 'admin.smp.supported_networks'|lang }}</header>
-        {% for soc in socials %}
-            <div class="soc-item">
-                <a href="?soc={{ soc.id }}">
-                    <i class="fa fa-{{ soc.icon }}"></i>
-                    {{ soc.name }}
-                </a>
-            </div>
-        {% endfor %}
+        <table>
+            <thead>
+                <tr>
+                    <td class="primary">ID</td>
+                    <td>{{ 'admin.smp.social_network'|lang }}</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for soc in socials %}
+                <tr>
+                    <td class="primary" onclick="gui.go('?soc={{ soc.id }}')"><i class="fa fa-{{ soc.icon }}"></i></td>
+                    <td onclick="gui.go('?soc={{ soc.id }}')">{{ soc.name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="primary">ID</td>
+                    <td>{{ 'admin.smp.social_network'|lang }}</td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 {% endblock %}

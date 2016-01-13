@@ -3,5 +3,10 @@
         "name": "VKontakte",
         "icon": "vk",
         "id": "vk"
+    },
+    {
+        "name": "Twitter",
+        "icon": "twitter",
+        "id": "tw"
     }
 ]

@@ -8,6 +8,7 @@ namespace Module\Admin\SMP;
 
 
 use Service\SocialMedia\SocialMedia;
+use Service\SocialMedia\Twitter;
 use Service\SocialMedia\Vkontakte;
 use System\Engine\NCService;
 use System\Environment\Env;
@@ -34,6 +35,10 @@ class Driver
         return call_user_func_array($call, $data);
     }
 
+    /**
+     * @param $redirect_uri
+     * @return bool|mixed|null
+     */
     public static function vk($redirect_uri)
     {
         /** @var SocialMedia $smp */
@@ -41,5 +46,18 @@ class Driver
         /** @var Vkontakte $manager */
         $manager = $smp->vk();
         return $manager->get_token(Env::$request->get('code'), $redirect_uri);
+    }
+
+    /**
+     * @param $redirect_uri
+     * @return bool|mixed|null
+     */
+    public static function tw($redirect_uri = null)
+    {
+        /** @var SocialMedia $smp */
+        $smp = NCService::load('SocialMedia');
+        /** @var Twitter $manager */
+        $manager = $smp->tw();
+        return $manager->setup($_GET);
     }
 } 

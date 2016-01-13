@@ -145,7 +145,7 @@ function updateGroup(groupId, form)
     var data = {};
     $(form).find('input, select, textarea').each(function(i, e){
         if ( $(e).is('[type="checkbox"]') ) {
-            data[$(e).attr('name')] = $(e).is(':not(:checked)')
+            data[$(e).attr('name')] = $(e).is(':checked') ? $(e).attr('value') : 0;
         } else {
             data[$(e).attr('name')] = $(e).val();
         }

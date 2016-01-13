@@ -96,4 +96,12 @@ class SocialMedia extends NCService
     {
         return $this->load('SocialMedia.Vkontakte');
     }
+
+    /**
+     * @return Twitter
+     */
+    public function tw()
+    {
+        return $this->load('SocialMedia.Twitter');
+    }
 } 

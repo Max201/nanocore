@@ -10,6 +10,7 @@
 // Layout
 @import "header"
 @import "rside"
+@import "entry"
 
 // Basic styles
 *
@@ -45,17 +46,13 @@ a
 h1, h2, h3, h4, h5, h6
   +font-open-sans(auto, $font_color, 600)
 
-h1#title
-  +font-jura(24px, $font_color, 500)
-  display: block
-  margin: 20px 50px
-  padding: 0 0 0 0
-
-  .login
-    float: right
-    display: inline-block
-    width: 235px
-    cursor: pointer
+#head
+  h1
+    padding: 20px 0 20px 45px
+    margin: 0 0 0 15px
+    display: block
+    width: 900px
+    +font-jura(24px, $font_color, 500)
 
   i.fa
     font-size: 20px

@@ -225,6 +225,10 @@ class Theme extends NCService
             return '';
         }
 
+        if ( array_key_exists($file_ends, $repository['files']) ) {
+            return $repository['files'][$file_ends];
+        }
+
         $len = strlen($file_ends);
         $files = $repository['files'];
         foreach ($files as $file => $path) {

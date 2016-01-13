@@ -8,6 +8,7 @@ namespace Module\Post;
 
 
 use Service\SocialMedia\SocialMedia;
+use Service\SocialMedia\Twitter;
 use Service\SocialMedia\Vkontakte;
 use Symfony\Component\HttpFoundation\Request;
 use Service\Paginator\Listing;
@@ -59,6 +60,12 @@ class Control extends NCControl
         $vk = $smp->get_manager('vk');
         if ( $vk->configured() && $vk->active() ) {
             $posting['vk'] = $vk->m_groups();
+        }
+
+        /** @var Twitter $tw */
+        $tw = $smp->get_manager('tw');
+        if ( $tw->configured() && $tw->active() ) {
+            $posting['tw'] = true;
         }
 
         // Create or update page
@@ -215,12 +222,14 @@ class Control extends NCControl
                 $post->title = $request->get('title');
                 $post->content = $request->get('content');
                 $post->category_id = $request->get('category');
+                $post->keywords = $request->get('keywords');
                 $post->slug = $request->get('slug');
             } else {
                 $post = new \Post([
                     'title'         => $request->get('title'),
                     'content'       => $request->get('content'),
                     'category_id'   => $request->get('category'),
+                    'keywords'      => $request->get('keywords'),
                     'slug'          => $request->get('slug'),
                     'author_id'     => $this->user->id
                 ]);

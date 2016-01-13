@@ -1,0 +1,35 @@
+{% extends 'base.twig' %}
+{% block head %}
+    <script src="{{ 'smp.js'|local('js') }}" type="text/javascript"></script>
+{% endblock %}
+{% block body %}
+    <div>
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+        <form action="{{ 'smpp'|url('tw') }}" method="get" class="form">
+            <label for="consumer_key">
+                <span class="title">{{ 'admin.smp.consumer_key'|lang }}</span>
+                <input type="text" name="key" id="consumer_key" value="{{ network.data.key }}" placeholder="Consumer Key" />
+            </label>
+            <label for="consumer_secret">
+                <span class="title">{{ 'admin.smp.consumer_secret'|lang }}</span>
+                <input type="password" name="secret" id="consumer_secret" value="{{ network.data.secret }}" placeholder="Consumer Secret" />
+            </label>
+
+            <label for="token">
+                <span class="title">{{ 'admin.smp.token'|lang }}</span>
+                <input type="text" name="token" id="token" value="{{ network.data.token }}" placeholder="Access Token" />
+            </label>
+            <label for="token_secret">
+                <span class="title">{{ 'admin.smp.token_secret'|lang }}</span>
+                <input type="password" name="token_secret" id="token_secret" value="{{ network.data.token_secret }}" placeholder="Access Token Secret" />
+            </label>
+
+            <footer>
+                <button type="submit" class="button">{{ 'button.save'|lang }}</button>
+            </footer>
+        </form>
+
+    </div>
+{% endblock %}

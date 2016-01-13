@@ -1,11 +1,11 @@
 {
     "1": {
-        "access": true,
-        "use_admin": false,
-        "publicate": true,
-        "comment": true,
-        "edit_comments": false,
-        "edit_publications": false
+        "access": 1,
+        "use_admin": 0,
+        "publicate": 0,
+        "comment": 1,
+        "edit_comments": 0,
+        "edit_publications": 0
     },
     "2": {
         "access": true,

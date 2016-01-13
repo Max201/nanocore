@@ -9,6 +9,7 @@ namespace Module\Page;
 
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCModule;
+use System\Engine\NCSitemapBuilder;
 use System\Environment\Env;
 use System\Util\Calendar;
 use User;
@@ -20,9 +21,26 @@ use User;
  */
 class Module extends NCModule
 {
+    const SITEMAP = true;
+
     public function route()
     {
         $this->map->addPattern('<id:\d+>-<slug:.+>.html', [$this, 'page'], 'page');
+    }
+
+    public function sitemap(NCSitemapBuilder $builder)
+    {
+        $pages = \Page::all();
+        foreach ( $pages as $page ) {
+            $builder->add_url(
+                $this->map->reverse('page', [$page->id, $page->slug]),
+                0.9,
+                $page->updated_at,
+                'monthly'
+            );
+        }
+
+        return $builder;
     }
 
     /**

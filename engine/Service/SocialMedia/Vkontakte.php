@@ -35,6 +35,11 @@ class Vkontakte extends NCService
     static $instance;
 
     /**
+     * @var string
+     */
+    static $redirect_uri = 'http://api.vk.com/blank.html';
+
+    /**
      * @var Options
      */
     public $conf;
@@ -45,10 +50,6 @@ class Vkontakte extends NCService
     public function __construct()
     {
         $this->conf = $this->config('vkontakte');
-
-        if ( !$this->conf->get('groups') ) {
-            $this->conf['groups'] = [];
-        }
     }
 
     /**

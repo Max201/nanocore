@@ -1,11 +1,10 @@
 {% extends 'base.twig' %}
 {% block head %}
-    <script type="text/javascript" src="{{ 'editor.js'|local('js') }}"></script>
     <script type="text/javascript">
         function submit()
         {
             var data = {
-                'content': content.content(),
+                'content': tinyMCE.get('edit').getContent(),
                 'title': $('#title').val(),
                 'template': $('#template').val(),
                 'slug': $('#slug').val()
@@ -27,10 +26,6 @@
                 console.log(r);
             });
         }
-
-        $(function(){
-            content = new WyEdit($('#wy-edit'), 'content');
-        });
     </script>
 {% endblock %}
 {% block body %}
@@ -78,8 +73,5 @@
             <input placeholder="{{ 'page.slug'|lang }}" title="{{ 'page.slug'|lang }}" class="wide" type="text" value="{{ page.slug }}" id="slug"/>
         </label>
     </div>
-
-    {% set wyi='content' %}
-    {% set content=page.content %}
-    {% include 'com/editor.twig' %}
+    {% include 'com/wysiwyg.twig' %}
 {% endblock %}

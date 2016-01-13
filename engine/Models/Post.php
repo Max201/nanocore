@@ -14,7 +14,7 @@ use ActiveRecord\Model;
  */
 class Post extends Model
 {
-    static $before_create = ['created_at', 'export'];
+    static $before_create = ['created_at'];
     static $before_save = ['updated_at'];
 
     /**
@@ -42,17 +42,26 @@ class Post extends Model
     }
 
     /**
+     * @param null $base
      * @return array
      */
-    public function images()
+    public function images($base = null)
     {
+        if ( is_null($base) ) {
+            $base = \System\Environment\Env::$request->getSchemeAndHttpHost();
+        }
+
         // Search images
         preg_match_all('#<img.+?src="(.+?)"#', $this->content, $m);
         $images = [];
         if ( $m ) {
             foreach ( $m[1] as $img ) {
+                if ( strpos($img, '../../') > -1 ) {
+                    $img = substr($img, 5);
+                }
+
                 if ( $img[0] == '/' ) {
-                    $img = \System\Environment\Env::$request->getSchemeAndHttpHost() . $img;
+                    $img = $base . $img;
                 }
 
                 $images[] = $img;
@@ -77,12 +86,22 @@ class Post extends Model
     }
 
     /**
+     * @return array
+     */
+    public function hastags()
+    {
+        $tags = explode(' ', $this->keywords);
+        return array_map(function($i){ return '#' . $i; }, $tags);
+    }
+
+    /**
      * Exporting to social
      */
-    public function export()
+    public function export($url)
     {
         /** @var \Service\SocialMedia\SocialMedia $smp */
         $smp = \System\Engine\NCService::load('SocialMedia');
+        $url = \System\Environment\Env::$request->getSchemeAndHttpHost() . $url;
 
         // Posting vk
         if ( $this->category->post_vkontakte ) {
@@ -93,8 +112,24 @@ class Post extends Model
                     $this->category->post_vkontakte,
                     implode("\n", $this->images()) . "\n" .
                     $this->title . "\n\n" .
-                    $this->content_plain()
+                    $this->content_plain() .
+                    implode(' ', $this->hastags()),
+                    [
+                        'attachments'   => $url
+                    ]
                 )
+            );
+        }
+
+        // Posting twitter
+        if ( $this->category->post_twitter ) {
+            $tw = $smp->tw();
+            $this->assign_attribute(
+                'post_twitter',
+                $tw->m_post(
+                    $url . ' ' . $this->title . ' ' . implode(' ', $this->hastags()),
+                    reset($this->images(ROOT))
+                )->id
             );
         }
     }

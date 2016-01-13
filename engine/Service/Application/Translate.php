@@ -36,7 +36,7 @@ class Translate extends NCService
     /**
      * @var string
      */
-    private $pack;
+    public $pack;
 
     /**
      * @var array
