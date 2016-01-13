@@ -98,7 +98,7 @@ class Module extends NCModule
 
             Env::$response->headers->set('Last-Modified', date('D, d M Y H:i:s \G\M\T', $post->updated_at));
             return $this->view->render('posts/default.twig', [
-                'post'  => $post->asArrayFull(),
+                'post'  => $post->to_array(),
                 'title' => $post->title,
             ]);
         }
