@@ -232,4 +232,15 @@ class NCModule
         Env::$response->headers->set('Content-Type', 'application/json');
         return json_encode($array, $pretty_print ? JSON_PRETTY_PRINT : 0);
     }
+
+    /**
+     * @param $uri
+     * @param int $status_code
+     * @param int $timeout
+     */
+    static function redirect_response($uri, $status_code = 302, $timeout = 0)
+    {
+        header('Refresh:' . $timeout . '; url=' . $uri, true, $status_code);
+        return;
+    }
 } 
