@@ -3,5 +3,6 @@
     "theme": "default",
     "lang": "ru_RU",
     "timezone": "+2",
-    "format": "d M Y H:i"
+    "format": "d M Y H:i",
+    "title_prefix": "NanoLab - "
 }

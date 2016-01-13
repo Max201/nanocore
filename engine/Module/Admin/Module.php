@@ -56,7 +56,9 @@ class Module extends NCControl
             return strpos($cur, $order);
         }));
 
-        return [];
+        return [
+            'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix')
+        ];
     }
 
     public function access()

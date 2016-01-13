@@ -5,6 +5,11 @@
             <div class="message {{ status }}">  {{ message }}</div>
         {% endif %}
         <form action="" method="post" class="form">
+            <label for="title_prefix">
+                <span class="title">{{ 'admin.config.title_prefix'|lang }}</span>
+                <input type="text" id="title_prefix" name="title_prefix" value="{{ conf.title_prefix }}"/>
+            </label>
+
             <label for="lang" class="cselect">
                 <span class="title">{{ 'admin.config.lang'|lang }}</span>
                 <select name="lang" id="lang">

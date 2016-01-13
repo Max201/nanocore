@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <title>{{ title_prefix }}{% block title %}{{ title }}{% endblock %}</title>
     <link rel="stylesheet" href="{{ 'font-awesome.min.css'|cdn('fontawesome') }}" type="text/css">
     <link rel="stylesheet" href="{{ 'custom.css'|local('css') }}" type="text/css">
     <script type="text/javascript" src="{{ 'jquery.min.js'|cdn('jquery') }}"></script>
@@ -33,7 +33,7 @@
 
     <div class="center">
         <h1 id="title">
-            <span class="login" onclick="$('#navigation, html, body').toggleClass('open')">
+            <span class="login">
                 <i class="fa fa-user"></i> {% if user.id %}{{ user.username }}{% else %}Гость{% endif %}
             </span>
             <i class="fa fa-chevron-right"></i>
