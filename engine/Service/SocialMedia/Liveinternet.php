@@ -174,7 +174,15 @@ class Liveinternet extends NCService
         $full_lang = NCModuleCore::load_lang()->pack;
         $lang = reset(explode('_', $full_lang));
         $url = $this->url_stat($method, $lang);
-        return file_get_contents($url);
+        return static::GET($url, [], $url, [
+            'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Encoding' => 'gzip, deflate, sdch',
+            'Accept-Language' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
+            'Connection' => 'keep-alive',
+            'Host' => 'www.liveinternet.ru',
+            'Upgrade-Insecure-Requests' => '1',
+            'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/47.0.2526.73 Chrome/47.0.2526.73 Safari/537.36'
+        ]);
     }
 
     /**

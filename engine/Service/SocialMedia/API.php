@@ -55,6 +55,7 @@ trait API
 
         $ch = curl_init($url . '?' . static::build_request($params));
         curl_setopt($ch, CURLOPT_REFERER, $ref);
+        curl_setopt($ch, CURLOPT_PROXY, '81.94.162.140:8080');
         curl_setopt($ch, CURLOPT_HTTPHEADER, static::build_headers($headers));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
@@ -99,6 +100,6 @@ trait API
             $result[] = $k . ': ' . $v;
         }
 
-        return implode("\n", $result);
+        return $result;
     }
 } 
