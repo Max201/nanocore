@@ -1,0 +1,31 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <td></td>
+                {% for state in statistic.response|keys %}
+                <td>{{ state }}</td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if not statistic.keys %}
+                <tr>
+                    <td colspan="500" class="message">{{ 'form.empty'|lang }}</td>
+                </tr>
+            {% endif %}
+            {% for prop in statistic.keys %}
+                <tr>
+                    <td>
+                        {{ prop }}
+                    </td>
+                    {% for state in statistic.response|keys %}
+                        <td>{{ statistic.response[state][prop] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

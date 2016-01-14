@@ -10,6 +10,7 @@ namespace Module\Admin;
 use Module\Admin\SMP\Driver;
 use Service\Application\Translate;
 use Service\Render\Theme;
+use Service\SocialMedia\Liveinternet;
 use Service\SocialMedia\SocialMedia;
 use Service\SocialMedia\Vkontakte;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,6 +42,8 @@ class Module extends NCControl
         $this->map->addRoute('services', [$this, 'services'], 'services');
         $this->map->addRoute('modules', [$this, 'modules'], 'modules');
         $this->map->addRoute('social-posting', [$this, 'smp'], 'smp');
+
+        $this->map->addPattern('stats/<day:\d+?>', [$this, 'stats'], 'stats');
         $this->map->addPattern('social-posting/<drv:\w+?>', [$this, 'smp'], 'smpp');
 
         $this->map->addRoute('files', [$this, 'fmanager'], 'filemanager');
@@ -59,7 +62,31 @@ class Module extends NCControl
 
         return [
             'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix'),
-            'lang_code'     => $lang->pack
+            'lang_code'     => $lang->pack,
+            'counter'       => [
+                'visible'   => "<script type=\"text/javascript\"><!--
+                                document.write(\"<a href='//www.liveinternet.ru/click' \"+
+                                \"target=_blank><img src='//counter.yadro.ru/hit?t26.6;r\"+
+                                escape(document.referrer)+((typeof(screen)==\"undefined\")?\"\":
+                                \";s\"+screen.width+\"*\"+screen.height+\"*\"+(screen.colorDepth?
+                                screen.colorDepth:screen.pixelDepth))+\";u\"+escape(document.URL)+
+                                \";\"+Math.random()+
+                                \"' alt='' title='LiveInternet: number of visitors for today is\"+
+                                \" shown' \"+
+                                \"border='0' width='88' height='15'><\/a>\")
+                                //--></script>",
+                'invisible' => "<script type=\"text/javascript\"><!--
+                                document.write(\"<a style='margin: 0 !important; position: fixed; height: 0 !important;width: 0 !important;display: inline-block;' href='//www.liveinternet.ru/click' \"+
+                                \"target=_blank><img src='//counter.yadro.ru/hit?t26.6;r\"+
+                                escape(document.referrer)+((typeof(screen)==\"undefined\")?\"\":
+                                \";s\"+screen.width+\"*\"+screen.height+\"*\"+(screen.colorDepth?
+                                screen.colorDepth:screen.pixelDepth))+\";u\"+escape(document.URL)+
+                                \";\"+Math.random()+
+                                \"' alt='' title='LiveInternet: number of visitors for today is\"+
+                                \" shown' \"+
+                                \"border='0' width='0' height='0'><\/a>\")
+                                //--></script>"
+            ]
         ];
     }
 
@@ -75,6 +102,28 @@ class Module extends NCControl
         }
 
         return parent::access();
+    }
+
+    public function stats(Request $request, Options $matches = null)
+    {
+        $cur_day = $matches->get('day', date('d'));
+        $date = date('Y') . '-' . date('m') . '-' . $cur_day;
+        if ( $cur_day > date('d') ) {
+            return static::redirect_response($this->map->reverse('stats', [date('d')]));
+        }
+
+        /** @var Liveinternet $counter */
+        $counter = NCService::load('SocialMedia.Liveinternet');
+        $counter->set_date($date);
+        return $this->view->render('dashboard/stats.twig', [
+            'title'     => $this->lang->translate(
+                'admin.statistic.visits',
+                $this->lang->translate_date(
+                    date('D, d M Y', strtotime($date))
+                )
+            ),
+            'statistic' => $counter->visits()
+        ]);
     }
 
     public function smp(Request $request, Options $matches = null)

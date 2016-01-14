@@ -18,8 +18,6 @@ use System\Engine\NCService;
 use System\Engine\NCSitemapBuilder;
 use System\Environment\Env;
 use System\Environment\Options;
-use System\Util\Calendar;
-use User;
 
 
 /**

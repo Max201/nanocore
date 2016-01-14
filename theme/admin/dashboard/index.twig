@@ -15,7 +15,7 @@
             {% for w in calendar %}
             <tr>
                 {% for d in w %}
-                    <td{% if not d %} class="empty"{% endif %}>
+                    <td onclick="gui.go('{{ 'stats'|url(d) }}')"{% if not d %} class="empty"{% endif %}>
                         <strong class="number{% if d == active %} active{% endif %}">{{ d }}</strong>
                     </td>
                 {% endfor %}
