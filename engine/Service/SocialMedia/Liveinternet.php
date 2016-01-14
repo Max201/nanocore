@@ -106,14 +106,6 @@ class Liveinternet extends NCService
     }
 
     /**
-     * @return array
-     */
-    public function queries()
-    {
-        return static::to_array(static::request('queries'));
-    }
-
-    /**
      * @return bool
      */
     public function is_registered()
@@ -199,14 +191,17 @@ class Liveinternet extends NCService
 
     /**
      * @param $method
+     * @param array $params
+     * @param bool $return_headers
+     * @param array $headers
      * @return mixed
      */
-    private function request($method)
+    private function request($method, $params=[], $return_headers=false, $headers = [])
     {
         $full_lang = NCModuleCore::load_lang()->pack;
         $lang = reset(explode('_', $full_lang));
         $url = $this->url_stat($method, $lang);
-        return static::GET($url, [], $url, [
+        return static::GET($url, $params, $url, array_merge([
             'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Encoding' => 'gzip, deflate, sdch',
             'Accept-Language' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
@@ -214,7 +209,7 @@ class Liveinternet extends NCService
             'Host' => 'www.liveinternet.ru',
             'Upgrade-Insecure-Requests' => '1',
             'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/47.0.2526.73 Chrome/47.0.2526.73 Safari/537.36'
-        ]);
+        ], $headers), $return_headers);
     }
 
     /**
