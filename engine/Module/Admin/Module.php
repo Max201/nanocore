@@ -44,6 +44,7 @@ class Module extends NCControl
         $this->map->addRoute('social-posting', [$this, 'smp'], 'smp');
 
         $this->map->addPattern('stats/<day:\d+?>', [$this, 'stats'], 'stats');
+        $this->map->addPattern('stats/<day:\d+?>/<method:\w+?>', [$this, 'stats'], 'mstats');
         $this->map->addPattern('social-posting/<drv:\w+?>', [$this, 'smp'], 'smpp');
 
         $this->map->addRoute('files', [$this, 'fmanager'], 'filemanager');
@@ -106,6 +107,7 @@ class Module extends NCControl
 
     public function stats(Request $request, Options $matches = null)
     {
+        $method = $matches->get('method', 'visits');
         $cur_day = $matches->get('day', date('d'));
         $date = date('Y') . '-' . date('m') . '-' . $cur_day;
         if ( $cur_day > date('d') ) {
@@ -116,13 +118,16 @@ class Module extends NCControl
         $counter = NCService::load('SocialMedia.Liveinternet');
         $counter->set_date($date);
         return $this->view->render('dashboard/stats.twig', [
+            'date'      => date('D, d M Y', strtotime($date)),
+            'day'       => $cur_day,
+            'stats'     => $method,
             'title'     => $this->lang->translate(
-                'admin.statistic.visits',
+                'admin.statistic.' . $method,
                 $this->lang->translate_date(
                     date('D, d M Y', strtotime($date))
                 )
             ),
-            'statistic' => $counter->visits()
+            'statistic' => call_user_func([$counter, $method])
         ]);
     }
 

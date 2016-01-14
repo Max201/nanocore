@@ -1,6 +1,16 @@
 {% extends 'base.twig' %}
 
 {% block body %}
+    <menu class="cselect">
+        <a class="button" href="#" onclick="gui.go('/admin/stats/{{ day }}/' + $('#stats').val())">{{ 'admin.statistic.show'|lang }}</a>
+        <select name="stats" id="stats">
+            <option value="visits" {% if stats == 'visits' %}selected="selected"{% endif %}>{{ 'admin.statistic.visits'|lang(date|dlang) }}</option>
+            <option value="visits_month" {% if stats == 'visits_month' %}selected="selected"{% endif %}>{{ 'admin.statistic.visits_month'|lang(date|dlang) }}</option>
+            <option value="pages" {% if stats == 'pages' %}selected="selected"{% endif %}>{{ 'admin.statistic.pages'|lang(date|dlang) }}</option>
+            <option value="queries" {% if stats == 'queries' %}selected="selected"{% endif %}>{{ 'admin.statistic.queries'|lang(date|dlang) }}</option>
+            <option value="refers" {% if stats == 'refers' %}selected="selected"{% endif %}>{{ 'admin.statistic.refers'|lang(date|dlang) }}</option>
+        </select>
+    </menu>
     <table>
         <thead>
             <tr>

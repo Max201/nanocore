@@ -82,6 +82,38 @@ class Liveinternet extends NCService
     }
 
     /**
+     * @return array
+     */
+    public function visits_month()
+    {
+        return static::to_array(static::request('sum'));
+    }
+
+    /**
+     * @return array
+     */
+    public function pages()
+    {
+        return static::to_array(static::request('pages'));
+    }
+
+    /**
+     * @return array
+     */
+    public function refers()
+    {
+        return static::to_array(static::request('ref_servers'));
+    }
+
+    /**
+     * @return array
+     */
+    public function queries()
+    {
+        return static::to_array(static::request('queries'));
+    }
+
+    /**
      * @return bool
      */
     public function is_registered()
