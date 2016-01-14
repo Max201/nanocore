@@ -11,6 +11,7 @@ use Module\Admin\SMP\Driver;
 use Service\Application\Translate;
 use Service\Render\Theme;
 use Service\SocialMedia\SocialMedia;
+use Service\SocialMedia\Vkontakte;
 use Symfony\Component\HttpFoundation\Request;
 use Service\Application\Settings;
 use System\Engine\NCControl;
@@ -85,6 +86,7 @@ class Module extends NCControl
         $soc = $smp->network($request->get('soc') ? $request->get('soc') : $matches->get('drv'));
         if ( $soc || ($matches && $matches->get('drv')) ) {
             $message = '';
+            $status = '';
             $manager = $smp->get_manager($soc['id']);
             $redirect_uri = $manager::$redirect_uri ? $manager::$redirect_uri : $this->map->reverse('smpp', $soc['id']);
 
@@ -92,8 +94,10 @@ class Module extends NCControl
             if ( $request->isMethod('post') ) {
                 if ( $request->isMethod('post') && $manager->setup($_POST) ) {
                     $soc = $smp->network($request->get('soc'));
+                    $status = 'success';
                     $message = $this->lang->translate('form.saved');
                 } else {
+                    $status = 'error';
                     $message = $this->lang->translate('form.failed');
                 }
             }
@@ -101,15 +105,36 @@ class Module extends NCControl
             // Getting token
             if ( $matches && $matches->get('drv') ) {
                 if ( Driver::process($soc['id'], [$redirect_uri]) ) {
+                    $status = 'success';
                     $message = $this->lang->translate('form.authorized');
                 } else {
+                    $status = 'error';
                     $message = $this->lang->translate('form.failed');
+                }
+            }
+
+            // VK Confirmation system
+            if ( $manager instanceof Vkontakte ) {
+                $groups = $manager->request('groups.get', [
+                    'user_id'       => $manager->conf->get('user_id'),
+                    'filter'        => 'admin',
+                    'extended'      => 1
+                ]);
+
+                if ( array_key_exists('error', $groups) ) {
+                    $status = 'error';
+                    if ( $groups['error']['error_code'] == 17 ) {
+                        $message = $groups['error']['error_msg'] . ' - <a href="' . $groups['error']['redirect_uri'] . '" target="_blank">Fix this issue</a>';
+                    } else {
+                        $message = $groups['error']['error_msg'];
+                    }
                 }
             }
 
             return $this->view->render('com/smp/' . $soc['id'] . '.twig', [
                 'title'     => $this->lang->translate('admin.smp.setup', $soc['name']),
                 'network'   => $soc,
+                'status'    => $status,
                 'message'   => $message,
                 'auth_url'  => $manager->configured() ? $manager->authorize_url($redirect_uri) : false
             ]);

@@ -50,7 +50,7 @@
                 <td>{{ cat.title }}</td>
                 <td onclick="gui.go('{{ 'list'|url }}?category={{ cat.id }}')">{{ cat.posts }}</td>
                 <td onclick="gui.uri({'category': '{{ cat.parent_id }}'})">{{ cat.parent.title }}</td>
-                <td onclick="gui.go('?delete={{ post.id }}')">
+                <td onclick="gui.go('?delete={{ cat.id }}')">
                     <span class="button">
                         <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
                     </span>

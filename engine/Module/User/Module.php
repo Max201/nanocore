@@ -98,7 +98,11 @@ class Module extends NCModule
                 if ( !$user->save(true) ) {
                     $this->view->twig->addGlobal('errors', [$this->lang->translate('form.failed')]);
                 } else {
-
+                    $autenticated = $this->auth->authenticate($data['username'], $data['password']);
+                    if ( $autenticated ) {
+                        $this->auth->login($autenticated);
+                        return static::redirect_response('/');
+                    }
                 }
             }
         }

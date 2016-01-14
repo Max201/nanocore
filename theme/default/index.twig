@@ -15,8 +15,12 @@
                 <strong>Nano Lab</strong>
             </div>
             <div class="menu">
-                <a href="/user/auth/">Login</a>
-                <a href="/user/new/">Register</a>
+                {% if not user.id %}
+                    <a href="/user/auth/">Login</a>
+                    <a href="/user/new/">Register</a>
+                {% else %}
+                    <a href="#">{{ user.username }}</a>
+                {% endif %}
             </div>
             <div class="cb"></div>
         </div>

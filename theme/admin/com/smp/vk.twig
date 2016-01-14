@@ -5,16 +5,20 @@
 {% block body %}
     <div>
         {% if message %}
-        <div class="message">{{ message }}</div>
+        <div class="message {{ status }}">{{ message|raw }}</div>
         {% endif %}
         <form action="" method="post" class="form">
-            <label for="app_id">
+            <label for="id">
                 <span class="title">{{ 'admin.smp.app_id'|lang }}</span>
                 <input type="text" name="id" id="id" value="{{ network.data.id }}" placeholder="APP ID" />
             </label>
-            <label for="api_secret">
+            <label for="secret">
                 <span class="title">{{ 'admin.smp.api_secret'|lang }}</span>
                 <input type="password" name="secret" id="secret" value="{{ network.data.secret }}" placeholder="API Secret" />
+            </label>
+            <label for="token">
+                <span class="title">{{ 'admin.smp.token'|lang }}</span>
+                <input type="password" name="token" id="token" value="{{ network.data.token }}" placeholder="API Access Token" />
             </label>
 
             <footer>

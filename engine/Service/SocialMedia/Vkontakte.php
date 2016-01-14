@@ -127,7 +127,7 @@ class Vkontakte extends NCService
      */
     public function active()
     {
-        $valid = $this->conf->get('expires') > time() || $this->conf->get('expires') == 0;
+        $valid = $this->conf->get('expires') > time() || $this->conf->get('expires', 0) == 0;
         return $this->conf->get('token') && $valid;
     }
 
