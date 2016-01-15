@@ -45,7 +45,7 @@ class Control extends NCControl
 
         // Filter users
         $pages = \Page::all($filter);
-        $pages = array_map(function($i){ return $i->asArrayFull(); }, $pages);
+        $pages = array_map(function($i){ return $i->to_array(); }, $pages);
         return $this->view->render('pages/list.twig', [
             'title'         => $this->lang->translate('page.list'),
             'pages_list'    => $pages,
@@ -56,10 +56,13 @@ class Control extends NCControl
 
     public function edit_page(Request $request, $matches)
     {
+        $title = $this->lang->translate('page.create');
+
         // Get page for updating
         $id = intval($matches->get('id', $request->get('id')));
         if ( $id > 0 ) {
             $page = \Page::find_by_id($id);
+            $title = $this->lang->translate('page.editing', $page->title);
         } else {
             $page = [
                 'title'     => $this->lang->translate('page.name'),
@@ -98,7 +101,7 @@ class Control extends NCControl
 
         return $this->view->render('pages/create.twig', [
             'page'          => $page,
-            'title'         => $this->lang->translate('page.create'),
+            'title'         => $title,
             'templates'     => $this->view->list_files('pages', '@current')
         ]);
     }

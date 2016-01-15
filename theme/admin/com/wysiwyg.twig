@@ -6,10 +6,11 @@
         min_height: 500,
         menubar: false,
         language_url: '{{ (lang_code ~ '.js')|asset('tinymce_langs') }}',
-        plugins: 'anchor colorpicker image link table textcolor wordcount',
-        toolbar: "undo redo text | alignleft aligncenter alignright alignjustify | bold italic underline | anchor link unlink | forecolor backcolor image lists | table"
+        plugins: 'colorpicker pagebreak image link table textcolor wordcount',
+        toolbar: "undo redo text | pagebreak | bold italic underline | alignleft aligncenter alignright alignjustify | styleselect fontselect | link unlink | forecolor backcolor image | table",
+        pagebreak_separator: '<hr id="short"/>'
     });
 </script>
 <div style="margin: 15px">
-    <textarea name="content" id="{% if wyid %}{{ wyid }}{% else %}edit{% endif %}">{{ page.content|raw }}</textarea>
+    <textarea name="{% if wyid %}{{ wyid }}{% else %}edit{% endif %}" id="{% if wyid %}{{ wyid }}{% else %}edit{% endif %}">{{ edit_content|raw }}</textarea>
 </div>

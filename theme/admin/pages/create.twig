@@ -73,5 +73,8 @@
             <input placeholder="{{ 'page.slug'|lang }}" title="{{ 'page.slug'|lang }}" class="wide" type="text" value="{{ page.slug }}" id="slug"/>
         </label>
     </div>
+
+    {% set wyid='edit' %}
+    {% set edit_content=page.content %}
     {% include 'com/wysiwyg.twig' %}
 {% endblock %}

@@ -1,13 +1,29 @@
 {% extends 'index.twig' %}
 
 {% block body %}
-    <div class="content">
-        <p style="color: #888;">
-            <small>Author: {{ post.author.username }}</small> /
-            <small>Published: {{ post.updated_at|tz|dlang }}</small> /
-            <small>Category: <a href="{{ 'category'|url(post.category_id) }}">{{ post.category.title }}</a></small>
+    <div class="entry-item">
+        <div class="post">
+            {{ post.content|raw }}
+        </div>
+        <p class="post-info">
+            <small>Автор: {{ post.author.username }}</small> /
+            <small>Опубликовано: {{ post.updated_at|tz|dlang }}</small> /
+            <small>Категория: <a href="{{ 'category'|url(post.category_id) }}">{{ post.category.title }}</a></small>
         </p>
-        <hr>
-        {{ post.content|raw }}
+
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function () {
+                this.page.url = document.location.href;
+                this.page.identifier = '{{ post.id }}';
+            };
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = '//nanolab.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </div>
 {% endblock %}

@@ -45,11 +45,28 @@ class Module extends NCModule
 
     static function globalize($module, $theme, $translate)
     {
+        /*
+         * Add all pages to context
+         */
         $pages = array_map(function($p) {
             $page = $p->to_array();
             $page['url'] = '/page/' . $page['id'] . '-' . $page['slug'] . '.html';
             return $page;
         }, \Page::all());
+
+        /*
+         * Short description filter
+         */
+        $theme->twig->addFilter(new \Twig_SimpleFilter('short', function($value, $max_words = 128){
+            $short_tag = '<hr id="short"/>';
+            if ( strpos($value, $short_tag) > 0 ) {
+                return reset(explode($short_tag, $value, 2));
+            }
+
+            $words = explode(' ', strip_tags($value));
+            $last_word = end(array_splice($words, 0, $max_words));
+            return substr($value, 0, strpos($value, $last_word));
+        }));
 
         return [
             'static_pages'  => $pages

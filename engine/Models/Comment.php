@@ -9,10 +9,10 @@ use ActiveRecord\Model;
 
 
 /**
- * Class Page
+ * Class Comment
  * @package Model
  */
-class Page extends Model
+class Comment extends Model
 {
     static $before_create = ['created_at'];
     static $before_save = ['updated_at'];
@@ -45,6 +45,6 @@ class Page extends Model
      */
     public function to_array()
     {
-        return array_merge(['author' => $this->author->to_array()], parent::to_array());
+        return array_merge(['author' => $this->author->to_array()], $this->to_array());
     }
 }

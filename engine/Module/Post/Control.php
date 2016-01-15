@@ -199,10 +199,13 @@ class Control extends NCControl
 
     public function edit_post(Request $request, $matches)
     {
+        $title = $this->lang->translate('post.create');
+
         // Get post for updating
         $id = intval($matches->get('id', $request->get('id')));
         if ( $id > 0 ) {
             $post = \Post::find_by_id($id);
+            $title = $this->lang->translate('post.editing', $post->title);
         } else {
             $post = [
                 'title'     => $this->lang->translate('post.name'),
@@ -245,7 +248,7 @@ class Control extends NCControl
 
         return $this->view->render('posts/create.twig', [
             'post'          => $post,
-            'title'         => $this->lang->translate('post.create'),
+            'title'         => $title,
             'categories'    => array_map(function($i){ return $i->to_array(); }, \PostCategory::all())
         ]);
     }
