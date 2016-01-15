@@ -15,6 +15,7 @@ use ActiveRecord\Model;
 class Post extends Model
 {
     static $before_create = ['created_at'];
+    static $after_create = ['export'];
     static $before_save = ['updated_at'];
 
     /**
@@ -82,13 +83,14 @@ class Post extends Model
             '</div>'    => "\n",
             '</p>'      => "\n\n",
             '<br/>'     => "\n",
+            "&nbsp;"    => " "
         ]);
     }
 
     /**
      * @return array
      */
-    public function hastags()
+    public function hashtags()
     {
         $tags = explode(' ', $this->keywords);
         return array_map(function($i){ return '#' . $i; }, $tags);
@@ -97,23 +99,23 @@ class Post extends Model
     /**
      * Exporting to social
      */
-    public function export($url)
+    public function export()
     {
         /** @var \Service\SocialMedia\SocialMedia $smp */
         $smp = \System\Engine\NCService::load('SocialMedia');
-        $url = \System\Environment\Env::$request->getSchemeAndHttpHost() . $url;
+        $post_url = '/post/' . $this->id . '-' . $this->slug . '.html';
+        $url = \System\Environment\Env::$request->getSchemeAndHttpHost() . $post_url;
 
         // Posting vk
         if ( $this->category->post_vkontakte ) {
             $vk = $smp->vk();
             $this->assign_attribute(
                 'post_vkontakte',
-                $vk->m_post(
+                $vkp = $vk->m_post(
                     $this->category->post_vkontakte,
-                    implode("\n", $this->images()) . "\n" .
                     $this->title . "\n\n" .
                     $this->content_plain() .
-                    implode(' ', $this->hastags()),
+                    implode(' ', $this->hashtags()),
                     [
                         'attachments'   => $url
                     ]
@@ -127,7 +129,7 @@ class Post extends Model
             $this->assign_attribute(
                 'post_twitter',
                 $tw->m_post(
-                    $url . ' ' . $this->title . ' ' . implode(' ', $this->hastags()),
+                    $url . ' ' . $this->title . ' ' . implode(' ', $this->hashtags()),
                     reset($this->images(ROOT))
                 )->id
             );

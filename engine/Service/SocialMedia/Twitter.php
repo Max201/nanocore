@@ -120,7 +120,7 @@ class Twitter extends NCService
     public function m_post($tweet, $image = null)
     {
         $status = [
-            'status'    => $tweet,
+            'status'    => substr($tweet, 0, 140),
         ];
 
         if ( !$image ) {

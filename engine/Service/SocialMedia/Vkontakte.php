@@ -70,8 +70,10 @@ class Vkontakte extends NCService
      */
     public function setup($config)
     {
-        $this->conf['id'] = $config['id'];
-        $this->conf['secret'] = $config['secret'];
+        $opt = new Options($config);
+        $this->conf['id'] = $opt->get('id');
+        $this->conf['secret'] = $opt->get('secret');
+        $this->conf['token'] = $opt->get('token');
 
         return $this->update_config('vkontakte', $this->conf->getArrayCopy());
     }
@@ -154,8 +156,7 @@ class Vkontakte extends NCService
             'display'       => 'page',
             'redirect_uri'  => $redirect,
             'scope'         => implode(',', $scopes),
-            'response_type' => 'code',
-            'v'             => static::API_V
+            'response_type' => 'code'
         ]);
     }
 
@@ -169,7 +170,6 @@ class Vkontakte extends NCService
     public function request($method, $params = [], $key = null, $default = null)
     {
         $params['access_token'] = $this->conf->get('token');
-        $params['v'] = static::API_V;
         $request_url = 'https://api.vk.com/method/' . $method;
         $response = json_decode(static::GET($request_url, $params, 'http://vk.com'), true);
         if ( is_null($key) ) {
@@ -191,8 +191,10 @@ class Vkontakte extends NCService
         $response = $this->request('groups.get', [
             'user_id'       => $this->conf->get('user_id'),
             'filter'        => 'admin',
-            'extended'      => 1
-        ], 'response', [])['items'];
+            'extended'      => 1,
+        ], 'response', [0]);
+
+        array_shift($response);
         return $response;
     }
 

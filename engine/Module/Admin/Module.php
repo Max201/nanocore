@@ -168,11 +168,11 @@ class Module extends NCControl
             }
 
             // VK Confirmation system
-            if ( $manager instanceof Vkontakte ) {
+            if ( $manager instanceof Vkontakte && $manager->active() ) {
                 $groups = $manager->request('groups.get', [
                     'user_id'       => $manager->conf->get('user_id'),
                     'filter'        => 'admin',
-                    'extended'      => 1
+                    'extended'      => 1,
                 ]);
 
                 if ( array_key_exists('error', $groups) ) {

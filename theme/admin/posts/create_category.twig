@@ -85,7 +85,7 @@
                     <select name="post_vkontakte" id="smp_vk">
                         <option value=""{% if "" == category.post_vkontakte %} selected{% endif %}>{{ 'post.not_smp'|lang }}</option>
                         {% for cat in posting.vk %}
-                            <option value="{{ cat.id }}"{% if cat.id == category.post_vkontakte %} selected{% endif %}>{{ cat.name }}</option>
+                            <option value="{{ cat.gid }}"{% if cat.gid == category.post_vkontakte %} selected{% endif %}>{{ cat.name }}</option>
                         {% endfor %}
                     </select>
                 </label>
