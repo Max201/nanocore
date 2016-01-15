@@ -376,7 +376,7 @@ class Control extends NCControl
             $filter['conditions'] = ['group_id = ?', intval($request->get('group'))];
             $group = \Group::find($request->get('group'));
             if ( $group ) {
-                $title = $this->lang->translate('user.profile.group') . ' "' . $group->name . '"';
+                $title = $this->lang->translate('user.profile.group') . ' ' . $group->name;
             }
         }
 
