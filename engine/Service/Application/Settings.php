@@ -42,6 +42,25 @@ class Settings extends NCService
     }
 
     /**
+     * @param $key
+     * @param null $default
+     * @return mixed|null
+     */
+    public function get($key, $default = null)
+    {
+        return $this->conf->get($key, $default);
+    }
+
+    /**
+     * @param $key
+     * @param null $value
+     */
+    public function set($key, $value = null)
+    {
+        $this->conf->set($key, $value);
+    }
+
+    /**
      * @return Settings
      */
     static function instance()

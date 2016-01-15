@@ -4,5 +4,6 @@
     "lang": "ru_RU",
     "timezone": "+2",
     "format": "d M Y H:i",
-    "title_prefix": "NanoLab - "
+    "title_prefix": "NanoLab - ",
+    "users_group": "1"
 }

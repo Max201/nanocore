@@ -43,6 +43,19 @@ class Module extends NCModule
         return $builder;
     }
 
+    static function globalize($module, $theme, $translate)
+    {
+        $pages = array_map(function($p) {
+            $page = $p->to_array();
+            $page['url'] = '/page/' . $page['id'] . '-' . $page['slug'] . '.html';
+            return $page;
+        }, \Page::all());
+
+        return [
+            'static_pages'  => $pages
+        ];
+    }
+
     /**
      * User registration page
      */

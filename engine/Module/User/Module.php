@@ -9,6 +9,8 @@ namespace Module\User;
 
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCModule;
+use System\Environment\Env;
+use System\Environment\Options;
 use User;
 
 
@@ -54,6 +56,46 @@ class Module extends NCModule
     }
 
     /**
+     * ULogin registration and authorization
+     *
+     * @param NCModule $module
+     * @param \Service\Render\Theme $theme
+     * @param \Service\Application\Translate $translate
+     * @return array|\System\Engine\NCBlock[]
+     */
+    static function globalize($module, $theme, $translate)
+    {
+        if ( !$module->user && Env::$request->isMethod('post') && isset($_POST['token']) ) {
+            $s = file_get_contents('http://ulogin.ru/token.php?token=' . $_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
+            $data = new Options(json_decode($s, true));
+            $hash = User::encrypt(
+                User::encrypt($data->get('network') . $data->get('identity'))
+            );
+
+            if ( $user = $module->auth->authenticate_by_hash($hash) ) {
+                $module->auth->login($user);
+            } else {
+                $user = User::create([
+                    'username'  => $data['first_name'] . ' ' . $data['last_name'],
+                    'password'  => $hash,
+                    'group'     => $module->settings->get('users_group')
+                ]);
+
+                if ( $user instanceof User ) {
+                    $module->auth->login($user);
+                }
+            }
+        }
+
+        return [
+            'ulogin'    => [
+                'small' => '<script src="//ulogin.ru/js/ulogin.js"></script><div id="uLogin" data-ulogin="display=small;fields=first_name,last_name;providers=twitter,facebook,youtube,googleplus,vkontakte;hidden=other;redirect_uri='.Env::$request->getSchemeAndHttpHost().'"></div>',
+                'panel' => '<script src="//ulogin.ru/js/ulogin.js"></script><div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name;providers=twitter,facebook,youtube,googleplus,vkontakte;hidden=other;redirect_uri='.Env::$request->getSchemeAndHttpHost().'"></div>'
+            ]
+        ];
+    }
+
+    /**
      * User registration page
      */
     public function registration(Request $request, $matches)
@@ -65,7 +107,8 @@ class Module extends NCModule
             $data = [
                 'username'  => $request->request->get('username'),
                 'password'  => $request->request->get('password'),
-                'email'  => $request->request->get('email'),
+                'email'     => $request->request->get('email'),
+                'group_id'  => $this->settings->get('users_group', \Group::first()->id)
             ];
 
             // Create user instance

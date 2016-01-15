@@ -7,6 +7,7 @@
 namespace System\Engine;
 
 
+use Service\Application\Settings;
 use Service\Application\Translate;
 use Service\Render\Theme;
 use Service\User\Auth;
@@ -21,27 +22,32 @@ class NCModule
     /**
      * @var NCRouter
      */
-    protected $map;
+    public $map;
 
     /**
      * @var Theme
      */
-    protected $view;
+    public $view;
 
     /**
      * @var Auth
      */
-    protected $auth;
+    public $auth;
 
     /**
      * @var \User
      */
-    protected $user;
+    public $user;
 
     /**
      * @var Translate
      */
-    protected $lang;
+    public $lang;
+
+    /**
+     * @var Settings
+     */
+    public $settings;
 
     /**
      * @param $url
@@ -54,6 +60,10 @@ class NCModule
         /** @var Auth auth */
         $this->auth = NCService::load('User.Auth');
         $this->user = $this->auth->identify(Env::$request->cookies->get('sess'));
+
+        // Settings
+        /** @var Settings settings */
+        $this->settings = NCService::load('Application.Settings');
 
         // Renderring
         /** @var Theme view */

@@ -68,6 +68,15 @@ class Auth extends NCService
     }
 
     /**
+     * @param $hash
+     * @return User
+     */
+    public function authenticate_by_hash($hash)
+    {
+        return User::find_by_password($hash);
+    }
+
+    /**
      * @param User $user
      * @param string $expiry
      * @return bool

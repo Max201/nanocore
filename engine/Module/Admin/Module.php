@@ -242,7 +242,8 @@ class Module extends NCControl
             'conf'      => $app->conf,
             'langs'     => Helper::languages(),
             'themes'    => Helper::themes(),
-            'home'      => $request->server->get('SERVER_NAME')
+            'home'      => $request->server->get('SERVER_NAME'),
+            'groups'    => array_map(function($i){ return $i->to_array(); }, \Group::all())
         ]);
     }
 

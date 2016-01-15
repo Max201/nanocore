@@ -19,6 +19,15 @@
                 </select>
             </label>
 
+            <label for="users_group" class="cselect">
+                <span class="title">{{ 'admin.config.users_group'|lang }}</span>
+                <select name="users_group" id="users_group">
+                    {% for group in groups %}
+                        <option{% if group.id == conf.users_group %} selected="selected"{% endif %} value="{{ group.id }}">{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
             <label for="theme" class="cselect">
                 <span class="title">{{ 'admin.config.theme'|lang }}</span>
                 <select name="theme" id="theme">

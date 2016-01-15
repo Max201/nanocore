@@ -15,9 +15,14 @@
                 <strong>Nano Lab</strong>
             </div>
             <div class="menu">
+                <a href="/">Главная</a>
+                {% for page in static_pages %}
+                    <a href="{{ page.url }}">{{ page.title }}</a>
+                {% endfor %}
+
                 {% if not user.id %}
-                    <a href="/user/auth/">Login</a>
-                    <a href="/user/new/">Register</a>
+                    <a href="/user/auth/">Войти</a>
+                    <a href="/user/new/">Зарегистрироваться</a>
                 {% else %}
                     <a href="#">{{ user.username }}</a>
                 {% endif %}
@@ -36,6 +41,19 @@
 
         <div class="wrapper">
             <section id="rside">
+                {% if not user.id %}
+                <div class="side-block">
+                    <header>
+                        <i class="fa fa-user"></i> Войти с помощью
+                    </header>
+                    <div class="side-block-body">
+                        <div class="ulogin">
+                            {{ ulogin.panel|raw }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
                 <div class="side-block">
                     <header>
                         <i class="fa fa-cubes"></i> Лаборатория
