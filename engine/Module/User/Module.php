@@ -78,11 +78,14 @@ class Module extends NCModule
                 $user = User::create([
                     'username'  => $data['first_name'] . ' ' . $data['last_name'],
                     'password'  => $hash,
-                    'group'     => $module->settings->get('users_group')
+                    'email'     => $data['identity'],
+                    'group_id'  => $module->settings->get('users_group')
                 ]);
 
                 if ( $user instanceof User ) {
                     $module->auth->login($user);
+                    Env::$response->sendHeaders();
+                    return static::redirect_response('/');
                 }
             }
         }
