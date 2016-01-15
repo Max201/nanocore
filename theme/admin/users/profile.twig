@@ -5,22 +5,22 @@
 
 {% block body %}
     <menu>
-        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.edit').show();" class="item">
-            <i class="fa fa-edit"></i> {{ 'user.edit.title'|lang }}
-        </a>
-        {% if profile.id != user.id %}
-        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.ban').show();" class="item">
-            <i class="fa fa-lock"></i> {{ 'user.ban.title'|lang }}
-        </a>
-        {% endif %}
-        <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.change-password').show();" class="item">
-            <i class="fa fa-shield"></i> {{ 'user.edit.password'|lang }}
+        <a href="{{ 'users'|url }}" class="item">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'button.cancel'|lang }}
         </a>
 
         <nav class="right">
-            <a href="{{ 'users'|url }}" class="item">
-                <i class="fa fa-arrow-left"></i>
-                {{ 'button.cancel'|lang }}
+            <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.edit').show();" class="item">
+                <i class="fa fa-edit"></i> {{ 'user.edit.title'|lang }}
+            </a>
+            {% if profile.id != user.id %}
+                <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.ban').show();" class="item">
+                    <i class="fa fa-lock"></i> {{ 'user.ban.title'|lang }}
+                </a>
+            {% endif %}
+            <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.change-password').show();" class="item">
+                <i class="fa fa-shield"></i> {{ 'user.edit.password'|lang }}
             </a>
         </nav>
     </menu>
