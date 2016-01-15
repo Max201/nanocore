@@ -59,7 +59,6 @@
                         <i class="fa fa-cubes"></i> Лаборатория
                     </header>
                     <div class="side-block-body">
-                        {{ counter.invisible|raw }}
                         <ul>
                             {% for category in post_categories %}
                                 <li>
@@ -76,5 +75,7 @@
             </section>
         </div>
     </div>
+
+    {{ counter.invisible|raw }}
 </body>
 </html>
