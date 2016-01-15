@@ -114,10 +114,11 @@ class Control extends NCControl
                     'class'     => 'error'
                 ]);
             } else {
-                if ( \User::create($data) ) {
+                if ( $user = \User::create($data) ) {
                     return static::json_response([
                         'message'   => $this->lang->translate('form.saved'),
-                        'class'     => 'success'
+                        'class'     => 'success',
+                        'user_id'   => $user->id
                     ]);
                 } else {
                     return static::json_response([

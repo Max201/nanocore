@@ -29,9 +29,9 @@ var gui = {
     'go': function(url, timeout) {
         timeout = timeout || 0;
         if ( timeout > 0 ) {
-            setTimeout(function(){ document.location = url; }, timeout * 1000)
+            setTimeout(function(){ document.location.href = url; }, timeout * 1000)
         } else {
-            document.location = url;
+            document.location.href = url;
         }
     },
     'uri': function(data, timeout) {

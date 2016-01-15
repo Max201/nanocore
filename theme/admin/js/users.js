@@ -80,6 +80,11 @@ function createUser(form)
         '/control/user/create/',
         data,
         function (response) {
+            if ( response['user_id'] ) {
+                console.log(response);
+                gui.go('/control/user/profile/' + response['user_id'], 2);
+            }
+
             var mclass = response['class'];
             var errors = response['errors'];
             var message = response['message'];
@@ -91,10 +96,6 @@ function createUser(form)
                 .addClass(mclass)
                 .html(message || errors)
                 .show();
-
-            if ( !errors ) {
-                gui.go('/control/user/', 3000);
-            }
         }
     );
 }
@@ -207,7 +208,7 @@ function createGroup(form)
 
 
             if ( mclass == 'success' ) {
-                gui.go('/control/user/groups', 3000);
+                gui.go('/control/user/groups', 3);
             }
         }
     );

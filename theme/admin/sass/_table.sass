@@ -12,10 +12,12 @@ table
   td
     padding: 5px 15px
 
-    &[onclick]:hover
-      cursor: pointer
-      color: #2B587A
+    &[onclick]
       font-weight: bold
+      cursor: pointer
+
+      &:hover
+        color: #2B587A !important
 
     &.primary
       width: 70px

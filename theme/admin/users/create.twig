@@ -31,6 +31,7 @@
         <label for="password">
             <span class="title">{{ 'user.profile.password'|lang }}</span>
             <input id="password" name="password" type="text" value=""/>
+            <a class="button" href="javascript:void(0);" onclick="$('#password').val(gui.randomString(8)).focus()">{{ 'user.edit.generate_password'|lang }}</a>
         </label>
         <label for="group">
             <span class="title">{{ 'user.profile.group'|lang }}</span>
