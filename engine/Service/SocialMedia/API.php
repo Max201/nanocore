@@ -26,6 +26,11 @@ trait API
         return implode('&', $request);
     }
 
+    /**
+     * @param $uri
+     * @param array $params
+     * @return string
+     */
     static function build_url($uri, $params = [])
     {
         $url = strval($uri);
@@ -46,9 +51,10 @@ trait API
      * @param null $ref
      * @param array $headers
      * @param bool $return_headers
+     * @param bool $use_proxy
      * @return mixed
      */
-    static function GET($url, $params=[], $ref=null, $headers = [], $return_headers = false)
+    static function GET($url, $params=[], $ref=null, $headers = [], $return_headers = false, $use_proxy = false)
     {
         if ( is_null($ref) ) {
             $ref = Env::$request->getSchemeAndHttpHost() . '?' . Env::$request->getQueryString();
@@ -56,11 +62,15 @@ trait API
 
         $ch = curl_init($url . '?' . static::build_request($params));
         curl_setopt($ch, CURLOPT_REFERER, $ref);
-        curl_setopt($ch, CURLOPT_PROXY, '81.94.162.140:8080');
         curl_setopt($ch, CURLOPT_HTTPHEADER, static::build_headers($headers));
+        if ( $use_proxy ) {
+            curl_setopt($ch, CURLOPT_PROXY, '81.94.162.140:8080');
+        }
+
         if ( $return_headers ) {
             curl_setopt($ch, CURLOPT_HEADER, true);
         }
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -74,9 +84,10 @@ trait API
      * @param null $ref
      * @param array $headers
      * @param bool $return_headers
+     * @param bool $use_proxy
      * @return mixed
      */
-    static function POST($url, $params=[], $ref = null, $headers = [], $return_headers = false)
+    static function POST($url, $params=[], $ref = null, $headers = [], $return_headers = false, $use_proxy = false)
     {
         if ( is_null($ref) ) {
             $ref = Env::$request->getSchemeAndHttpHost() . '?' . Env::$request->getQueryString();
@@ -87,9 +98,14 @@ trait API
         curl_setopt($ch, CURLOPT_HTTPHEADER, static::build_headers($headers));
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        if ( $use_proxy ) {
+            curl_setopt($ch, CURLOPT_PROXY, '81.94.162.140:8080');
+        }
+
         if ( $return_headers ) {
             curl_setopt($ch, CURLOPT_HEADER, true);
         }
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         curl_close($ch);
