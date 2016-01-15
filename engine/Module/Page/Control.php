@@ -33,15 +33,9 @@ class Control extends NCControl
     {
         // Delete page
         if ( $request->get('delete') ) {
-            try {
-                $page = \Page::find_by_id(intval($request->get('delete')));
-                if ( $page && $page->delete() ) {
-                    $this->view->assign('message', $this->lang->translate('form.deleted'));
-                } else {
-                    $this->view->assign('message', $this->lang->translate('form.delete_failed'));
-                }
-            } catch ( \Exception $e ) {
-                $this->view->assign('message', $this->lang->translate('form.delete_failed'));
+            $page = \Page::find_by_id(intval($request->get('delete')));
+            if ( $page && $page->delete() ) {
+                $this->view->assign('message', $this->lang->translate('form.deleted'));
             }
         }
 

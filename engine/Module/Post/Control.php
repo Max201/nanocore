@@ -122,15 +122,9 @@ class Control extends NCControl
 
         // Delete post
         if ( $request->get('delete') ) {
-            try {
-                $post = \PostCategory::find_by_id(intval($request->get('delete')));
-                if ( $post && $post->delete() ) {
-                    $this->view->assign('message', $this->lang->translate('form.deleted'));
-                } else {
-                    $this->view->assign('message', $this->lang->translate('form.delete_failed'));
-                }
-            } catch ( \Exception $e ) {
-                $this->view->assign('message', $this->lang->translate('form.delete_failed'));
+            $post = \PostCategory::find_by_id(intval($request->get('delete')));
+            if ( $post && $post->delete() ) {
+                $this->view->assign('message', $this->lang->translate('form.deleted'));
             }
         }
 
@@ -163,17 +157,13 @@ class Control extends NCControl
 
     public function posts_list(Request $request)
     {
+        $title = $this->lang->translate('post.list');
+
         // Delete post
         if ( $request->get('delete') ) {
-            try {
-                $post = \Post::find_by_id(intval($request->get('delete')));
-                if ( $post && $post->delete() ) {
-                    $this->view->assign('message', $this->lang->translate('form.deleted'));
-                } else {
-                    $this->view->assign('message', $this->lang->translate('form.delete_failed'));
-                }
-            } catch ( \Exception $e ) {
-                $this->view->assign('message', $this->lang->translate('form.delete_failed'));
+            $post = \Post::find_by_id(intval($request->get('delete')));
+            if ( $post && $post->delete() ) {
+                $this->view->assign('message', $this->lang->translate('form.deleted'));
             }
         }
 
@@ -183,8 +173,13 @@ class Control extends NCControl
             $filter['order'] = $request->order;
         }
 
+        $category = null;
         if ( $request->get('category') ) {
-            $filter['conditions'] = ['category_id = ?', intval($request->get('category'))];
+            $category = \PostCategory::first($request->get('category'));
+            if ( $category ) {
+                $title = $this->lang->translate('post.category') . ' ' . $category->title;
+                $filter['conditions'] = ['category_id = ?', $category->id];
+            }
         }
 
         /** @var Listing $paginator */
@@ -195,7 +190,7 @@ class Control extends NCControl
         $posts = \Post::all($filter);
         $posts = array_map(function($i){ return $i->to_array(); }, $posts);
         return $this->view->render('posts/list.twig', [
-            'title'         => $this->lang->translate('post.list'),
+            'title'         => $title,
             'posts_list'    => $posts,
             'listing'       => $paginator->pages(),
             'page'          => $paginator->cur_page

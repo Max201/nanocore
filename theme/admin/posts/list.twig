@@ -31,6 +31,7 @@
             <tr>
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('views')})">{{ 'post.views'|lang }} <i class="fa {{ 'views'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'post.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
@@ -49,13 +50,12 @@
             <tr>
                 <td onclick="gui.go('{{ 'post.edit'|url(post.id) }}')" class="primary">#{{ post.id }}</td>
                 <td onclick="gui.go('/post/{{ post.id }}-{{ post.slug }}.html')">{{ post.title }}</td>
-                <td>{{ post.category.title }}</td>
+                <td>{{ post.views }}</td>
+                <td onclick="gui.uri({'category': '{{ post.category.id }}'})">{{ post.category.title }}</td>
                 <td>{{ post.author.username }}</td>
                 <td>{{ post.updated_at|tz|dlang }}</td>
-                <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ post.title }}\'?')) gui.go('?delete={{ post.id }}')">
-                    <span class="button">
-                        <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
-                    </span>
+                <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ post.title }}\'?')) gui.uri({'delete': '{{ post.id }}'})">
+                    <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
                 </td>
             </tr>
         {% endfor %}
@@ -64,6 +64,7 @@
             <tr>
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('views')})">{{ 'post.views'|lang }} <i class="fa {{ 'views'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'post.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
