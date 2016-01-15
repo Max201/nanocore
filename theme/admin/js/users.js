@@ -117,7 +117,7 @@ function banUser(userId, time, reason)
         function (response) {
             var mclass = response['class'];
             var message = response['status'];
-            var $msg = $('#edit');
+            var $msg = $('#ban');
 
             $msg
                 .removeClass('success')

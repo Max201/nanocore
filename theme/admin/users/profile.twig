@@ -8,9 +8,11 @@
         <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.edit').show();" class="item">
             <i class="fa fa-edit"></i> {{ 'user.edit.title'|lang }}
         </a>
+        {% if profile.id != user.id %}
         <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.ban').show();" class="item">
             <i class="fa fa-lock"></i> {{ 'user.ban.title'|lang }}
         </a>
+        {% endif %}
         <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.change-password').show();" class="item">
             <i class="fa fa-shield"></i> {{ 'user.edit.password'|lang }}
         </a>
@@ -95,6 +97,7 @@
             <span class="title">{{ 'user.profile.email'|lang }}</span>
             <input id="email" name="email" type="text" value="{{ profile.email }}"/>
         </label>
+        {% if profile.id != user.id %}
         <label for="group">
             <span class="title">{{ 'user.profile.group'|lang }}</span>
             <span class="cselect">
@@ -105,6 +108,7 @@
                 </select>
             </span>
         </label>
+        {% endif %}
         <footer>
             <input class="button" type="button" onclick="editUser('{{ profile.id }}', $('#email').val(), $('#username').val(), $('#group').val())" id="edit" value="Сохранить"/>
         </footer>
