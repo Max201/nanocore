@@ -23,8 +23,14 @@ class Control extends NCControl
     public function route()
     {
         $this->map->addRoute('/', [$this, 'pages_list'], 'list');
+        $this->map->addRoute('test', [$this, 'test'], 'test');
         $this->map->addRoute('create', [$this, 'edit_page'], 'page.new');
         $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_page'], 'page.edit');
+    }
+
+    public function test(Request $request)
+    {
+        var_dump(\GroupPermission::create('te2st3', 1, 'Позволить тест'));
     }
 
     public function pages_list($request)
