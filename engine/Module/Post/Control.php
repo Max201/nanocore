@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Service\Paginator\Listing;
 use System\Engine\NCControl;
 use System\Engine\NCService;
+use System\Environment\Arguments;
 
 
 class Control extends NCControl
@@ -27,6 +28,7 @@ class Control extends NCControl
     public function route()
     {
         $this->map->addRoute('/', [$this, 'posts_list'], 'list');
+        $this->map->addRoute('moderate', [$this, 'posts_moderate'], 'list.moderation');
         $this->map->addRoute('categories', [$this, 'posts_categories'], 'list.categories');
         $this->map->addRoute('categories/edit', [$this, 'edit_category'], 'post.category_new');
         $this->map->addRoute('create', [$this, 'edit_post'], 'post.new');
@@ -155,7 +157,12 @@ class Control extends NCControl
         ]);
     }
 
-    public function posts_list(Request $request)
+    public function posts_moderate(Request $request)
+    {
+        return $this->posts_list($request, new Arguments(['mod' => true]));
+    }
+
+    public function posts_list(Request $request, $opts)
     {
         $title = $this->lang->translate('post.list');
 
@@ -167,19 +174,58 @@ class Control extends NCControl
             }
         }
 
+        // Publish post
+        if ( $request->get('accept') ) {
+            $post = \Post::find_by_id(intval($request->get('accept')));
+            if ( $post ) {
+                $post->moderate = '0';
+                $post->created_at = time();
+                if ( $post->save() ) {
+                    $this->view->assign('message', $this->lang->translate('post.published'));
+                }
+            } else {
+                $this->view->assign('message', $this->lang->translate('post.error_publish'));
+            }
+        }
+
         // Filter
         $filter = [];
         if ( $request->order ) {
             $filter['order'] = $request->order;
         }
 
-        $category = null;
+        $conditions = [];
+        $values = [];
+
+        // By Category
         if ( $request->get('category') ) {
-            $category = \PostCategory::first($request->get('category'));
+            $category = \PostCategory::find($request->get('category'));
             if ( $category ) {
-                $title = $this->lang->translate('post.category') . ' ' . $category->title;
-                $filter['conditions'] = ['category_id = ?', $category->id];
+                $conditions[] = 'category_id = ?';
+                $values[] = $category->id;
             }
+        }
+
+        // By Author
+        if ( $request->get('author') ) {
+            $author = \User::find($request->get('author'));
+            if ( $author ) {
+                $conditions[] = 'author_id = ?';
+                $values[] = $author->id;
+            }
+        }
+
+        // Premoderate
+        $conditions[] = 'moderate = ?';
+        if ( $opts->get('mod') ) {
+            $title = $this->lang->translate('post.onmoderation');
+            $values[] = '1';
+        } else {
+            $values[] = '0';
+        }
+
+        if ( $conditions ) {
+            $filter['conditions'] = array_merge([implode(' AND ', $conditions)], $values);
         }
 
         /** @var Listing $paginator */
@@ -193,7 +239,8 @@ class Control extends NCControl
             'title'         => $title,
             'posts_list'    => $posts,
             'listing'       => $paginator->pages(),
-            'page'          => $paginator->cur_page
+            'page'          => $paginator->cur_page,
+            'moderate'      => $opts->get('mod')
         ]);
     }
 

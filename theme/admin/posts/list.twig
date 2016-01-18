@@ -2,8 +2,11 @@
 
 {% block body %}
     <menu>
-        <a href="{{ 'list'|url }}" class="item active">
+        <a href="{{ 'list'|url }}" class="item{% if not moderate %} active{% endif %}">
             {{ 'post.list'|lang }}
+        </a>
+        <a href="{{ 'list.moderation'|url }}" class="item{% if moderate %} active{% endif %}">
+            {{ 'post.onmoderation'|lang }}
         </a>
         <a href="{{ 'list.categories'|url }}" class="item">
             {{ 'post.categories'|lang }}
@@ -34,7 +37,8 @@
                 <td onclick="gui.uri({'order': gui.order_toggle('views')})">{{ 'post.views'|lang }} <i class="fa {{ 'views'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
-                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'post.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'post.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+                <td>{{ 'post.checked'|lang }}</td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </thead>
@@ -52,8 +56,17 @@
                 <td onclick="gui.go('/post/{{ post.id }}-{{ post.slug }}.html')">{{ post.title }}</td>
                 <td>{{ post.views }}</td>
                 <td onclick="gui.uri({'category': '{{ post.category.id }}'})">{{ post.category.title }}</td>
-                <td>{{ post.author.username }}</td>
+                <td onclick="gui.uri({'author': '{{ post.author.id }}'})">{{ post.author.username }}</td>
                 <td>{{ post.updated_at|tz|dlang }}</td>
+                {% if post.moderate == 1 %}
+                <td onclick="if (confirm('{{ 'post.publish'|lang }} \'{{ post.title }}\'?')) gui.uri({'accept': '{{ post.id }}'})">
+                    <i class="fa fa-check"></i> {{ 'post.publish'|lang }}
+                </td>
+                {% else %}
+                <td>
+                    <i class="fa fa-checked"></i> {{ 'post.checked'|lang }}
+                </td>
+                {% endif %}
                 <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ post.title }}\'?')) gui.uri({'delete': '{{ post.id }}'})">
                     <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
                 </td>
@@ -67,15 +80,19 @@
                 <td onclick="gui.uri({'order': gui.order_toggle('views')})">{{ 'post.views'|lang }} <i class="fa {{ 'views'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
-                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'post.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'post.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+                <td>{{ 'post.checked'|lang }}</td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </tfoot>
     </table>
 
     <menu>
-        <a href="{{ 'list'|url }}" class="item active">
+        <a href="{{ 'list'|url }}" class="item{% if not moderate %} active{% endif %}">
             {{ 'post.list'|lang }}
+        </a>
+        <a href="{{ 'list.moderation'|url }}" class="item{% if moderate %} active{% endif %}">
+            {{ 'post.onmoderation'|lang }}
         </a>
         <a href="{{ 'list.categories'|url }}" class="item">
             {{ 'post.categories'|lang }}
