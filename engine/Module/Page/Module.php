@@ -57,15 +57,13 @@ class Module extends NCModule
         /*
          * Short description filter
          */
-        $theme->twig->addFilter(new \Twig_SimpleFilter('short', function($value, $max_words = 128){
-            $short_tag = '<hr id="short"/>';
+        $theme->twig->addFilter(new \Twig_SimpleFilter('short', function($value){
+            $short_tag = '<br id="short"/>';
             if ( strpos($value, $short_tag) > 0 ) {
                 return reset(explode($short_tag, $value, 2));
             }
 
-            $words = explode(' ', strip_tags($value));
-            $last_word = end(array_splice($words, 0, $max_words));
-            return substr($value, 0, strpos($value, $last_word));
+            return $value;
         }));
 
         return [

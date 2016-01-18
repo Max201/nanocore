@@ -1,25 +1,39 @@
 .entry-item
-  padding: 15px
-  margin: 0 0 15px 0
-  h3
-    margin: 10px 10px 0 10px
-    padding: 8px 10px
-    border-bottom: 1px solid #eeeeee
-
-  .post-info
-    margin: 0
-    padding: 5px 10px
-
-    small,
-    span
-      display: inline-block
-      color: #888888
-      padding: 0 10px
-
-  .post
-    margin: 15px
-    min-height: 150px
-
-  .post-short
-    padding: 5px 15px 25px 15px
-    min-height: 50px
+  padding: 10px
+  display: block
+  .entry-date
+    padding: 6px
+    border-radius: 50%
+    background: dodgerblue
+    float: left
+    width: 60px
+    height: 60px
+    text-align: center
+    vertical-align: top
+    +font-open-sans(16px, #fff, 500)
+  .entry-description
+    width: 100%
+    display: block
+    padding: 0 20px 20px 70px
+    margin: 0 0 5px 0
+    .entry-stat
+      float: right
+      text-align: center
+      margin: -30px 0 0 0
+      +font-jura(18px, green, 900)
+    h2.headline
+      margin: 0 0 5px 0
+      padding: 0 0 5px 0
+      border-bottom: 1px solid #eeeeee
+      a
+        font-weight: normal
+      sup a
+        color: #333333
+        font-size: 12px
+    .entry-short
+      cursor: pointer
+    .entry-short,
+    .entry-full
+      min-height: 80px
+      p
+        margin: 5px 0

@@ -1,0 +1,7 @@
+{% if listing %}
+    <menu class="paging">
+        {% for l in listing %}
+            <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+        {% endfor %}
+    </menu>
+{% endif %}

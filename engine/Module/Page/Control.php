@@ -86,6 +86,9 @@ class Control extends NCControl
                     'template'  => $request->get('template'),
                     'author_id' => $this->user->id
                 ]);
+
+                // Ping sitemap
+                NCService::load('SocialMedia.Ping');
             }
 
             // Updating instance

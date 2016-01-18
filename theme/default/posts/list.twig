@@ -1,17 +1,32 @@
 {% extends 'index.twig' %}
 
 {% block body %}
-    <div class="content">
-        {% for post in posts %}
-            <div class="entry-item">
-                <h3><a href="{{ 'post'|url(post.id, post.slug) }}">{{ post.title }}</a></h3>
-                <p class="post-info">
-                    <small>Автор: {{ post.author.username }}</small> /
-                    <small>Опубликовано: {{ post.updated_at|tz|dlang }}</small> /
-                    <small>Категория: <a href="{{ 'category'|url(post.category_id) }}">{{ post.category.title }}</a></small>
-                </p>
-                <div class="post-short">{{ post.content|short|raw }}</div>
+    {% for post in posts %}
+        <div class="entry-item">
+            <div class="entry-date">
+                {{ post.updated_at|tz('d')|raw|dlang }}<br />
+                {{ post.updated_at|tz('M')|raw|dlang }}
             </div>
-        {% endfor %}
-    </div>
+            <div class="entry-description">
+                <h2 class="headline">
+                    <strong>{{ post.author.username }}: </strong>
+                    <a target="_blank" href="{{ 'post'|url(post.id, post.slug) }}">
+                        {{ post.title }}
+                    </a>
+                    <sup>
+                        <small><a href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a></small>
+                    </sup>
+                </h2>
+                <div class="entry-stat">
+                    +{{ post.views }}
+                </div>
+                <div class="entry-short" onclick="document.location.href = '{{ 'post'|url(post.id, post.slug) }}';">
+                    {{ post.content|short|raw }}
+                </div>
+            </div>
+        </div>
+        <div class="cb"></div>
+    {% endfor %}
+
+    {% include 'paging.twig' %}
 {% endblock %}

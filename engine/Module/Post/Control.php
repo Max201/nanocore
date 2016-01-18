@@ -231,6 +231,9 @@ class Control extends NCControl
                     'slug'          => $request->get('slug'),
                     'author_id'     => $this->user->id
                 ]);
+
+                // Ping sitemap
+                NCService::load('SocialMedia.Ping');
             }
 
             // Updating instance
@@ -249,7 +252,7 @@ class Control extends NCControl
         return $this->view->render('posts/create.twig', [
             'post'          => $post,
             'title'         => $title,
-            'categories'    => array_map(function($i){ return $i->to_array(); }, \PostCategory::all())
+            'categories'    => \PostCategory::as_array(\PostCategory::all())
         ]);
     }
 } 

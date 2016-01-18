@@ -1129,6 +1129,25 @@ class Model
 	}
 
 	/**
+	 * @param null $models
+	 * @return array
+	 */
+	public static function as_array($models = null)
+	{
+		if ( is_null($models) ) {
+			return [];
+		}
+
+		if ( $models instanceof Model ) {
+			return $models->to_array();
+		}
+
+		return array_map(function($item){
+			return $item->to_array();
+		}, $models);
+	}
+
+	/**
 	 * A list of valid finder options.
 	 *
 	 * @var array

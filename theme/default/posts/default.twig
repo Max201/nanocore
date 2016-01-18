@@ -2,28 +2,41 @@
 
 {% block body %}
     <div class="entry-item">
-        <div class="post">
-            {{ post.content|raw }}
+        <div class="entry-date">
+            {{ post.updated_at|tz('d')|raw|dlang }}<br />
+            {{ post.updated_at|tz('M')|raw|dlang }}
         </div>
-        <p class="post-info">
-            <small>Автор: {{ post.author.username }}</small> /
-            <small>Опубликовано: {{ post.updated_at|tz|dlang }}</small> /
-            <small>Категория: <a href="{{ 'category'|url(post.category_id) }}">{{ post.category.title }}</a></small>
-        </p>
-
-        <div id="disqus_thread"></div>
-        <script>
-            var disqus_config = function () {
-                this.page.url = document.location.href;
-                this.page.identifier = '{{ post.id }}';
-            };
-            (function() {
-                var d = document, s = d.createElement('script');
-                s.src = '//nanolab.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        <div class="entry-description">
+            <h2 class="headline">
+                <strong>{{ post.author.username }}: </strong>
+                {{ post.title }}
+                <sup>
+                    <small><a href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a></small>
+                </sup>
+            </h2>
+            <div class="entry-stat">
+                +{{ post.views }}
+            </div>
+            <div class="entry-full">
+                {{ post.content|raw }}
+            </div>
+        </div>
     </div>
+
+    <div class="cb"></div>
+
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function () {
+            this.page.url = document.location.href;
+            this.page.identifier = '{{ post.id }}';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = '//nanolab.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 {% endblock %}

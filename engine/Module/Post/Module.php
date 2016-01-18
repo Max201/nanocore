@@ -161,15 +161,24 @@ class Module extends NCModule
         if ( $post ) {
             if ( Env::$request->cookies->get('_p_viewed') != $post->id ) {
                 $post->views = $post->views + 1;
-                $post->save();
+                $post->save(true, false);
 
                 Env::$response->headers->setCookie(new Cookie('_p_viewed', $post->id));
             }
 
             Env::$response->headers->set('Last-Modified', date('D, d M Y H:i:s \G\M\T', $post->updated_at));
+
+            // Same posts
+            $same = \Post::find([
+                'conditions'    => ['id <> ? AND category_id = ?', $post->id, $post->category_id],
+                'offset'        => 0,
+                'limit'         => 5
+            ]);
+
             return $this->view->render('posts/default.twig', [
                 'post'  => $post->to_array(),
                 'title' => $post->title,
+                'same'  => \Post::as_array($same)
             ]);
         }
 
