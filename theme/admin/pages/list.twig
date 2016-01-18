@@ -42,7 +42,7 @@
             <tr>
                 <td onclick="gui.go('{{ 'page.edit'|url(page.id) }}')" class="primary">#{{ page.id }}</td>
                 <td onclick="gui.go('/page/{{ page.id }}-{{ page.slug }}.html')">{{ page.title }}</td>
-                <td>{{ page.author.username }}</td>
+                <td onclick="gui.uri({author:'{{ page.author_id }}'})">{{ page.author.username }}</td>
                 <td>{{ page.updated_at|tz|dlang }}</td>
                 <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ page.title }}\'?')) gui.uri({'delete': '{{ page.id }}'})">
                     <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}

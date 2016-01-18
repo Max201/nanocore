@@ -59,6 +59,7 @@ class NCModule
         // Authentication
         /** @var Auth auth */
         $this->auth = NCService::load('User.Auth');
+        /** @var \User user */
         $this->user = $this->auth->identify(Env::$request->cookies->get('sess'));
 
         // Settings

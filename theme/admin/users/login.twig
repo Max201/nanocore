@@ -19,7 +19,7 @@
                         if (r.status) {
                             document.location = '/admin/';
                         } else {
-                            $('#response').slideDown().text('{{ translate.e('users.login.failed') }}');
+                            $('#response').slideDown().text('{{ 'users.login.failed'|lang }}');
                         }
                     }
                 )

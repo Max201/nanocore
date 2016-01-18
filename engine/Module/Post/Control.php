@@ -189,7 +189,7 @@ class Control extends NCControl
         }
 
         // Filter
-        $filter = [];
+        $filter['order'] = 'id DESC';
         if ( $request->order ) {
             $filter['order'] = $request->order;
         }
@@ -269,6 +269,7 @@ class Control extends NCControl
                 $post->category_id = $request->get('category');
                 $post->keywords = $request->get('keywords');
                 $post->slug = $request->get('slug');
+                $post->moderate = $request->get('moderate');
             } else {
                 $post = new \Post([
                     'title'         => $request->get('title'),
@@ -276,7 +277,8 @@ class Control extends NCControl
                     'category_id'   => $request->get('category'),
                     'keywords'      => $request->get('keywords'),
                     'slug'          => $request->get('slug'),
-                    'author_id'     => $this->user->id
+                    'author_id'     => $this->user->id,
+                    'moderate'      => $request->get('moderate')
                 ]);
 
                 // Ping sitemap

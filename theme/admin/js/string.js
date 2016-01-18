@@ -9,7 +9,20 @@ String.prototype.urlize = function () {
         ' ': '_',
         '=': '_',
         '&': 'and',
-        '|': 'or'
+        '|': 'or',
+        '@': 'at',
+        '$': '',
+        '^': '',
+        '(': '',
+        ')': '',
+        '[': '',
+        '%': '',
+        '#': '',
+        '!': '',
+        '.': '',
+        ':': '',
+        '/': '',
+        '\\': ''
     };
 
     for ( var i = 0; i < input.length; i++ ) {
@@ -142,4 +155,7 @@ String.prototype.translit = function () {
  */
 $(function(){
     $('[data-url-for]').on('input', function(){$($(this).attr('data-url-for')).val($(this).val().urlize())});
+    $('[data-url-for]').each(function(i, e){
+        $($(e).attr('data-url-for')).val($(e).val().urlize());
+    })
 });

@@ -11,8 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Service\Paginator\Listing;
 use System\Engine\NCControl;
 use System\Engine\NCService;
-use System\Engine\NCWidget;
-use System\Environment\Env;
 
 
 class Control extends NCControl
@@ -39,9 +37,23 @@ class Control extends NCControl
             }
         }
 
+        // Filter
+        $filter = [];
+        if ( $request->get('author') ) {
+            $author = \User::find($request->get('author'));
+            if ( $author ) {
+                $filter['conditions'] = ['author_id = ?', $author->id];
+            }
+        }
+
+        $filter['order'] = 'id DESC';
+        if ( $request->order ) {
+            $filter['order'] = $request->order;
+        }
+
         /** @var Listing $paginator */
-        $paginator = NCService::load('Paginator.Listing', [$request->get('page', 1), \Page::count()]);
-        $filter = $paginator->limit();
+        $paginator = NCService::load('Paginator.Listing', [$request->page, \Page::count('all')]);
+        $filter = array_merge($filter, $paginator->limit());
 
         // Filter users
         $pages = \Page::all($filter);

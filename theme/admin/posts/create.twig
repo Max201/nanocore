@@ -1,19 +1,25 @@
 {% extends 'base.twig' %}
 {% block head %}
     <script type="text/javascript">
-        function submit()
+        function submit(moderate)
         {
+            moderate = moderate || '0';
             var data = {
                 'content': tinyMCE.get('edit').getContent(),
                 'title': $('#title').val(),
                 'category': $('#category').val(),
                 'keywords': $('#keywords').val(),
-                'slug': $('#slug').val()
+                'slug': $('#slug').val(),
+                'moderate': moderate || '0'
             };
 
             $.post('{{ 'post.new'|url }}?id={{ post.id }}', data, function(r){
                 $('.message').text(r.message).slideDown();
-                gui.go('{{ 'list'|url }}', 2);
+                if ( moderate == '0' ) {
+                    gui.go('{{ 'list'|url }}', 2);
+                } else {
+                    gui.go('{{ 'list.moderation'|url }}', 2);
+                }
             });
         }
 
@@ -47,9 +53,13 @@
         {% endif %}
 
         <nav class="right">
-            <a class="item" href="#" onclick="submit();">
+            <a class="item" href="#" onclick="submit('1');">
                 <i class="fa fa-save"></i>
                 {{ 'button.save'|lang }}
+            </a>
+            <a class="item" href="#" onclick="submit('0');">
+                <i class="fa fa-file"></i>
+                {{ 'post.publish'|lang }}
             </a>
         </nav>
     </menu>
