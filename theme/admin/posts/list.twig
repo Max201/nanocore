@@ -53,7 +53,7 @@
         {% for post in posts_list %}
             <tr>
                 <td onclick="gui.go('{{ 'post.edit'|url(post.id) }}')" class="primary">#{{ post.id }}</td>
-                <td onclick="gui.go('/post/{{ post.id }}-{{ post.slug }}.html')" title="{{ post.title }}">{{ post.title|sub(35) }}</td>
+                <td onclick="gui.go('/post/{{ post.id }}-{{ post.slug }}.html')" title="{{ post.title }}">{{ post.title|sub(24) }}</td>
                 <td>{{ post.views }}</td>
                 <td onclick="gui.uri({'category': '{{ post.category.id }}'})">{{ post.category.title }}</td>
                 <td onclick="gui.uri({'author': '{{ post.author.id }}'})">{{ post.author.username }}</td>
