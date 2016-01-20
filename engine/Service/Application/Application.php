@@ -31,6 +31,15 @@ class Application extends NCService
     static $instance = null;
 
     /**
+     * Static urls
+     * @var array
+     */
+    static $static_routes = [
+        '/sitemap.xml'  => '\\Service\\Application\\Application::route_sitemap',
+        '/code.jpg'     => '\\Service\\Application\\Application::route_captcha',
+    ];
+
+    /**
      * @var Options
      */
     public $conf;
@@ -50,11 +59,9 @@ class Application extends NCService
         // Parse URL
         $url = reset(explode('?', $url, 2));
 
-        // If sitemap request
-        if ( $url == '/sitemap.xml' ) {
-            Env::$response->setContent( $this->sitemap() );
-            Env::$response->headers->set('Content-Type', 'application/xml');
-            Env::$response->send();
+        // Static application routes
+        if ( array_key_exists($url, static::$static_routes) ) {
+            call_user_func(static::$static_routes[$url], $this);
             exit;
         }
 
@@ -134,5 +141,25 @@ class Application extends NCService
         }
 
         return static::$instance;
+    }
+
+    /**
+     * @param Application $app
+     */
+    public static function route_sitemap(Application $app)
+    {
+        Env::$response->setContent( $app->sitemap() );
+        Env::$response->headers->set('Content-Type', 'application/xml');
+        Env::$response->send();
+    }
+
+    /**
+     * @param Application $app
+     */
+    public static function route_captcha(Application $app)
+    {
+        /** @var Captcha $captcha */
+        $captcha = $app->load('Application.Captcha');
+        $captcha->render();
     }
 } 

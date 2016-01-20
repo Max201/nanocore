@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Service\Application\Settings;
 use System\Engine\NCControl;
 use System\Engine\NCModule;
+use System\Engine\NCModuleCore;
 use System\Engine\NCService;
 use System\Environment\Env;
 use Service\User\Auth;
@@ -270,16 +271,18 @@ class Module extends NCControl
     public function login(Request $request)
     {
         if ( $request->isMethod('POST') ) {
-            Env::$response->headers->set('Content-Type', 'application/json', true);
+            if ( !NCModuleCore::verify_captcha($request->get('captcha')) ) {
+                return static::json_response(['error' => 'failed']);
+            }
 
             /** @var Auth $service */
             $service = NCService::load('User.Auth');
             $user = $service->authenticate($request->get('username'), $request->get('password'));
             if ( $user && $user->can('access') ) {
                 $service->login($user);
-                return json_encode(['status' => 'ok']);
+                return static::json_response(['status' => 'ok']);
             } else {
-                return json_encode(['error' => 'failed']);
+                return static::json_response(['error' => 'failed']);
             }
         }
 

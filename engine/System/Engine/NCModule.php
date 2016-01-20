@@ -91,6 +91,9 @@ class NCModule
         // Assign user
         $this->view->assign('user', $this->user);
 
+        // Assign captcha URL
+        $this->view->assign('secure_image', NCModuleCore::$captcha_url);
+
         // Loading modules globals
         $this->view->load_globals($this, $this->lang);
 

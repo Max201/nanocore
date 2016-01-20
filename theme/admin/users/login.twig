@@ -8,27 +8,35 @@
     <script type="text/javascript" src="{{ 'webgui.js'|local('js') }}"></script>
     <script type="text/javascript">
         $(function(){
-            $('[name="login"]').on('click', function(){
-                $.post(
-                    document.location,
-                    {
-                        'username': $('#username').val(),
-                        'password': $('#password').val()
-                    },
-                    function(r){
-                        if (r.status) {
-                            document.location = '/admin/';
-                        } else {
-                            $('#response').slideDown(100).text('{{ 'user.auth.failed'|lang }}');
-
-                            setTimeout(function(){
-                                $('#response').slideToggle(100);
-                            }, 2000);
-                        }
-                    }
-                )
+            // Update captcha
+            $('#code').on('click', function(){
+                $(this).attr('src', '{{ secure_image }}?r=' + Math.random());
             });
         });
+
+        auth = function() {
+            $.post(
+                document.location,
+                {
+                    'username': $('#username').val(),
+                    'password': $('#password').val(),
+                    'captcha': $('#captcha').val()
+                },
+                function(r){
+                    if (r.status) {
+                        document.location = '/admin/';
+                    } else {
+                        $('#response').slideDown(100).text('{{ 'user.auth.failed'|lang }}');
+
+                        setTimeout(function(){
+                            $('#response').slideToggle(100);
+                        }, 2000);
+                    }
+                }
+            );
+
+            return false;
+        }
     </script>
 </head>
 <body>
@@ -46,21 +54,23 @@
                 <header class="login-page">
                     {{ 'user.auth.title'|lang }}
                 </header>
-                {% block body %}
-                    <form method="post" action="/admin/login/" onsubmit="return false;" class="form login-form">
-                        <img src="{{ 'secure.png'|local('img') }}" alt="Secure Panel"/>
-                        <div id="response" class="message error"></div>
-                        <label for="username">
-                            <input type="text" id="username" name="username" placeholder="{{ 'user.profile.username'|lang }}"/>
-                        </label>
-                        <label for="password">
-                            <input type="password" id="password" name="password" placeholder="{{ 'user.profile.password'|lang }}"/>
-                        </label>
-                        <footer>
-                            <input class="button" type="submit" value="{{ 'user.auth.login'|lang }}" name="login"/>
-                        </footer>
-                    </form>
-                {% endblock %}
+                <form method="post" onsubmit="return auth();" class="form login-form">
+                    <img src="{{ 'secure.png'|local('img') }}" alt="Secure Panel"/>
+                    <div id="response" class="message error"></div>
+                    <label for="username">
+                        <input type="text" id="username" name="username" placeholder="{{ 'user.profile.username'|lang }}"/>
+                    </label>
+                    <label for="password">
+                        <input type="password" id="password" name="password" placeholder="{{ 'user.profile.password'|lang }}"/>
+                    </label>
+                    <label for="captcha">
+                        <input type="text" id="captcha" name="captcha" placeholder="{{ 'user.auth.code'|lang }}"/>
+                        <span class="captcha"><img id="code" src="{{ secure_image }}" alt="KCaptcha"/></span>
+                    </label>
+                    <footer>
+                        <input class="button" type="submit" value="{{ 'user.auth.login'|lang }}" name="login"/>
+                    </footer>
+                </form>
             </section>
         </main>
     </section>

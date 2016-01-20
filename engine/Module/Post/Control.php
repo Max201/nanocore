@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Service\Paginator\Listing;
 use System\Engine\NCControl;
 use System\Engine\NCService;
+use System\Engine\NCWidget;
 use System\Environment\Arguments;
 
 
@@ -34,6 +35,19 @@ class Control extends NCControl
         $this->map->addRoute('create', [$this, 'edit_post'], 'post.new');
 
         $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_post'], 'post.edit');
+    }
+
+    static function widget()
+    {
+        $readed = \Post::find(['select' => 'SUM(views) as views'])->views;
+        $total = \Post::count();
+        $authors = \Post::find(['select' => 'COUNT(DISTINCT(author_id)) as authors'])->authors;
+
+        return [
+            new NCWidget('readed', 'posts/widgets/views.twig', ['views' => number_format($readed, 0, '.', ' ')]),
+            new NCWidget('total', 'posts/widgets/total.twig', ['total' => number_format($total, 0, '.', ' ')]),
+            new NCWidget('authors', 'posts/widgets/authors.twig', ['authors' => number_format($authors, 0, '.', ' ')]),
+        ];
     }
 
     public function edit_category(Request $request)
