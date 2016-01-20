@@ -61,6 +61,15 @@ class Module extends NCControl
             return strpos($cur, $order);
         }));
 
+
+        $view->twig->addFilter(new \Twig_SimpleFilter('sub', function($str, $len = 24){
+            if ( mb_strlen($str) > $len ) {
+                $str = mb_substr($str, 0, $len - 3) . '...';
+            }
+
+            return $str;
+        }));
+
         return [
             'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix'),
             'lang_code'     => $lang->pack,
