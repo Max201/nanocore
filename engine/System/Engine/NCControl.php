@@ -7,6 +7,7 @@
 namespace System\Engine;
 
 use Module\Admin\Helper;
+use System\Environment\Env;
 
 
 class NCControl extends NCModule
@@ -37,6 +38,15 @@ class NCControl extends NCModule
      */
     public function access()
     {
+        if ( is_null($this->user) ) {
+            if ( Env::$request->server->get('REQUEST_URI') == '/admin/login' ) {
+                return true;
+            } else {
+                header('Location: /admin/login');
+                die;
+            }
+        }
+
         return $this->user ? $this->user->can('use_admin') : false;
     }
 

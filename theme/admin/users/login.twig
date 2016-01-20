@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>{% block title %}{% if title %}{{ title }}{% else %}Untitled{% endif %}{% endblock %}</title>
+    <title>{{ 'user.auth.title'|lang }}</title>
     <link rel="stylesheet" href="{{ 'custom.css'|local('css') }}"/>
     <script type="text/javascript" src="{{ 'jquery.js'|local('js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ 'webgui.js'|local('js') }}"></script>
@@ -19,7 +19,11 @@
                         if (r.status) {
                             document.location = '/admin/';
                         } else {
-                            $('#response').slideDown().text('{{ 'users.login.failed'|lang }}');
+                            $('#response').slideDown(100).text('{{ 'user.auth.failed'|lang }}');
+
+                            setTimeout(function(){
+                                $('#response').slideToggle(100);
+                            }, 2000);
                         }
                     }
                 )
@@ -38,23 +42,22 @@
     <section id="container">
         <!--Content box-->
         <main class="content-wrapper wrapped">
-            <section id="content">
-                <header>
-                    {% block header %}{% if header %}{{ header }}{% else %}{{ title }}{% endif %}{% endblock %}
+            <section id="content" class="login-page">
+                <header class="login-page">
+                    {{ 'user.auth.title'|lang }}
                 </header>
                 {% block body %}
-                    <form method="post" action="/admin/login/" onsubmit="return false;" class="form">
-                        <div id="response" class="response"></div>
+                    <form method="post" action="/admin/login/" onsubmit="return false;" class="form login-form">
+                        <img src="{{ 'secure.png'|local('img') }}" alt="Secure Panel"/>
+                        <div id="response" class="message error"></div>
                         <label for="username">
-                            <span class="title">Username</span>
-                            <input type="text" id="username" name="username"/>
+                            <input type="text" id="username" name="username" placeholder="{{ 'user.profile.username'|lang }}"/>
                         </label>
                         <label for="password">
-                            <span class="title">Password</span>
-                            <input type="text" id="password" name="password"/>
+                            <input type="password" id="password" name="password" placeholder="{{ 'user.profile.password'|lang }}"/>
                         </label>
                         <footer>
-                            <input class="button" type="submit" name="login"/>
+                            <input class="button" type="submit" value="{{ 'user.auth.login'|lang }}" name="login"/>
                         </footer>
                     </form>
                 {% endblock %}

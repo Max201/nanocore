@@ -25,6 +25,7 @@
 
     <div class="cb"></div>
 
+    {% if user.can('comment') %}
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function () {
@@ -39,4 +40,9 @@
         })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    {% else %}
+        <div class="wall">
+            Вам запрещено комментировать публикации. Необходимо <a target="_blank" href="/user/auth/">войти</a> или <a target="_blank" href="/user/new/">зарегистрироваться</a>.
+        </div>
+    {% endif %}
 {% endblock %}
