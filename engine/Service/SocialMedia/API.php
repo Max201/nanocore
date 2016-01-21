@@ -64,7 +64,7 @@ trait API
         curl_setopt($ch, CURLOPT_REFERER, $ref);
         curl_setopt($ch, CURLOPT_HTTPHEADER, static::build_headers($headers));
         if ( $use_proxy ) {
-            curl_setopt($ch, CURLOPT_PROXY, '81.94.162.140:8080');
+            curl_setopt($ch, CURLOPT_PROXY, '188.166.2.78:8888');
         }
 
         if ( $return_headers ) {
@@ -99,7 +99,7 @@ trait API
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         if ( $use_proxy ) {
-            curl_setopt($ch, CURLOPT_PROXY, '81.94.162.140:8080');
+            curl_setopt($ch, CURLOPT_PROXY, '188.166.2.78:8888');
         }
 
         if ( $return_headers ) {
