@@ -26,6 +26,39 @@ class User extends Model
     );
 
     /**
+     * @param int $size
+     * @param string $default
+     * @return string
+     */
+    public function gravatar($size = 128, $default = null)
+    {
+        return static::get_gravatar_url($this->email, $size, $default);
+    }
+
+    /**
+     * @param $email
+     * @param int $size
+     * @param null $default
+     * @return string
+     */
+    static function get_gravatar_url($email, $size = 128, $default = null)
+    {
+        if ( $size > 2048 ) {
+            $size = 2048;
+        }
+
+        if ( $size < 8 ) {
+            $size = 8;
+        }
+
+        $hash = md5(strtolower(trim($email)));
+
+        return 'https://www.gravatar.com/avatar/' . $hash
+            . '?s=' . $size
+            . ($default ? '&d=' . urlencode($default) : '');
+    }
+
+    /**
      * Encrypt password
      *
      * @param string $src
@@ -113,13 +146,13 @@ class User extends Model
     public static function getAsArray($uid)
     {
         $user = static::find(intval($uid));
-        return $user->asArrayFull();
+        return $user->to_array();
     }
 
     /**
      * @return array|null
      */
-    public function asArrayFull()
+    public function to_array()
     {
         if ( !$this->id ) {
             return null;
@@ -128,11 +161,11 @@ class User extends Model
         return array_merge(
             array(
                 'banned'        => $this->banned(),
-                'ban_user'      => $this->ban_user ? $this->ban_user->asArrayFull() : [],
+                'ban_user'      => $this->ban_user ? $this->ban_user->to_array() : [],
                 'group'         => $this->group->to_array(),
                 'permissions'   => $this->getPermissions()->getArrayCopy()
             ),
-            $this->to_array()
+            parent::to_array()
         );
     }
 }

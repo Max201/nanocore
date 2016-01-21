@@ -5,7 +5,8 @@
         "publicate": 0,
         "comment": 1,
         "edit_comments": 0,
-        "edit_publications": 0
+        "edit_publications": 0,
+        "premoderate_publ": 1
     },
     "2": {
         "access": true,
@@ -13,7 +14,8 @@
         "publicate": true,
         "comment": true,
         "edit_comments": false,
-        "edit_publications": false
+        "edit_publications": false,
+        "premoderate_publ": true
     },
     "3": {
         "access": true,
@@ -21,7 +23,8 @@
         "publicate": true,
         "comment": true,
         "edit_comments": false,
-        "edit_publications": false
+        "edit_publications": false,
+        "premoderate_publ": true
     },
     "4": {
         "access": true,
@@ -29,7 +32,8 @@
         "publicate": true,
         "comment": true,
         "edit_comments": false,
-        "edit_publications": false
+        "edit_publications": false,
+        "premoderate_publ": true
     },
     "5": {
         "access": true,
@@ -37,6 +41,7 @@
         "publicate": true,
         "comment": true,
         "edit_comments": false,
-        "edit_publications": false
+        "edit_publications": false,
+        "premoderate_publ": true
     }
 }

@@ -6,14 +6,17 @@
     <link rel="stylesheet" href="{{ 'font-awesome.min.css'|cdn('fontawesome') }}" type="text/css">
     <link rel="stylesheet" href="{{ 'custom.css'|local('css') }}" type="text/css">
     <script type="text/javascript" src="{{ 'jquery.min.js'|cdn('jquery') }}"></script>
+    {% block head %}{% endblock %}
 </head>
 <body>
     <section id="navigation">
         <div class="wrap center">
-            <div id="logo">
-                <img src="{{ 'nanolab.png'|local('img') }}" alt="NanoLab Logo">
-                <strong>Nano Lab</strong>
-            </div>
+            <a href="/">
+                <div id="logo">
+                    <img src="{{ 'nanolab.png'|local('img') }}" alt="NanoLab Logo">
+                    <strong>Nano Lab</strong>
+                </div>
+            </a>
             <div class="menu">
                 <a href="/">Главная</a>
                 {% for page in static_pages %}
@@ -35,16 +38,55 @@
         <div class="wrapper">
             <section id="rside">
                 {% if not user.id %}
-                <div class="side-block">
-                    <header>
-                        <i class="fa fa-user"></i> Войти с помощью
-                    </header>
-                    <div class="side-block-body">
-                        <div class="ulogin">
-                            {{ ulogin.panel|raw }}
+                    <div class="side-block">
+                        <header>
+                            <i class="fa fa-user"></i> Войти с помощью
+                        </header>
+                        <div class="side-block-body">
+                            <div class="ulogin">
+                                {{ ulogin.panel|raw }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% else %}
+                    <div class="side-block">
+                        <header>
+                            <i class="fa fa-user"></i> {{ user.username }}
+                            <span title="Рейтинг" class="rating{% if user.rating < 0 %} neg{% endif %}">{{ user.rating }}</span>
+                        </header>
+                        <div class="side-block-body">
+                            <div class="avatar">
+                                <a href="/user/avatar/">
+                                    {% if user.avatar %}
+                                        <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
+                                    {% else %}
+                                        <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
+                                    {% endif %}
+                                </a>
+                                <p>{{ group.name }}</p>
+                            </div>
+                            <ul>
+                                {% if group.can('publicate') %}
+                                <li>
+                                    <a href="/post/new/">
+                                        <i class="fa fa-pencil"></i> Написать
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/post/my/">
+                                        <i class="fa fa-file"></i> Мои публикации
+                                        <span class="badge">{{ user_publications }}</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                <li>
+                                    <a href="/user/exit/">
+                                        <i class="fa fa-close"></i> Выход
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 {% endif %}
 
                 <div class="side-block">

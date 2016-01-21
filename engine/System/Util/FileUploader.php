@@ -35,6 +35,16 @@ class FileUploader
     private $name_handler = null;
 
     /**
+     * @var array
+     */
+    private $last_uploads = [];
+
+    /**
+     * @var bool
+     */
+    private $replace_mode = true;
+
+    /**
      * @param array $files
      * @param array $extensions
      * @param int $max_size
@@ -44,6 +54,19 @@ class FileUploader
         $this->files = $files;
         $this->allowed_extensions($extensions);
         $this->max_filesize($max_size);
+    }
+
+    /**
+     * @param bool $on
+     * @return bool
+     */
+    public function replace_mode($on = null)
+    {
+        if ( is_null($on) ) {
+            return $this->replace_mode;
+        }
+
+        $this->replace_mode = $on;
     }
 
     /**
@@ -113,7 +136,7 @@ class FileUploader
 
             // Check filesize
             if ( $data['size'] > $this->max_filesize ) {
-                $result[$file] = ['big', $this->max_filesize];
+                $result[$file] = ['big', round($this->max_filesize / (1024 * 1024), 2)];
                 continue;
             }
 
@@ -123,22 +146,106 @@ class FileUploader
                 continue;
             }
 
+            // Upload file name
+            $data['name'] = is_null($this->name_handler) ?
+                $data['name'] :
+                call_user_func(
+                    $this->name_handler,
+                    $data['name'],
+                    $this->get_extension($data['name'])
+                );
+            $dest = $upload_to . $data['name'];
+
+            // If exists
+            if ( file_exists($dest) || $this->replace_mode ) {
+                @unlink($dest);
+            } else {
+                $result[$file] = ['exists', $data['name']];
+                continue;
+            }
+
             // Upload file
-            $name = is_null($this->name_handler) ? $data['name'] : call_user_func($this->name_handler, $data['name']);
-            $dest = $upload_to . $name;
             if ( move_uploaded_file($data['tmp_name'], $dest) ) {
-                $result[$file] = ['uploaded', $data['name']];
+                $result[$file] = ['uploaded', $data['name'], $dest];
             } else {
                 $result[$file] = ['cantmove', $data['name']];
             }
 
             // Max files
-            if ( $max_files > 0 && count($result) >= $max_files ) {
+            if ( $max_files > 0 && count(array_keys($result)) >= $max_files ) {
                 break;
             }
         }
 
+        // Save latest uploads
+        $this->last_uploads = $result;
+
         return $result;
+    }
+
+    /**
+     * @param $field
+     * @return bool
+     */
+    public function is_uploaded($field)
+    {
+        return array_key_exists($field, $this->last_uploads) && $this->last_uploads[$field][0] == 'uploaded';
+    }
+
+    /**
+     * @param $field
+     * @return string
+     */
+    public function get_name($field)
+    {
+        return $this->is_uploaded($field) ? $this->last_uploads[$field][1] : null;
+    }
+
+    /**
+     * @param $field
+     * @param $max_width
+     * @param $max_height
+     * @return bool
+     */
+    public function resize($field, $max_width, $max_height)
+    {
+        if ( !class_exists('\\Imagick') || !isset($this->last_uploads[$field][2]) ) {
+            return true;
+        }
+
+        $img_path = $this->last_uploads[$field][2];
+        $img = new \Imagick($img_path);
+
+        $w = $img->getimagewidth();
+        $h = $img->getimageheight();
+        $nw = $w;
+        $nh = $h;
+
+        if ( $w > $max_width ) {
+            $nw = $max_width;
+        }
+
+        if ( $h > $max_height ) {
+            $nh = $max_height;
+        }
+
+        if ( $nw != $w || $nh != $h ) {
+            $img->resizeImage($nw, $nh, \Imagick::FILTER_LANCZOS, 1);
+        } else {
+            return true;
+        }
+
+        return $img->writeimage($img_path) && $img->destroy();
+    }
+
+    /**
+     * @param $filename
+     * @return string
+     */
+    private function get_extension($filename)
+    {
+        $filename = explode('.', $filename);
+        return strtolower(end($filename));
     }
 
     /**
@@ -147,8 +254,7 @@ class FileUploader
      */
     private function allowed_extension($filename)
     {
-        $filename = explode('.', $filename);
-        $ext = strtolower(end($filename));
+        $ext = $this->get_extension($filename);
         return in_array($ext, $this->extensions) || in_array('*', $this->extensions);
     }
 } 

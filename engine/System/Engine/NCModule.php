@@ -89,7 +89,8 @@ class NCModule
         $this->view->twig->addFilter(new \Twig_SimpleFilter('dlang', [$this->lang, 'translate_date']));
 
         // Assign user
-        $this->view->assign('user', $this->user);
+        $this->view->assign('user', $this->user ? $this->user->to_array() : []);
+        $this->view->assign('group', $this->user ? $this->user->group : []);
 
         // Assign captcha URL
         $this->view->assign('secure_image', NCModuleCore::$captcha_url);
@@ -202,6 +203,30 @@ class NCModule
     }
 
     /**
+     * @return bool|string
+     */
+    public function authenticated_only()
+    {
+        if ( !$this->user ) {
+            return static::error403(Env::$request);
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function guest_only()
+    {
+        if ( $this->user ) {
+            return static::error403(Env::$request);
+        }
+
+        return true;
+    }
+
+    /**
      * Page not found
      */
     public function error404(Request $request, $matches = null)
@@ -232,7 +257,7 @@ class NCModule
         Env::$response->setStatusCode(403, 'Permission denied');
         return $this->view->twig->render('@assets/banned.twig', [
             'reason'    => $reason,
-            'ban'       => $this->user->ban_user->asArrayFull()
+            'ban'       => $this->user->ban_user->to_array()
         ]);
     }
 

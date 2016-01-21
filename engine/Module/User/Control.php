@@ -148,6 +148,13 @@ class Control extends NCControl
         if ( $request->isMethod('post') ) {
             $changed = false;
 
+            // Edit rating
+            $rating = intval($request->get('rating', 0));
+            if ( $user->rating != $rating ) {
+                $user->rating = $rating;
+                $changed = true;
+            }
+
             // Change ban user
             $ban_time = $request->get('ban_time', false);
             $ban_reason = $request->get('ban_reason', false);
@@ -236,7 +243,7 @@ class Control extends NCControl
 
         return $this->view->render('users/profile.twig', [
             'title'         => $this->lang->translate('user.profile.name', $user->username),
-            'profile'       => $user->asArrayFull(),
+            'profile'       => $user->to_array(),
             'groups'        => array_map(function($i){ return $i->to_array(); }, \Group::all())
         ]);
     }
@@ -284,6 +291,7 @@ class Control extends NCControl
 
     public function group_profile(Request $request, $matches)
     {
+        \GroupPermission::updatePermissionsList();
         try {
             /** @var \Group $user */
             $group = \Group::find($matches['id']);
@@ -391,7 +399,7 @@ class Control extends NCControl
 
         // Filter users
         $users = \User::all($filter);
-        $users = array_map(function($i){ return $i->asArrayFull(); }, $users);
+        $users = array_map(function($i){ return $i->to_array(); }, $users);
         return $this->view->render('users/list.twig', [
             'title'         => $title,
             'users_list'    => $users,

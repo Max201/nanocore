@@ -46,28 +46,35 @@ class GroupPermission extends Model
         ]);
 
 
-        if ( is_null($title) || is_string($title) ) {
-            $title = is_null($title) ? ucfirst(str_replace('.', ' ', $title)) : $title;
-            $description = glob(ROOT . S . 'engine' . S . 'Language' . S . '*' . S . 'group.json');
-            foreach ( $description as $fd ) {
-                $content = json_decode(file_get_contents($fd), true);
-                $content[$name] = $title;
+        if ( !is_null($title) ) {
+            if ( is_string($title) ) {
+                $title = is_null($title) ? ucfirst(str_replace('.', ' ', $title)) : $title;
+                $description = glob(ROOT . S . 'engine' . S . 'Language' . S . '*' . S . 'group.json');
+                foreach ( $description as $fd ) {
+                    $content = json_decode(file_get_contents($fd), true);
+                    $content[$name] = $title;
 
-                @file_put_contents($fd, json_encode($content, JSON_PRETTY_PRINT));
-            }
-        } elseif ( is_array($title) ) {
-            foreach ( $title as $lng => $t ) {
-                $path = ROOT . S . 'engine' . S . 'Language' . S . $lng;
-                if ( !is_dir($path) ) {
-                    @mkdir($path, 0777, true);
+                    @file_put_contents($fd, json_encode($content, JSON_PRETTY_PRINT));
                 }
+            } elseif ( is_array($title) ) {
+                foreach ( $title as $lng => $t ) {
+                    $path = ROOT . S . 'engine' . S . 'Language' . S . $lng;
+                    if ( !is_dir($path) ) {
+                        @mkdir($path, 0777, true);
+                    }
 
-                $data = [$name => $t];
-                @file_put_contents($path . S . 'group.json', json_encode($data, JSON_PRETTY_PRINT));
+                    $data = [$name => $t];
+                    @file_put_contents($path . S . 'group.json', json_encode($data, JSON_PRETTY_PRINT));
+                }
             }
         }
 
-        return $gp->save();
+        if ( $gp->save() ) {
+            static::updatePermissionsList();
+            return $gp;
+        }
+
+        return false;
     }
 
     /**

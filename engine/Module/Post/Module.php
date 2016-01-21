@@ -31,6 +31,7 @@ class Module extends NCModule
     public function route()
     {
         $this->map->addRoute('/', [$this, 'news'], 'news');
+        $this->map->addRoute('new', [$this, 'create'], 'new');
         $this->map->addPattern('<id:\d+>-<slug:.+>.html', [$this, 'post'], 'post');
         $this->map->addPattern('category/<id:\d+>', [$this, 'category'], 'category');
     }
@@ -50,7 +51,7 @@ class Module extends NCModule
         );
 
         // Posts map
-        $posts = \Post::all();
+        $posts = \Post::all(['conditions' => 'moderate = ?', 0]);
         foreach ($posts as $entry) {
             $builder->add_url(
                 $this->map->reverse('post', [$entry->id, $entry->slug]),
@@ -82,6 +83,7 @@ class Module extends NCModule
      */
     public static function globalize(NCModule $module, Theme $view, Translate $lang)
     {
+        // Categories listing
         $categories = \PostCategory::listing();
         /** @var RecursiveTree $recursive_tree */
         $recursive_tree = NCService::load('Module.RecursiveTree', [$categories]);
@@ -95,8 +97,15 @@ class Module extends NCModule
             return $result;
         }, $categories);
 
+        // User publications
+        $publications = 0;
+        if ( $module->user ) {
+            $publications = \Post::count(['conditions' => ['author_id = ?', $module->user->id]]);
+        }
+
         return [
-            'post_categories'   => $categories
+            'post_categories'   => $categories,
+            'user_publications' => $publications
         ];
     }
 
@@ -115,7 +124,7 @@ class Module extends NCModule
 
             // Filter conditions
             $filter = [
-                'conditions'    => ['category_id IN (?)', $recursive_tree->childs($category->id)]
+                'conditions'    => ['category_id IN (?) AND moderate = ?', $recursive_tree->childs($category->id), 0]
             ];
 
             // Rows count
@@ -132,7 +141,7 @@ class Module extends NCModule
             if ( $request->order ) {
                 $filter['order'] = $request->order;
             } else {
-                $filter['order'] = 'updated_at DESC';
+                $filter['order'] = 'created_at DESC';
             }
 
             // Get posts
@@ -190,7 +199,9 @@ class Module extends NCModule
      */
     public function news(Request $request, $matches)
     {
-        $filter = [];
+        $filter = [
+            'conditions'    => ['moderate = ?', 0]
+        ];
 
         // Rows count
         $rows = \Post::count();
@@ -206,7 +217,7 @@ class Module extends NCModule
         if ( $request->order ) {
             $filter['order'] = $request->order;
         } else {
-            $filter['order'] = 'updated_at DESC';
+            $filter['order'] = 'created_at DESC';
         }
 
         // Get posts
@@ -218,6 +229,77 @@ class Module extends NCModule
             'posts'     => array_map(function($i){ return $i->to_array(); }, $posts),
             'listing'   => $pagination->pages(),
             'page'      => $request->page
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param null $matches
+     * @return mixed|string
+     */
+    public function create(Request $request, $matches = null)
+    {
+        $this->authenticated_only();
+        if ( !$this->user->can('publicate') ) {
+            return $this->error403($request);
+        }
+
+        $title = $this->lang->translate('post.create');
+
+        // Get post for updating
+        $id = intval($matches->get('id', $request->get('id')));
+        if ( $id > 0 ) {
+            $post = \Post::find(['conditions' => ['id = ? AND author_id = ?', $id, $this->user->id]]);
+            $title = $this->lang->translate('post.editing', $post->title);
+        } else {
+            $post = [
+                'title'     => $this->lang->translate('post.name'),
+                'content'   => '',
+                'category'  => \PostCategory::last()->to_array()
+            ];
+        }
+
+        // Create or update page
+        if ( $request->isMethod('post') ) {
+            if ( $post instanceof \Post ) {
+                $post->title = $request->get('title');
+                $post->content = $request->get('content');
+                $post->category_id = $request->get('category');
+                $post->keywords = $request->get('keywords');
+                $post->slug = $request->get('slug');
+                $post->moderate = $this->user->can('premoderate_publ');
+            } else {
+                $post = new \Post([
+                    'title'         => $request->get('title'),
+                    'content'       => $request->get('content'),
+                    'category_id'   => $request->get('category'),
+                    'keywords'      => $request->get('keywords'),
+                    'slug'          => $request->get('slug'),
+                    'author_id'     => $this->user->id,
+                    'moderate'      => $this->user->can('premoderate_publ')
+                ]);
+
+                // Ping sitemap
+                NCService::load('SocialMedia.Ping');
+            }
+
+            // Updating instance
+            $post->save();
+
+            return static::json_response([
+                'success'   => true,
+                'message'   => $this->lang->translate('form.saved')
+            ]);
+        }
+
+        if ( $post instanceof \Post ) {
+            $post = $post->to_array();
+        }
+
+        return $this->view->render('posts/create.twig', [
+            'post'          => $post,
+            'title'         => $title,
+            'categories'    => \PostCategory::as_array(\PostCategory::all())
         ]);
     }
 } 

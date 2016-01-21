@@ -2,7 +2,7 @@
 <script type="text/javascript">
     tinymce.init({
         selector: '#{% if wyid %}{{ wyid }}{% else %}edit{% endif %}',
-        width: 965,
+        width: {% if wywidth %}{{ wywidth }}{% else %}965{% endif %},
         min_height: 500,
         menubar: false,
         language_url: '{{ (lang_code ~ '.js')|asset('tinymce_langs') }}',

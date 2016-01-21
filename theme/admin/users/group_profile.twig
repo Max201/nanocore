@@ -5,14 +5,14 @@
 
 {% block body %}
     <menu>
-        <a href="javascript:void(0);" onclick="updateGroup('{{ group.id }}', 'table.edit');" class="item">
-            <i class="fa fa-save"></i> {{ 'button.save'|lang }}
+        <a href="{{ 'groups'|url }}" class="item">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'button.cancel'|lang }}
         </a>
 
         <nav class="right">
-            <a href="{{ 'groups'|url }}" class="item">
-                <i class="fa fa-arrow-left"></i>
-                {{ 'button.cancel'|lang }}
+            <a href="javascript:void(0);" onclick="updateGroup('{{ group.id }}', 'table.edit');" class="item">
+                <i class="fa fa-save"></i> {{ 'button.save'|lang }}
             </a>
         </nav>
     </menu>
@@ -48,24 +48,6 @@
                     <a href="{{ 'users'|url }}?group={{ group.id }}">{{ 'user.count'|lang }}: {{ group.users }}</a>
                 </td>
             </tr>
-
-            {% if profile.banned %}
-                <tr>
-                    <td><strong>{{ 'user.ban.author'|lang }}</strong></td>
-                    <td>
-                        {{ profile.ban_user.group.name }}
-                        <a href="{{ 'users.profile'|url(profile.ban_user.id) }}">{{ profile.ban_user.username }}</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>{{ 'user.ban.to'|lang }}</strong></td>
-                    <td>{{ profile.ban_time|tz|dlang }}</td>
-                </tr>
-                <tr>
-                    <td><strong>{{ 'user.ban.reason'|lang }}</strong></td>
-                    <td>{% if profile.ban_reason %}{{ profile.ban_reason }}{% else %}{{ 'user.ban.reason_unknown'|lang }}{% endif %}</td>
-                </tr>
-            {% endif %}
         </tbody>
     </table>
 

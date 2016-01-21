@@ -13,6 +13,8 @@
             <input type="text" name="username" value="{{ data.username }}" placeholder="{{ 'user.profile.username'|lang }}">
             <input type="password" name="password" value="{{ data.password }}" placeholder="{{ 'user.profile.password'|lang }}">
             <input type="email" name="email" value="{{ data.email }}" placeholder="{{ 'user.profile.email'|lang }}">
+            <input type="text" name="code" value="{{ data.code }}" placeholder="{{ 'user.auth.code'|lang }}">
+            <img onclick="$(this).attr('src', '{{ secure_image }}?r=' + Math.random())" class="captcha" src="{{ secure_image }}" alt="KCaptcha"/>
         </section>
         <footer>
             <a href="{{ 'user.login'|url }}" class="notice">{{ 'user.registration.already_registered'|lang }}</a>

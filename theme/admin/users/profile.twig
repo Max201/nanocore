@@ -97,6 +97,10 @@
             <span class="title">{{ 'user.profile.email'|lang }}</span>
             <input id="email" name="email" type="text" value="{{ profile.email }}"/>
         </label>
+        <label for="rating">
+            <span class="title">{{ 'user.profile.rating'|lang }}</span>
+            <input id="rating" name="rating" type="number" step="1" value="{{ profile.rating }}"/>
+        </label>
         {% if profile.id != user.id %}
         <label for="group">
             <span class="title">{{ 'user.profile.group'|lang }}</span>
@@ -110,7 +114,7 @@
         </label>
         {% endif %}
         <footer>
-            <input class="button" type="button" onclick="editUser('{{ profile.id }}', $('#email').val(), $('#username').val(), $('#group').val())" id="edit" value="Сохранить"/>
+            <input class="button" type="button" onclick="editUser('{{ profile.id }}', $('#email').val(), $('#username').val(), $('#group').val(), $('#rating').val())" id="edit" value="Сохранить"/>
         </footer>
     </form>
 

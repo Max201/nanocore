@@ -50,7 +50,7 @@
         {% for cat in category_list %}
             <tr>
                 <td onclick="gui.go('{{ 'post.category_new'|url() }}?id={{ cat.id }}')" class="primary">#{{ cat.id }}</td>
-                <td onclick="gui.go('/post/category/{{ cat.id }}')" title="{{ cat.title }}">{{ cat.title|sub(24) }}</td>
+                <td onclick="gui.go('/post/category/{{ cat.id }}')">{{ cat.title }}</td>
                 <td onclick="gui.go('{{ 'list'|url }}?category={{ cat.id }}')">{{ cat.posts }}</td>
                 <td onclick="gui.uri({'category': '{{ cat.parent_id }}'})">{{ cat.parent.title }}</td>
                 <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ cat.title }}\'?')) gui.uri({'delete': '{{ cat.id }}'})">

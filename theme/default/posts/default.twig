@@ -25,7 +25,7 @@
 
     <div class="cb"></div>
 
-    {% if user.can('comment') %}
+    {% if group.can('comment') %}
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function () {

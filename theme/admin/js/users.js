@@ -35,15 +35,17 @@ function changePassword(userId, newPassword)
  * @param newEmail
  * @param newUsername
  * @param newGroup
+ * @param rating
  */
-function editUser(userId, newEmail, newUsername, newGroup)
+function editUser(userId, newEmail, newUsername, newGroup, rating)
 {
     $.post(
         '/control/user/profile/' + userId,
         {
             'email': newEmail,
             'username': newUsername,
-            'group': newGroup
+            'group': newGroup,
+            'rating': rating
         },
         function (response) {
             var mclass = response['class'];

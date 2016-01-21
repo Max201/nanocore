@@ -35,28 +35,6 @@
                 <td>{{ 'user.group.icon'|lang }}</td>
                 <td><input type="text" value="{{ group.icon }}" name="icon"/></td>
             </tr>
-            <tr>
-                <td>{{ 'user.count'|lang }}</td>
-                <td>{{ group.users }}</td>
-            </tr>
-
-            {% if profile.banned %}
-                <tr>
-                    <td><strong>{{ 'user.ban.author'|lang }}</strong></td>
-                    <td>
-                        {{ profile.ban_user.group.name }}
-                        <a href="{{ 'users.profile'|url(profile.ban_user.id) }}">{{ profile.ban_user.username }}</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>{{ 'user.ban.to'|lang }}</strong></td>
-                    <td>{{ profile.ban_time|tz|dlang }}</td>
-                </tr>
-                <tr>
-                    <td><strong>{{ 'user.ban.reason'|lang }}</strong></td>
-                    <td>{% if profile.ban_reason %}{{ profile.ban_reason }}{% else %}{{ 'user.ban.reason_unknown'|lang }}{% endif %}</td>
-                </tr>
-            {% endif %}
         </tbody>
     </table>
 

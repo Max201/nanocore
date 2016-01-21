@@ -30,7 +30,7 @@ CREATE TABLE `group_permissions` (
   UNIQUE KEY `permission_2` (`permission`),
   KEY `permission` (`permission`),
   KEY `permission_3` (`permission`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `group_permissions` (
 
 LOCK TABLES `group_permissions` WRITE;
 /*!40000 ALTER TABLE `group_permissions` DISABLE KEYS */;
-INSERT INTO `group_permissions` VALUES (1,'access',1),(2,'use_admin',0),(3,'publicate',1),(4,'comment',1),(5,'edit_comments',0),(6,'edit_publications',0);
+INSERT INTO `group_permissions` VALUES (1,'access',1),(2,'use_admin',0),(3,'publicate',1),(4,'comment',1),(5,'edit_comments',0),(6,'edit_publications',0),(7,'premoderate_publ',1);
 /*!40000 ALTER TABLE `group_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +87,7 @@ CREATE TABLE `pages` (
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `author_id` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +96,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'Название ','<p>asdasd as dasd asd asd asd</p>','nazvanie_','default.twig',1,1452675975,1452676178);
+INSERT INTO `pages` VALUES (1,'Название ','<p>asdasd as dasd asd asd asd</p>','nazvanie_','default.twig',1,1452675975,1452676178),(3,'Название','','nazvanie','default.twig',1,1453130141,1453130141);
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `posts` (
   KEY `moderate` (`moderate`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
   CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `post_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,7 +174,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (14,'Название test','<p>asd asd asd asd&nbsp;</p>','nazvanie_test','test','0',NULL,NULL,NULL,4,1,1,1452863494,1453127456);
+INSERT INTO `posts` VALUES (14,'Название test 12 3123 123 123 12 3123 123 123 123','<p>asd asd asd asd&nbsp;</p>','nazvanie_test_12_3123_123_123_12_3123_123_123_123','test','0',NULL,NULL,NULL,4,1,1,1453283272,1453283272),(15,'Название','<p><img src=\"../../../static/14px.png\" alt=\"\" /></p>\n<p>asd asd asd asd asd&nbsp;</p>','nazvanie','','0',NULL,NULL,NULL,4,1,3,1453127913,1453302094),(16,'Название','','nazvanie','','1',NULL,NULL,NULL,4,1,1,1453387106,1453387113);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,6 +192,8 @@ CREATE TABLE `users` (
   `confirm_code` varchar(32) DEFAULT NULL,
   `session_id` varchar(32) DEFAULT NULL,
   `password` varchar(32) NOT NULL,
+  `avatar` varchar(255) NOT NULL,
+  `rating` int(10) NOT NULL DEFAULT '0',
   `group_id` int(10) unsigned NOT NULL DEFAULT '1',
   `ban_user_id` int(10) unsigned DEFAULT NULL,
   `ban_time` int(10) DEFAULT NULL,
@@ -212,6 +214,7 @@ CREATE TABLE `users` (
   KEY `session_id` (`session_id`),
   KEY `password_2` (`password`),
   KEY `group_id_2` (`group_id`),
+  KEY `rating` (`rating`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -222,7 +225,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'maxik','cods.max@gmail.com',NULL,'fc8ee171cce5000f04c67fc981ba416c','36c1f684cc8d96843dc8dba0291ab79f',5,NULL,NULL,NULL,1453127555,0),(2,'Eugen','eugen@mail.com',NULL,'ed2f502db504443c85a552374301d90e','36c1f684cc8d96843dc8dba0291ab79f',1,1,1452158736,'Reason unknown',1452000984,0),(3,'Maxik2','123123@123.com',NULL,'d3ef12f36d95e0c0598b68839a9bc3bd','da392947fb16ee2b19c4865851d30528',1,NULL,NULL,NULL,0,1452075779),(5,'Test user','super.email@gmail.com',NULL,'4bf5d0c19626622f0c69ec99a808ade3','da392947fb16ee2b19c4865851d30528',1,NULL,NULL,NULL,0,1452852009),(6,'testsss','maxp.job@gmail.com22',NULL,'f081bcddbc017880da868035326f84a6','b0cb958ba8e54e443172518af1d69d90',1,NULL,NULL,NULL,0,1452852078),(7,'asdasd','asd@ssss32.com',NULL,'b49eaeb6ffc099ebf72fe11a7f4b6177','bfb0a43c9d4c8f7acf6a753152f7d75f',1,NULL,NULL,NULL,0,1452852312),(8,'root22','maxp.jo33b@gmail.com',NULL,'dadaf8cdd71b7dcb4ed1f7d74a3d6cee','1fbae74c005808a52b743e5dcfe45740',1,NULL,NULL,NULL,0,1452852482),(9,'maxik22','maxp.jobd@gmail.com',NULL,'80b5999ac1d1792749a34dce3d4d9dc3','83c838e9051a2a84148f32c50d2d0085',1,NULL,NULL,NULL,0,1452852583),(10,'NanoLab Web','',NULL,'5b9bb9733210b4ba9bca4fef5b2da2f3','33d642616e0a81a47827b8011f8b64db',5,NULL,NULL,NULL,1452861551,1452861481),(12,'Максим Папежук','http://vk.com/id159732810',NULL,'b43582f087e456b6a7583bc1a55fb257','7b541ec95aaf39f9e2e60a183304b6c1',5,NULL,NULL,NULL,1452863336,1452861586);
+INSERT INTO `users` VALUES (1,'Max','cods.max@gmail.com',NULL,'3d8401fc746b67f26adc07ba091e71e9','36c1f684cc8d96843dc8dba0291ab79f','/static/user/1/avatar.png',30,5,NULL,NULL,NULL,1453387318,0),(2,'Eugen','eugen@mail.com',NULL,'ed2f502db504443c85a552374301d90e','36c1f684cc8d96843dc8dba0291ab79f','',0,1,1,1452158736,'Reason unknown',1452000984,0),(3,'Maxik2','123123@123.com',NULL,'d3ef12f36d95e0c0598b68839a9bc3bd','da392947fb16ee2b19c4865851d30528','',0,1,NULL,NULL,NULL,0,1452075779),(5,'Test user','super.email@gmail.com',NULL,'4bf5d0c19626622f0c69ec99a808ade3','da392947fb16ee2b19c4865851d30528','',0,1,NULL,NULL,NULL,0,1452852009),(6,'testsss','maxp.job@gmail.com22',NULL,'f081bcddbc017880da868035326f84a6','b0cb958ba8e54e443172518af1d69d90','',0,1,NULL,NULL,NULL,0,1452852078),(7,'asdasd','asd@ssss32.com',NULL,'b49eaeb6ffc099ebf72fe11a7f4b6177','bfb0a43c9d4c8f7acf6a753152f7d75f','',0,1,NULL,NULL,NULL,0,1452852312),(8,'root22','maxp.jo33b@gmail.com',NULL,'dadaf8cdd71b7dcb4ed1f7d74a3d6cee','1fbae74c005808a52b743e5dcfe45740','',0,1,NULL,NULL,NULL,0,1452852482),(9,'maxik22','maxp.jobd@gmail.com',NULL,'80b5999ac1d1792749a34dce3d4d9dc3','83c838e9051a2a84148f32c50d2d0085','',0,1,NULL,NULL,NULL,0,1452852583),(10,'NanoLab Web','',NULL,'97a3258d356a893ba1e604a59aca00b7','33d642616e0a81a47827b8011f8b64db','',0,5,NULL,NULL,NULL,1453385602,1452861481),(12,'Максим Папежук','http://vk.com/id159732810',NULL,'b43582f087e456b6a7583bc1a55fb257','7b541ec95aaf39f9e2e60a183304b6c1','',0,5,NULL,NULL,NULL,1452863336,1452861586);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -235,4 +238,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-18 16:33:02
+-- Dump completed on 2016-01-21 16:50:20
