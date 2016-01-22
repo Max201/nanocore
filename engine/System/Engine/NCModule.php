@@ -20,6 +20,13 @@ class NCModule
     const SITEMAP = false;
 
     /**
+     * Visits analytics
+     *
+     * @var bool
+     */
+    public $analytics = true;
+
+    /**
      * @var NCRouter
      */
     public $map;
@@ -65,6 +72,12 @@ class NCModule
         // Settings
         /** @var Settings settings */
         $this->settings = NCService::load('Application.Settings');
+
+        // Analytics module
+        if ( $this->analytics ) {
+            $counter = NCService::load('Application.Analytics', [$this->settings->get('timezone')]);
+            $counter->save();
+        }
 
         // Renderring
         /** @var Theme view */

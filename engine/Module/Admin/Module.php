@@ -10,8 +10,6 @@ namespace Module\Admin;
 use Module\Admin\SMP\Driver;
 use Service\Application\Translate;
 use Service\Render\Theme;
-use Service\SocialMedia\GoogleAnalytics;
-use Service\SocialMedia\Liveinternet;
 use Service\SocialMedia\SocialMedia;
 use Service\SocialMedia\Vkontakte;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +27,12 @@ use System\Util\FileUploader;
 
 class Module extends NCControl
 {
+    /**
+     * Disable analytics
+     */
+    public $analytics = false;
+
+
     public function route()
     {
         // Disabling namespace
@@ -94,27 +98,50 @@ class Module extends NCControl
 
     public function stats(Request $request, Options $matches = null)
     {
-        $method = $matches->get('method', 'visits');
         $cur_day = $matches->get('day', date('d'));
-        $date = date('Y') . '-' . date('m') . '-' . $cur_day;
         if ( $cur_day > date('d') ) {
             return static::redirect_response($this->map->reverse('stats', [date('d')]));
         }
 
-        /** @var Liveinternet $counter */
-        $counter = NCService::load('SocialMedia.Liveinternet');
-        $counter->set_date($date);
+        $statistic = [];
+        $start_date = mktime(0, 0, 0, date('m'), $cur_day);
+        $end_date = strtotime('+1 day', $start_date);
+
+        // Online users
+        if ( $cur_day == date('d') ) {
+            $statistic['online'] = \Visit::online();
+        }
+
+        // Visits
+        $statistic['visits'] = \Visit::visits($start_date, $end_date);
+
+        // Views
+        $statistic['views'] = \Visit::views($start_date, $end_date);
+
+        // Search terms
+        $statistic['terms'] = \Visit::query_terms($start_date, $end_date);
+
+        // Websites
+        $statistic['websites'] = \Visit::websites($start_date, $end_date);
+
+        // Pages
+        $statistic['pages'] = \Visit::pages($start_date, $end_date);
+
+        // Browsers
+        $statistic['browsers'] = \Visit::browsers($start_date, $end_date);
+
+        // Platforms
+        $statistic['platforms'] = \Visit::platforms($start_date, $end_date);
+
         return $this->view->render('dashboard/stats.twig', [
-            'date'      => date('D, d M Y', strtotime($date)),
             'day'       => $cur_day,
-            'stats'     => $method,
+            'stat'      => $statistic,
             'title'     => $this->lang->translate(
-                'admin.statistic.' . $method,
+                'admin.statistic.title',
                 $this->lang->translate_date(
-                    date('D, d M Y', strtotime($date))
+                    date('D, d M Y', strtotime($start_date))
                 )
-            ),
-            'statistic' => call_user_func([$counter, $method])
+            )
         ]);
     }
 
@@ -284,7 +311,7 @@ class Module extends NCControl
         $root = ROOT . S . 'static';
         $method = strtolower($request->get('m', 'list'));
         $dir = $root . $request->get('d', S);
-        function filterp($path) { return str_replace(SS, S, str_replace('//', '/', $path)); }
+        function filterp($path) { return str_replace(S . S, S, str_replace('//', '/', $path)); }
         function filterup($path) { $path = explode(S, $path); array_pop($path); return implode(S, $path); }
 
         // Assign current directory path

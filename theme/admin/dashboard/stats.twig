@@ -1,38 +1,131 @@
 {% extends 'base.twig' %}
 
 {% block body %}
-    <menu class="cselect">
-        <a class="button" href="#" onclick="gui.go('/admin/stats/{{ day }}/' + $('#stats').val())">{{ 'admin.statistic.show'|lang }}</a>
-        <select name="stats" id="stats">
-            <option value="visits" {% if stats == 'visits' %}selected="selected"{% endif %}>{{ 'admin.statistic.visits'|lang(date|dlang) }}</option>
-            <option value="visits_month" {% if stats == 'visits_month' %}selected="selected"{% endif %}>{{ 'admin.statistic.visits_month'|lang(date|dlang) }}</option>
-            <option value="pages" {% if stats == 'pages' %}selected="selected"{% endif %}>{{ 'admin.statistic.pages'|lang(date|dlang) }}</option>
-            <option value="refers" {% if stats == 'refers' %}selected="selected"{% endif %}>{{ 'admin.statistic.refers'|lang(date|dlang) }}</option>
-        </select>
-    </menu>
+    <div class="widget-group" style="margin-bottom: 25px">
+        <div class="widget">
+            <header>Просмотров</header>
+            <strong class="number">{{ stat.views }}</strong>
+        </div>
+        <div class="widget">
+            <header>Посетителей</header>
+            <strong class="number">{{ stat.visits }}</strong>
+        </div>
+        <div class="widget">
+            <header>Онлайн</header>
+            <strong class="number green">{{ stat.online }}</strong>
+        </div>
+    </div>
+
+    <header>Переходы с сайтов</header>
     <table>
         <thead>
             <tr>
-                <td></td>
-                {% for state in statistic.response|keys %}
-                <td>{{ state }}</td>
-                {% endfor %}
+                <td class="primary x10">Переходов</td>
+                <td>Сайт</td>
             </tr>
         </thead>
         <tbody>
-            {% if not statistic.keys %}
+            {% if not stat.websites %}
                 <tr>
-                    <td colspan="500" class="message">{{ 'form.empty'|lang }}</td>
+                    <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
                 </tr>
             {% endif %}
-            {% for prop in statistic.keys %}
+            {% for site in stat.websites %}
                 <tr>
-                    <td>
-                        {{ prop }}
-                    </td>
-                    {% for state in statistic.response|keys %}
-                        <td>{{ statistic.response[state][prop] }}</td>
-                    {% endfor %}
+                    <td class="primary x10">{{ site.visits }}</td>
+                    <td>{{ site.website }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <header>Переходы по поисковым запросам</header>
+    <table>
+        <thead>
+            <tr>
+                <td class="primary x10">Переходов</td>
+                <td>Запрос</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not stat.terms %}
+                <tr>
+                    <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+                </tr>
+            {% endif %}
+            {% for site in stat.terms %}
+                <tr>
+                    <td class="primary x10">{{ site.visits }}</td>
+                    <td>{{ site.term }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <header>Самые просматриваемые страницы</header>
+    <table>
+        <thead>
+            <tr>
+                <td class="primary x10">Просмотров</td>
+                <td>Страница</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not stat.pages %}
+                <tr>
+                    <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+                </tr>
+            {% endif %}
+            {% for site in stat.pages %}
+                <tr>
+                    <td class="primary x10">{{ site.views }}</td>
+                    <td>{{ site.uri }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <header>Статистика используемых браузеров</header>
+    <table>
+        <thead>
+            <tr>
+                <td class="primary x10">Просмотров</td>
+                <td>Браузер</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not stat.browsers %}
+                <tr>
+                    <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+                </tr>
+            {% endif %}
+            {% for site in stat.browsers %}
+                <tr>
+                    <td class="primary x10">{{ site.views }}</td>
+                    <td>{{ site.browser_name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <header>Статистика используемых ОС</header>
+    <table>
+        <thead>
+            <tr>
+                <td class="primary x10">Просмотров</td>
+                <td>Операционная система</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not stat.platforms %}
+                <tr>
+                    <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+                </tr>
+            {% endif %}
+            {% for site in stat.platforms %}
+                <tr>
+                    <td class="primary x10">{{ site.views }}</td>
+                    <td>{{ site.platform_name }}</td>
                 </tr>
             {% endfor %}
         </tbody>

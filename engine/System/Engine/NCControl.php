@@ -16,6 +16,13 @@ class NCControl extends NCModule
     static $menu = [];
 
     /**
+     * Disable analytics for control panel
+     *
+     * @var bool
+     */
+    public $analytics = false;
+
+    /**
      * @return NCWidget[]
      */
     static function widget()
