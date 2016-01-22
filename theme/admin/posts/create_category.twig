@@ -48,6 +48,7 @@
         {% endif %}
 
         <nav class="right">
+            <span class="preloader off"></span>
             <a class="item" href="#" onclick="submit();">
                 <i class="fa fa-save"></i>
                 {{ 'button.save'|lang }}
@@ -64,7 +65,7 @@
         </label>
         <label for="parent" class="cselect">
             <span class="title wide">{{ 'post.parent_category'|lang }}</span>
-            <select name="parent_id" id="parent" data-width="965">
+            <select name="parent_id" id="parent" data-width="1165">
                 <option value=""{% if "" == category.parent_id %} selected{% endif %}>{{ 'post.parent'|lang }}</option>
                 {% for cat in categories %}
                     <option value="{{ cat.id }}"{% if cat.id == category.parent_id %} selected{% endif %}>{{ cat.title }}</option>

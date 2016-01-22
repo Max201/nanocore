@@ -74,3 +74,9 @@ gui.fm.upload = function (callback, progress) {
         processData: false
     });
 };
+
+gui.fm.val = function(val) {
+    gui.active_input.val(val);
+    gui.active_input.trigger('change');
+    gui.active_input.focus();
+};

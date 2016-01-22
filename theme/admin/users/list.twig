@@ -54,7 +54,10 @@
                 </td>
                 <td>{{ profile.register_date|tz|dlang }}</td>
                 <td>{{ profile.last_visit|tz|dlang }}</td>
-                <td onclick="gui.uri({'group': '{{ profile.group.id }}'})">{{ profile.group.name }}</td>
+                <td onclick="gui.uri({'group': '{{ profile.group.id }}'})">
+                    <img src="{{ profile.group.icon }}" class="group-icon" alt="{{ profile.group.name }}"/>
+                    {{ profile.group.name }}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

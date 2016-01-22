@@ -39,7 +39,10 @@
             <tr>
                 <td class="primary" onclick="gui.go('{{ 'groups.profile'|url(group.id) }}')">#{{ group.id }}</td>
                 <td>{{ group.name }}</td>
-                <td>{{ group.icon }}</td>
+                <td>
+                    <img class="group-icon" src="{{ group.icon }}" alt="{{ group.name }}"/>
+                    {{ group.icon }}
+                </td>
                 <td>
                     {% if group.use_admin %}
                         <span class="fa fa-check"></span>

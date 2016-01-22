@@ -6,4 +6,5 @@ theme/.tmp/*
 *.map
 static/*
 !static/user
+!static/groups
 error.log

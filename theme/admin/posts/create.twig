@@ -53,6 +53,7 @@
         {% endif %}
 
         <nav class="right">
+            <span class="preloader off"></span>
             <a class="item" href="#" onclick="submit('1');">
                 <i class="fa fa-save"></i>
                 {{ 'button.save'|lang }}
@@ -71,7 +72,7 @@
             <input data-url-for="#slug" placeholder="{{ 'post.title'|lang }}" title="{{ 'post.title'|lang }}" class="wide" type="text" value="{{ post.title }}" id="title"/>
         </label>
         <label for="category" class="x50 cselect">
-            <select name="category" id="category" data-width="473">
+            <select name="category" id="category" data-width="573">
                 {% for cat in categories %}
                     <option value="{{ cat.id }}"{% if cat.id == post.category.id %} selected{% endif %}>{{ cat.title }}</option>
                 {% endfor %}

@@ -2,12 +2,17 @@
  * GUI Package
  */
 var gui = {
+    'active_input': {},
     'get': {},
     'init': function() {
         $.ajaxSetup({
             'beforeSend': function() {
                 gui.preloader.start();
             }
+        });
+
+        $('input').on('click', function(){
+            gui.active_input = $(this);
         });
 
         $(document).ajaxComplete(function() {
@@ -60,10 +65,10 @@ var gui = {
     },
     'preloader': {
         'start': function() {
-            $('.preloader').addClass('active');
+            $('.preloader').removeClass('off');
         },
         'stop': function() {
-            $('.preloader').removeClass('active');
+            $('.preloader').addClass('off');
         }
     },
     'randomString': function(length) {

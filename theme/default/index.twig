@@ -51,7 +51,7 @@
                 {% else %}
                     <div class="side-block">
                         <header>
-                            <i class="fa fa-user"></i> {{ user.username }}
+                            <img src="{{ group.icon }}" alt="{{ group.name }}" title="{{ group.name }}"/> {{ user.username }}
                             <span title="Рейтинг" class="rating{% if user.rating < 0 %} neg{% endif %}">{{ user.rating }}</span>
                         </header>
                         <div class="side-block-body">
@@ -117,5 +117,6 @@
         </div>
     </footer>
     {{ counter.invisible|raw }}
+    {{ counter.ga|raw }}
 </body>
 </html>

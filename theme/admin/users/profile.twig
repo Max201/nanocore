@@ -39,7 +39,10 @@
             </tr>
             <tr>
                 <td>{{ 'user.profile.group'|lang }}</td>
-                <td><a href="{{ 'groups.profile'|url(profile.group.id) }}">{{ profile.group.name }}</a></td>
+                <td>
+                    <img class="group-icon" src="{{ profile.group.icon }}" alt="{{ profile.group.name }}"/>
+                    <a href="{{ 'groups.profile'|url(profile.group.id) }}">{{ profile.group.name }}</a>
+                </td>
             </tr>
             <tr>
                 <td>{{ 'user.profile.email'|lang }}</td>
@@ -101,6 +104,10 @@
             <span class="title">{{ 'user.profile.rating'|lang }}</span>
             <input id="rating" name="rating" type="number" step="1" value="{{ profile.rating }}"/>
         </label>
+        <label for="avatar">
+            <span class="title">{{ 'user.profile.avatar'|lang }}</span>
+            <input id="avatar" name="avatar" type="text" value="{{ profile.avatar }}"/>
+        </label>
         {% if profile.id != user.id %}
         <label for="group">
             <span class="title">{{ 'user.profile.group'|lang }}</span>
@@ -114,7 +121,7 @@
         </label>
         {% endif %}
         <footer>
-            <input class="button" type="button" onclick="editUser('{{ profile.id }}', $('#email').val(), $('#username').val(), $('#group').val(), $('#rating').val())" id="edit" value="Сохранить"/>
+            <input class="button" type="button" onclick="editUser('{{ profile.id }}', $('#email').val(), $('#username').val(), $('#group').val(), $('#rating').val(), $('#avatar').val())" id="edit" value="Сохранить"/>
         </footer>
     </form>
 

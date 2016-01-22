@@ -27,6 +27,9 @@ $(function(){
             // Updating label
             $ul.parent().find('label').text($select.find('option[selected]').text());
 
+            // Triggering change
+            $select.trigger('change');
+
             return e;
         };
 

@@ -10,6 +10,7 @@ namespace Module\Admin;
 use Module\Admin\SMP\Driver;
 use Service\Application\Translate;
 use Service\Render\Theme;
+use Service\SocialMedia\GoogleAnalytics;
 use Service\SocialMedia\Liveinternet;
 use Service\SocialMedia\SocialMedia;
 use Service\SocialMedia\Vkontakte;
@@ -73,31 +74,7 @@ class Module extends NCControl
 
         return [
             'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix'),
-            'lang_code'     => $lang->pack,
-            'counter'       => [
-                'visible'   => "<script type=\"text/javascript\"><!--
-                                document.write(\"<a href='//www.liveinternet.ru/click' \"+
-                                \"target=_blank><img src='//counter.yadro.ru/hit?t26.6;r\"+
-                                escape(document.referrer)+((typeof(screen)==\"undefined\")?\"\":
-                                \";s\"+screen.width+\"*\"+screen.height+\"*\"+(screen.colorDepth?
-                                screen.colorDepth:screen.pixelDepth))+\";u\"+escape(document.URL)+
-                                \";\"+Math.random()+
-                                \"' alt='' title='LiveInternet: number of visitors for today is\"+
-                                \" shown' \"+
-                                \"border='0' width='88' height='15'><\/a>\")
-                                //--></script>",
-                'invisible' => "<script type=\"text/javascript\"><!--
-                                document.write(\"<a style='margin: 0 !important; position: fixed; height: 0 !important;width: 0 !important;display: inline-block;' href='//www.liveinternet.ru/click' \"+
-                                \"target=_blank><img src='//counter.yadro.ru/hit?t26.6;r\"+
-                                escape(document.referrer)+((typeof(screen)==\"undefined\")?\"\":
-                                \";s\"+screen.width+\"*\"+screen.height+\"*\"+(screen.colorDepth?
-                                screen.colorDepth:screen.pixelDepth))+\";u\"+escape(document.URL)+
-                                \";\"+Math.random()+
-                                \"' alt='' title='LiveInternet: number of visitors for today is\"+
-                                \" shown' \"+
-                                \"border='0' width='0' height='0'><\/a>\")
-                                //--></script>"
-            ]
+            'lang_code'     => $lang->pack
         ];
     }
 
@@ -307,18 +284,18 @@ class Module extends NCControl
         $root = ROOT . S . 'static';
         $method = strtolower($request->get('m', 'list'));
         $dir = $root . $request->get('d', S);
+        function filterp($path) { return str_replace(SS, S, str_replace('//', '/', $path)); }
+        function filterup($path) { $path = explode(S, $path); array_pop($path); return implode(S, $path); }
 
         // Assign current directory path
-        $this->view->assign('dir', $request->get('d', S));
+        $this->view->assign('dir', rtrim($request->get('d', S), S) . S);
 
         // Assign prev directory path
-        $up_dir = explode(S, $request->get('d', S));
-        array_pop($up_dir);
-        $up_dir = implode(S, $up_dir);
+        $up_dir = filterup($request->get('d', S));
         $this->view->assign('up', $up_dir ? $up_dir : S);
 
         // Base URL for any item
-        $url = '/static/' . str_replace(S, '/', trim($request->get('d', S), S));
+        $url = filterp('/static/' . trim(str_replace(S, '/', $request->get('d', S)), '/') . '/');
         $this->view->assign('base_url', $url);
 
         // Define wyi name
@@ -326,7 +303,7 @@ class Module extends NCControl
         switch ( $method ) {
             // Delete file
             case 'delete':
-                $filename = rtrim($dir, S) . S . $request->get('f');
+                $filename = filterp(rtrim($dir, S) . S . $request->get('f'));
                 if ( file_exists($filename) ) {
                     Helper::delete($filename);
                 }
@@ -336,27 +313,27 @@ class Module extends NCControl
             // Upload file
             case 'upload':
                 $uploader = new FileUploader(['file']);
-                $r = $uploader->upload($dir);
-                var_dump($r);
+                $uploader->upload($dir);
                 break;
 
             // Rename file
             case 'rename':
-                $filename = rtrim($dir, S) . S . $request->get('f');
-                $newname = rtrim($dir, S) . S . $request->get('n');
+                $filename = filterp(rtrim($dir, S) . S . $request->get('f'));
+                $newname = filterp(rtrim($dir, S) . S . $request->get('n'));
                 if ( file_exists($newname) ) {
                     Helper::delete($newname);
                 }
 
                 if ( file_exists($filename) ) {
                     rename($filename, $newname);
+                    $this->view->assign('up', filterup($up_dir));
                 }
 
                 break;
 
             // Create folder
             case 'create':
-                $dirname = rtrim($dir, S) . S . $request->get('f');
+                $dirname = filterp(rtrim($dir, S) . S . $request->get('f'));
                 if ( !file_exists($dirname) && $request->get('f', false) ) {
                     @mkdir($dirname, 0777, true);
                 }
@@ -367,7 +344,8 @@ class Module extends NCControl
         }
 
         return $this->view->render('com/filemanager.twig', [
-            'items' => Helper::items($dir, ['.', '..'])
+            'items' => Helper::items($dir, ['.', '..']),
+            'date'  => date('Y-m-d')
         ]);
     }
 } 

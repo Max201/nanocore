@@ -173,3 +173,30 @@ header.login-page
 
   label:hover
     background: none
+
+.preloader
+  display: inline-block
+  margin: 0 5px
+  width: 15px
+  height: 15px
+  border-bottom: 3px solid #333333
+  border-left: 3px solid #333333
+  border-right: 3px solid #cacaca
+  border-top: 3px solid #cacaca
+  border-radius: 50%
+  -webkit-animation: preloader 1.8s linear infinite
+  animation: preloader 0.9s linear infinite
+  &.off
+    display: none
+
+@keyframes preloader
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
+
+@-webkit-keyframes preloader
+  from
+    -webkit-transform: rotate(0deg)
+  to
+    -webkit-transform: rotate(360deg)

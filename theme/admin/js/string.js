@@ -4,7 +4,7 @@
  */
 String.prototype.urlize = function () {
     var out = '';
-    var input = this.toLowerCase();
+    var input = this.toLowerCase().trim();
     var replacements = {
         ' ': '_',
         '=': '_',
@@ -22,7 +22,8 @@ String.prototype.urlize = function () {
         '.': '',
         ':': '',
         '/': '',
-        '\\': ''
+        '\\': '',
+        '?': ''
     };
 
     for ( var i = 0; i < input.length; i++ ) {
@@ -34,7 +35,7 @@ String.prototype.urlize = function () {
         out += input[i];
     }
 
-    return out.translit();
+    return out.trim().translit();
 };
 
 /**

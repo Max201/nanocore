@@ -5,7 +5,10 @@
     <input style="display: none" id="fm-upload" onchange="gui.fm.upload()" type="file" name="file"/>
     <span class="number" id="progress"></span>
     <a class="button" href="javascript:void(0);" onclick="gui.fm.request({'d': '{{ dir }}', 'm': 'create', 'f': prompt('{{ 'admin.file.dirname'|lang }}')})">
-        <i class="fa fa-plus"></i> {{ 'admin.file.create_dir'|lang }}
+        <i class="fa fa-folder"></i> {{ 'admin.file.create_dir'|lang }}
+    </a>
+    <a class="button" href="javascript:void(0);" onclick="gui.fm.request({'d': '{{ dir }}', 'm': 'create', 'f': '{{ date }}'})">
+        <i class="fa fa-folder"></i> {{ 'admin.file.create_date_dir'|lang(date) }}
     </a>
 </form>
 <header>{{ dir }}</header>
@@ -27,10 +30,10 @@
             {% else %}
                 <i class="fa fa-folder"></i>
             {% endif %}
-            <strong ondblclick="$(this).css('display', 'none');$(this).parent().find('input').fadeIn();">
+            <strong onclick="gui.fm.val('{{ base_url ~ file.name }}');" ondblclick="$(this).css('display', 'none');$(this).parent().find('input').fadeIn();">
                 {{ file.name }}
             </strong>
-            <input type="text" style="display: none;" value="{{ file.name }}" onblur="gui.fm.reload()" onchange="gui.fm.request({'m': 'rename', 'd': '{{ dir }}', 'f': '{{ dir~file.name }}', 'n': '{{ dir }}' + $(this).val()})"/>
+            <input type="text" style="display: none;" value="{{ file.name }}" onblur="gui.fm.request({'d': '{{ dir }}'});" onchange="gui.fm.request({'m': 'rename', 'd': '{{ dir }}', 'f': '{{ file.name }}', 'n': $(this).val()})"/>
         </span>
 
         {% if file.time %}
@@ -44,9 +47,9 @@
 
         {% if file.file %}
             <a href="javascript: void(0);" onclick="tinyMCE.execCommand('createLink', false, '{{ base_url ~ file.name }}')">
-                    <span class="option">
-                        <i class="fa fa-link"></i>
-                    </span>
+                <span class="option">
+                    <i class="fa fa-link"></i>
+                </span>
             </a>
 
             {% if file.image %}
@@ -55,7 +58,6 @@
                         <i class="fa fa-image"></i>
                     </span>
                 </a>
-
             {% endif %}
         {% endif %}
     </li>

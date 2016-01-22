@@ -32,8 +32,13 @@
                 <td><input type="text" value="{{ group.name }}" name="name"/></td>
             </tr>
             <tr>
-                <td>{{ 'user.group.icon'|lang }}</td>
-                <td><input type="text" value="{{ group.icon }}" name="icon"/></td>
+                <td>
+                    {{ 'user.group.icon'|lang }}
+                    <img src="{{ group.icon }}" alt="{{ group.name }}" class="group-icon rt"/>
+                </td>
+                <td>
+                    <input type="text" value="{{ group.icon }}" name="icon" onchange="$('.group-icon').attr('src', $(this).val())"/>
+                </td>
             </tr>
             <tr>
                 <td>{{ 'user.move'|lang }}</td>

@@ -12,7 +12,7 @@
 
             <label for="lang" class="cselect">
                 <span class="title">{{ 'admin.config.lang'|lang }}</span>
-                <select name="lang" id="lang">
+                <select name="lang" id="lang" data-width="200">
                     {% for option in langs %}
                         <option{% if option == conf.lang %} selected="selected"{% endif %} value="{{ option }}">{{ option }}</option>
                     {% endfor %}
@@ -21,7 +21,7 @@
 
             <label for="users_group" class="cselect">
                 <span class="title">{{ 'admin.config.users_group'|lang }}</span>
-                <select name="users_group" id="users_group">
+                <select name="users_group" id="users_group" data-width="200">
                     {% for group in groups %}
                         <option{% if group.id == conf.users_group %} selected="selected"{% endif %} value="{{ group.id }}">{{ group.name }}</option>
                     {% endfor %}
@@ -30,7 +30,7 @@
 
             <label for="theme" class="cselect">
                 <span class="title">{{ 'admin.config.theme'|lang }}</span>
-                <select name="theme" id="theme">
+                <select name="theme" id="theme" data-width="200">
                     {% for option in themes %}
                         <option{% if option == conf.theme %} selected="selected"{% endif %} value="{{ option }}">{{ option }}</option>
                     {% endfor %}
