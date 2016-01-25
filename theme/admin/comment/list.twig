@@ -1,0 +1,76 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <menu>
+        <a href="?delete=all" class="item">
+            <i class="fa fa-trash"></i>
+            Удалить все
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})"  class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'comment.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('body')})">{{ 'comment.body'|lang }} <i class="fa {{ 'body'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'comment.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+                <td>{{ 'button.delete'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% if not comments_list %}
+            <tr>
+                <td colspan="7" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+        {% for com in comments_list %}
+            <tr>
+                <td class="primary">#{{ com.id }}</td>
+                <td onclick="gui.uri({author:'{{ com.author_id }}'})">{{ com.author.username }}</td>
+                <td>{{ com.body }}</td>
+                <td>{{ com.created_at|tz|dlang }}</td>
+                <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ com.id }}\'?')) gui.uri({'delete': '{{ com.id }}'})">
+                    <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td onclick="gui.uri({'order': gui.order_toggle('id')})"  class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+            <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'comment.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+            <td onclick="gui.uri({'order': gui.order_toggle('body')})">{{ 'comment.body'|lang }} <i class="fa {{ 'body'|ord }}"></i></td>
+            <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'comment.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
+            <td>{{ 'button.delete'|lang }}</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <menu>
+        <a href="?delete=all" class="item">
+            <i class="fa fa-trash"></i>
+            Удалить все
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+{% endblock %}

@@ -255,6 +255,8 @@ class Theme extends NCService
         $set = $this->load('Application.Settings');
         $shift = $set->conf->get('timezone', '+0');
         $timestamp = strtotime($shift . ' hours', $timestamp);
+
+        // Format
         if ( is_null($dateformat) ) {
             $dateformat = $set->conf->get('format', 'd-m-Y H:i');
         }

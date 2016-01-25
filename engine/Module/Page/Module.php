@@ -25,7 +25,7 @@ class Module extends NCModule
 
     public function route()
     {
-        $this->map->addPattern('<id:\d+>-<slug:.+>.html', [$this, 'page'], 'page');
+        $this->map->addPattern('<id:\d+>-<slug:.+?>.html', [$this, 'page'], 'page');
     }
 
     public function sitemap(NCSitemapBuilder $builder)

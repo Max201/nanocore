@@ -7,12 +7,16 @@
             <header>{{ 'admin.statistic.visits'|lang }}</header>
             <strong class="number">{{ stat.visits }}</strong>
         </div>
-        {% if stats.online %}
         <div class="widget">
-            <header>{{ 'admin.statistic.oline'|lang }}</header>
-            <strong class="number green">{{ stat.online }}</strong>
+            <header>{{ 'admin.statistic.online'|lang }}</header>
+            <strong class="number green">
+                {% if stats.online %}
+                    {{ stat.online }}
+                {% else %}
+                    0
+                {% endif %}
+            </strong>
         </div>
-        {% endif %}
     </div>
 
     <header>{{ 'admin.statistic.websites'|lang }}</header>

@@ -15,13 +15,13 @@ use ActiveRecord\Model;
 class Comment extends Model
 {
     static $before_create = ['created_at'];
-    static $before_save = ['updated_at'];
 
     /**
      * @var array
      */
     static $belongs_to = array(
-        ['author', 'class_name' => 'User', 'foreign_key' => 'author_id']
+        ['author', 'class_name' => 'User', 'foreign_key' => 'author_id'],
+        ['parent', 'class_name' => 'Comment', 'foreign_key' => 'parent_id'],
     );
 
     /**
@@ -33,18 +33,13 @@ class Comment extends Model
     }
 
     /**
-     * Defines update date
-     */
-    public function updated_at()
-    {
-        $this->assign_attribute('updated_at', time());
-    }
-
-    /**
      * @return array
      */
     public function to_array()
     {
-        return array_merge(['author' => $this->author->to_array()], $this->to_array());
+        return array_merge([
+            'author' => $this->author->to_array(),
+            'parent' => $this->parent ? $this->parent->to_array() : [],
+        ], parent::to_array());
     }
 }

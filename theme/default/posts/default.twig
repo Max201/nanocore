@@ -1,4 +1,6 @@
 {% extends 'index.twig' %}
+{% set com=('publ' ~ post.id) %}
+
 
 {% block body %}
     <div class="entry-item">
@@ -24,28 +26,18 @@
                     {{ post.updated_at|tz|dlang }}
                 </div>
                 <div class="entry-stat">
-                    Просмотров {{ post.views }}
+                    <span>Комментариев {{ id|comments_count }}</span>
+                    <span>Просмотров {{ post.views }}</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="cb"></div>
 
     {% if group.can('comment') %}
-    <div id="disqus_thread"></div>
-    <script>
-        var disqus_config = function () {
-            this.page.url = document.location.href;
-            this.page.identifier = '{{ post.id }}';
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = '//nanolab.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        {% set comments=com|comments %}
+        <div id="comments-section">
+        {% include 'comment/list.twig' %}
+        </div>
     {% else %}
         <div class="wall">
             Вам запрещено комментировать публикации. Необходимо <a target="_blank" href="/user/auth/">войти</a> или <a target="_blank" href="/user/new/">зарегистрироваться</a>.

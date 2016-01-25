@@ -1,0 +1,78 @@
+<header class="comment-header">Комментарии</header>
+
+{% if status.success %}
+    <div class="message success">{{ status.message }}</div>
+{% endif %}
+
+<ul class="comments">
+    <li class="comment form">
+        {% if user.avatar %}
+            <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
+        {% else %}
+            <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
+        {% endif %}
+
+        <textarea onkeydown="comments.post(this, '{{ com }}')" name="comment" id="com-body" rows="5" cols="97"></textarea>
+    </li>
+    {% for comment in comments %}
+        <li class="comment{% if comment.id == status.success %} active{% endif %}" id="com-{{ comment.id }}">
+            {% if comment.author.avatar %}
+                <img src="{{ comment.author.avatar }}" alt="{{ comment.author.username }}"/>
+            {% else %}
+                <img src="{{ comment.author|grava(160) }}" alt="{{ comment.author.username }}"/>
+            {% endif %}
+
+            <div class="comment-item">
+                <div class="author">{{ comment.author.username }}</div>
+                <div class="body">
+                    {{ comment.body }}
+                </div>
+                <hr/>
+                <div class="info">
+                    <span class="date">{{ comment.created_at|tz|dlang }}</span>
+                    {% if group.can('edit_comments') %}
+                        <a href="javascript:void(0)" onclick="comments.delete('{{ comment.id }}')"><span class="delete">Удалить</span></a>
+                    {% endif %}
+                    <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);"><span class="answer">Ответить</span></a>
+                </div>
+
+                <ul class="comments">
+                    {% for sub in comment.id|comments(10, 1) %}
+                        <li class="comment sub{% if sub.id == sub.success %} active{% endif %}" id="com-{{ sub.id }}">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
+                            {% else %}
+                                <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
+                            {% endif %}
+                            <div class="author">{{ sub.author.username }}</div>
+                            {{ sub.body }}
+                            <hr/>
+                            <div class="info">
+                                <span class="date">{{ sub.created_at|tz|dlang }}</span>
+                                {% if group.can('edit_comments') %}
+                                    <a href="javascript:void(0)" onclick="comments.delete('{{ sub.id }}')"><span class="delete">Удалить</span></a>
+                                {% endif %}
+                                <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);"><span class="answer">Ответить</span></a>
+                            </div>
+                            <div class="cb"></div>
+                        </li>
+                    {% endfor %}
+                    <li style="display: none;" class="comment sub form" id="answer-{{ comment.id }}">
+                        {% if user.author.avatar %}
+                            <img src="{{ user.author.avatar }}" alt="{{ user.author.username }}"/>
+                        {% else %}
+                            <img src="{{ user.author|grava(160) }}" alt="{{ user.author.username }}"/>
+                        {% endif %}
+
+                        <textarea onkeydown="comments.post(this, '{{ comment.id }}')" name="comment" id="com-body" rows="5" cols="86"></textarea>
+                    </li>
+                </ul>
+            </div>
+            <div class="cb"></div>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if not comments %}
+    <div class="wall">{{ 'comment.empty'|lang }}</div>
+{% endif %}

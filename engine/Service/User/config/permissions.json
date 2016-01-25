@@ -40,7 +40,7 @@
         "use_admin": 1,
         "publicate": 1,
         "comment": 1,
-        "edit_comments": 0,
+        "edit_comments": 1,
         "edit_publications": 0,
         "premoderate_publ": 1
     }

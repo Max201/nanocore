@@ -300,7 +300,8 @@ class Module extends NCControl
             'month'     => $this->lang->translate('system.month.' . strtolower(date('M'))),
             'active'    => date('d'),
             'day'       => $cur_day,
-            'stat'      => $statistic
+            'stat'      => $statistic,
+            'widgets'   => Helper::build_widgets($this->view)
         ]);
     }
 

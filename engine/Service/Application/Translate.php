@@ -100,6 +100,7 @@ class Translate extends NCService
         $langs = json_decode(file_get_contents($langs), true);
         $string = strtolower($string);
 
+        // Translate week
         foreach ( $this->dates['week'] as $src => $day ) {
             if ( is_numeric($src) ) {
                 continue;
@@ -108,6 +109,7 @@ class Translate extends NCService
             $string = str_replace($src, $day, $string);
         }
 
+        // Translate month
         foreach ( $this->dates['month'] as $src => $day ) {
             if ( is_numeric($src) ) {
                 continue;
