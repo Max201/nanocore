@@ -5,6 +5,7 @@
 {% endif %}
 
 <ul class="comments">
+    {% if group.can('comment') %}
     <li class="comment form">
         {% if user.avatar %}
             <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
@@ -14,6 +15,9 @@
 
         <textarea onkeydown="comments.post(this, '{{ com }}')" name="comment" id="com-body" rows="5" cols="97"></textarea>
     </li>
+    {% else %}
+        <div class="wall">Вам запрещено писать комментарии</div>
+    {% endif %}
     {% for comment in comments %}
         <li class="comment{% if comment.id == status.success %} active{% endif %}" id="com-{{ comment.id }}">
             {% if comment.author.avatar %}
@@ -27,52 +31,54 @@
                 <div class="body">
                     {{ comment.body }}
                 </div>
-                <hr/>
                 <div class="info">
                     <span class="date">{{ comment.created_at|tz|dlang }}</span>
                     {% if group.can('edit_comments') %}
                         <a href="javascript:void(0)" onclick="comments.delete('{{ comment.id }}')"><span class="delete">Удалить</span></a>
                     {% endif %}
-                    <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);"><span class="answer">Ответить</span></a>
+                    {% if group.can('comment') %}
+                        <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);"><span class="answer">Ответить</span></a>
+                    {% endif %}
                 </div>
 
                 <ul class="comments">
                     {% for sub in comment.id|comments(10, 1) %}
                         <li class="comment sub{% if sub.id == sub.success %} active{% endif %}" id="com-{{ sub.id }}">
-                            {% if user.avatar %}
-                                <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
+                            {% if sub.author.avatar %}
+                                <img src="{{ sub.author.avatar }}" alt="{{ sub.author.username }}"/>
                             {% else %}
-                                <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
+                                <img src="{{ sub.author|grava(160) }}" alt="{{ sub.author.username }}"/>
                             {% endif %}
                             <div class="author">{{ sub.author.username }}</div>
-                            {{ sub.body }}
-                            <hr/>
+                            <div class="body">
+                                {{ comment.body }}
+                            </div>
                             <div class="info">
                                 <span class="date">{{ sub.created_at|tz|dlang }}</span>
                                 {% if group.can('edit_comments') %}
                                     <a href="javascript:void(0)" onclick="comments.delete('{{ sub.id }}')"><span class="delete">Удалить</span></a>
                                 {% endif %}
-                                <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);"><span class="answer">Ответить</span></a>
+                                {% if group.can('comment') %}
+                                    <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);"><span class="answer">Ответить</span></a>
+                                {% endif %}
                             </div>
                             <div class="cb"></div>
                         </li>
                     {% endfor %}
+                    {% if group.can('comment') %}
                     <li style="display: none;" class="comment sub form" id="answer-{{ comment.id }}">
-                        {% if user.author.avatar %}
-                            <img src="{{ user.author.avatar }}" alt="{{ user.author.username }}"/>
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
                         {% else %}
-                            <img src="{{ user.author|grava(160) }}" alt="{{ user.author.username }}"/>
+                            <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
                         {% endif %}
 
                         <textarea onkeydown="comments.post(this, '{{ comment.id }}')" name="comment" id="com-body" rows="5" cols="86"></textarea>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="cb"></div>
         </li>
     {% endfor %}
 </ul>
-
-{% if not comments %}
-    <div class="wall">{{ 'comment.empty'|lang }}</div>
-{% endif %}

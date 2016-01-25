@@ -108,9 +108,7 @@ class Module extends NCControl
         $end_date = strtotime('+1 day', $start_date);
 
         // Online users
-        if ( $cur_day == date('d') ) {
-            $statistic['online'] = \Visit::online();
-        }
+        $statistic['online'] = \Visit::online();
 
         // Visits
         $statistic['visits'] = \Visit::visits($start_date, $end_date);
@@ -269,9 +267,7 @@ class Module extends NCControl
         $end_date = strtotime('+1 day', $start_date);
 
         // Online users
-        if ( $cur_day == date('d') ) {
-            $statistic['online'] = \Visit::online();
-        }
+        $statistic['online'] = \Visit::online();
 
         // Visits
         $statistic['visits'] = \Visit::visits($start_date, $end_date);

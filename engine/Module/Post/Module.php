@@ -151,7 +151,62 @@ class Module extends NCModule
             return $this->view->render('posts/list.twig', [
                 'title'     => $category->title,
                 'category'  => $category->to_array(),
-                'posts'     => array_map(function($i){ return $i->to_array(); }, $posts),
+                'posts'     => \Post::as_array($posts),
+                'listing'   => $pagination->pages(),
+                'page'      => $request->page
+            ]);
+        }
+
+        return $this->error404($request);
+    }
+
+    /**
+     * @param Request $request
+     * @param Options $matches
+     * @return string
+     */
+    public function user(Request $request, Options $matches = null)
+    {
+        $who = $matches->get('id');
+
+        if ( $who == 'my' ) {
+            $user = $this->user;
+        } else {
+            /** @var \PostCategory $category */
+            $user = \User::find($matches->get('id'));
+        }
+
+
+        if ( $user ) {
+            // Filter conditions
+            $filter = [
+                'conditions'    => ['author_id = ?', $user->id]
+            ];
+
+            // Rows count
+            $rows = \Post::count($filter);
+
+            // Paginator
+            /** @var Listing $pagination */
+            $pagination = NCService::load('Paginator.Listing', [$request->page, $rows]);
+
+            // Limitation
+            $filter = array_merge($filter, $pagination->limit());
+
+            // Ordering
+            if ( $request->order ) {
+                $filter['order'] = $request->order;
+            } else {
+                $filter['order'] = 'created_at DESC';
+            }
+
+            // Get posts
+            $posts = \Post::all($filter);
+
+            // Rendering
+            return $this->view->render('posts/list.twig', [
+                'title'     => $this->lang->translate('post.by_author', $user->username),
+                'posts'     => \Post::as_array($posts),
                 'listing'   => $pagination->pages(),
                 'page'      => $request->page
             ]);

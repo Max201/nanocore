@@ -10,11 +10,7 @@
         <div class="widget">
             <header>{{ 'admin.statistic.online'|lang }}</header>
             <strong class="number green">
-                {% if stats.online %}
-                    {{ stat.online }}
-                {% else %}
-                    0
-                {% endif %}
+                {{ stat.online }}
             </strong>
         </div>
     </div>

@@ -159,7 +159,7 @@ class Control extends NCControl
             $ban_time = $request->get('ban_time', false);
             $ban_reason = $request->get('ban_reason', false);
             if ( $ban_time ) {
-                if ( $ban_time == '-1' || strtolower($ban_time) == 'forever' ) {
+                if ( $ban_time == '-1' || strtolower(trim($ban_time)) == 'forever' ) {
                     $ban_time = -1;
                 } else {
                     $ban_time = strtotime($ban_time, time());

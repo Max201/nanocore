@@ -79,7 +79,13 @@
                 </tr>
                 <tr>
                     <td><strong>{{ 'user.ban.to'|lang }}</strong></td>
-                    <td>{{ profile.ban_time|tz|dlang }}</td>
+                    <td>
+                        {% if profile.ban_time == -1 %}
+                            {{ 'user.ban.forever'|lang }}
+                        {% else %}
+                            {{ profile.ban_time|tz|dlang }}
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>{{ 'user.ban.reason'|lang }}</strong></td>
@@ -144,6 +150,7 @@
         <label for="ban_time">
             <span class="title">{{ 'user.ban.time'|lang }}</span>
             <input id="ban_time" name="ban_time" type="text" value="+24 hours"/>
+            <a onclick="$('#ban_time').val('forever');" href="javascript:void(0);" class="button">{{ 'user.ban.forever'|lang }}</a>
         </label>
         <label for="ban_reason">
             <span class="title">{{ 'user.ban.reason'|lang }}</span>

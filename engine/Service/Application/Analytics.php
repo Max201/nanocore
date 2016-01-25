@@ -280,6 +280,33 @@ class Analytics extends NCService
         } elseif (preg_match('/Netscape/i',$u_agent)) {
             $bname = 'Netscape';
             $ub = "Netscape";
+        } elseif (preg_match('/Twitterbot/i',$u_agent)) {
+            $bname = 'Twitter';
+            $ub = "Twitterbot";
+        } elseif (preg_match('/Googlebot/i',$u_agent)) {
+            $bname = 'Google';
+            $ub = "Googlebot";
+        } elseif (preg_match('/Yahoo/i',$u_agent)) {
+            $bname = 'Yahoo';
+            $ub = "Yahoo! Slurp";
+        } elseif (preg_match('/YandexBot/i',$u_agent)) {
+            $bname = 'Yandex';
+            $ub = "YandexBot";
+        } elseif (preg_match('/vkShare/i',$u_agent)) {
+            $bname = 'VKontakte';
+            $ub = "VKShare";
+        } elseif (preg_match('/OpenHoseBot/i',$u_agent)) {
+            $bname = 'OpenHose';
+            $ub = "OpenHoseBot";
+        } elseif (preg_match('/SemrushBot/i',$u_agent)) {
+            $bname = 'Semrush';
+            $ub = "SemrushBot";
+        } elseif (preg_match('/TelegramBot/i',$u_agent)) {
+            $bname = 'Telegram';
+            $ub = "TelegramBot";
+        } elseif (preg_match('/Google-HTTP/i',$u_agent)) {
+            $bname = 'Google';
+            $ub = "Google-HTTP-Java-Client";
         } else {
             $bname = 'bot';
             $ub = 'bot';
