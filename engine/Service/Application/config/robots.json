@@ -1,0 +1,8 @@
+{
+    "*": [
+        "Disallow: /control/",
+        "Disallow: /admin/",
+        "Disallow: /static/",
+        "Disallow: /theme/"
+    ]
+}

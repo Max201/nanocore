@@ -51,7 +51,7 @@ class Module extends NCModule
         );
 
         // Posts map
-        $posts = \Post::all(['conditions' => 'moderate = ?', 0]);
+        $posts = \Post::all(['conditions' => ['moderate = ?', 0]]);
         foreach ($posts as $entry) {
             $builder->add_url(
                 $this->map->reverse('post', [$entry->id, $entry->slug]),
@@ -278,6 +278,13 @@ class Module extends NCModule
                     'author_id'     => $this->user->id,
                     'moderate'      => $this->user->can('premoderate_publ')
                 ]);
+            }
+
+            if ( !$post->moderate ) {
+                // Exporting to social
+                if ( !$post->post_vkontakte && !$post->post_twitter ) {
+                    $post->export();
+                }
 
                 // Ping sitemap
                 NCService::load('SocialMedia.Ping');

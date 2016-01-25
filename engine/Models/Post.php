@@ -15,7 +15,6 @@ use ActiveRecord\Model;
 class Post extends Model
 {
     static $before_create = ['created_at'];
-    static $after_create = ['export'];
     static $before_save = ['updated_at'];
 
     /**
@@ -134,6 +133,11 @@ class Post extends Model
                 )->id
             );
         }
+
+        return [
+            'vk'    => $this->post_vkontakte,
+            'tw'    => $this->post_twitter,
+        ];
     }
 
     /**

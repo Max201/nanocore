@@ -294,6 +294,13 @@ class Control extends NCControl
                     'author_id'     => $this->user->id,
                     'moderate'      => $request->get('moderate')
                 ]);
+            }
+
+            if ( !$post->moderate ) {
+                // Exporting to social
+                if ( !$post->post_vkontakte && !$post->post_twitter ) {
+                    $post->export();
+                }
 
                 // Ping sitemap
                 NCService::load('SocialMedia.Ping');

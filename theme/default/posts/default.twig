@@ -2,27 +2,33 @@
 
 {% block body %}
     <div class="entry-item">
-        <div class="entry-date">
-            {{ post.updated_at|tz('d')|raw|dlang }}<br />
-            {{ post.updated_at|tz('M')|raw|dlang }}
+        <div class="entry-author">
+            {% if post.author.avatar %}
+                <img src="{{ post.author.avatar }}" alt="{{ post.author.username }}"/>
+            {% else %}
+                <img src="{{ post.author|grava(160) }}" alt="{{ post.author.username }}"/>
+            {% endif %}
         </div>
         <div class="entry-description">
             <h2 class="headline">
-                <strong>{{ post.author.username }}: </strong>
-                {{ post.title }}
-                <sup>
-                    <small><a href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a></small>
-                </sup>
+                <strong>
+                    {{ post.author.username }}: {{ post.title }}
+                </strong>
+                <small><a href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a></small>
             </h2>
-            <div class="entry-stat">
-                +{{ post.views }}
-            </div>
-            <div class="entry-full">
+            <div>
                 {{ post.content|raw }}
+            </div>
+            <div class="entry-footer">
+                <div class="entry-date">
+                    {{ post.updated_at|tz|dlang }}
+                </div>
+                <div class="entry-stat">
+                    Просмотров {{ post.views }}
+                </div>
             </div>
         </div>
     </div>
-
     <div class="cb"></div>
 
     {% if group.can('comment') %}

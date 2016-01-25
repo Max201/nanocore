@@ -37,6 +37,7 @@ class Application extends NCService
     static $static_routes = [
         '/sitemap.xml'  => '\\Service\\Application\\Application::route_sitemap',
         '/code.jpg'     => '\\Service\\Application\\Application::route_captcha',
+        '/robots.txt'   => '\\Service\\Application\\Application::robots',
     ];
 
     /**
@@ -161,5 +162,15 @@ class Application extends NCService
         /** @var Captcha $captcha */
         $captcha = $app->load('Application.Captcha');
         $captcha->render();
+    }
+
+    /**
+     * @param Application $app
+     */
+    public static function robots(Application $app)
+    {
+        /** @var Robots $captcha */
+        $robots = $app->load('Application.Robots');
+        $robots->render('/sitemap.xml', Env::$request->getHttpHost());
     }
 } 

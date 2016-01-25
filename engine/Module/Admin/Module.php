@@ -257,18 +257,50 @@ class Module extends NCControl
             'langs'     => Helper::languages(),
             'themes'    => Helper::themes(),
             'home'      => $request->server->get('SERVER_NAME'),
-            'groups'    => array_map(function($i){ return $i->to_array(); }, \Group::all())
+            'groups'    => array_map(function($i){ return $i->to_array(); }, \Group::all()),
         ]);
     }
 
     public function dashboard(Request $request)
     {
+        $cur_day = date('d');
+        $statistic = [];
+        $start_date = mktime(0, 0, 0, date('m'), $cur_day);
+        $end_date = strtotime('+1 day', $start_date);
+
+        // Online users
+        if ( $cur_day == date('d') ) {
+            $statistic['online'] = \Visit::online();
+        }
+
+        // Visits
+        $statistic['visits'] = \Visit::visits($start_date, $end_date);
+
+        // Views
+        $statistic['views'] = \Visit::views($start_date, $end_date);
+
+        // Search terms
+        $statistic['terms'] = \Visit::query_terms($start_date, $end_date);
+
+        // Websites
+        $statistic['websites'] = \Visit::websites($start_date, $end_date);
+
+        // Pages
+        $statistic['pages'] = \Visit::pages($start_date, $end_date);
+
+        // Browsers
+        $statistic['browsers'] = \Visit::browsers($start_date, $end_date);
+
+        // Platforms
+        $statistic['platforms'] = \Visit::platforms($start_date, $end_date);
+
         return $this->view->render('dashboard/index.twig', [
             'title'     => $this->lang->translate('admin.dashboard'),
-            'widgets'   => Helper::build_widgets($this->view),
             'calendar'  => new Calendar(),
             'month'     => $this->lang->translate('system.month.' . strtolower(date('M'))),
-            'active'    => date('d')
+            'active'    => date('d'),
+            'day'       => $cur_day,
+            'stat'      => $statistic
         ]);
     }
 

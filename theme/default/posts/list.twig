@@ -3,25 +3,30 @@
 {% block body %}
     {% for post in posts %}
         <div class="entry-item">
-            <div class="entry-date">
-                {{ post.updated_at|tz('d')|raw|dlang }}<br />
-                {{ post.updated_at|tz('M')|raw|dlang }}
+            <div class="entry-author">
+                {% if post.author.avatar %}
+                    <img src="{{ post.author.avatar }}" alt="{{ post.author.username }}"/>
+                {% else %}
+                    <img src="{{ post.author|grava(160) }}" alt="{{ post.author.username }}"/>
+                {% endif %}
             </div>
             <div class="entry-description">
                 <h2 class="headline">
-                    <strong>{{ post.author.username }}: </strong>
-                    <a target="_blank" href="{{ 'post'|url(post.id, post.slug) }}">
-                        {{ post.title }}
-                    </a>
-                    <sup>
-                        <small><a href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a></small>
-                    </sup>
+                    <strong>
+                        {{ post.author.username }}: <a href="{{ 'post'|url(post.id, post.slug) }}">{{ post.title }}</a>
+                    </strong>
+                    <small><a target="_blank" href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a></small>
                 </h2>
-                <div class="entry-stat">
-                    +{{ post.views }}
-                </div>
-                <div class="entry-short" onclick="document.location.href = '{{ 'post'|url(post.id, post.slug) }}';">
+                <div class="entry-text" onclick="document.location.href = '{{ 'post'|url(post.id, post.slug) }}';">
                     {{ post.content|short|raw }}
+                </div>
+                <div class="entry-footer">
+                    <div class="entry-date">
+                        {{ post.updated_at|tz|dlang }}
+                    </div>
+                    <div class="entry-stat">
+                        Просмотров {{ post.views }}
+                    </div>
                 </div>
             </div>
         </div>
