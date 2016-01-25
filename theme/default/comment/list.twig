@@ -16,7 +16,9 @@
         <textarea onkeydown="comments.post(this, '{{ com }}')" name="comment" id="com-body" rows="5" cols="97"></textarea>
     </li>
     {% else %}
-        <div class="wall">Вам запрещено писать комментарии</div>
+        <div class="wall">
+            Вам запрещено комментировать публикации. Необходимо <a target="_blank" href="/user/auth/">войти</a> или <a target="_blank" href="/user/new/">зарегистрироваться</a>.
+        </div>
     {% endif %}
     {% for comment in comments %}
         <li class="comment{% if comment.id == status.success %} active{% endif %}" id="com-{{ comment.id }}">
@@ -51,7 +53,7 @@
                             {% endif %}
                             <div class="author">{{ sub.author.username }}</div>
                             <div class="body">
-                                {{ comment.body }}
+                                {{ sub.body }}
                             </div>
                             <div class="info">
                                 <span class="date">{{ sub.created_at|tz|dlang }}</span>

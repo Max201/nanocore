@@ -33,14 +33,8 @@
         </div>
     </div>
 
-    {% if group.can('comment') %}
         {% set comments=com|comments %}
         <div id="comments-section">
         {% include 'comment/list.twig' %}
         </div>
-    {% else %}
-        <div class="wall">
-            Вам запрещено комментировать публикации. Необходимо <a target="_blank" href="/user/auth/">войти</a> или <a target="_blank" href="/user/new/">зарегистрироваться</a>.
-        </div>
-    {% endif %}
 {% endblock %}
