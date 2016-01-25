@@ -24,6 +24,9 @@
                     <div class="entry-date">
                         {{ post.updated_at|tz|dlang }}
                     </div>
+                    <div class="entry-stat" style="padding-left: 15px">
+                        Комментариев {{ ('publ'~post.id)|comments_count }}
+                    </div>
                     <div class="entry-stat">
                         Просмотров {{ post.views }}
                     </div>
