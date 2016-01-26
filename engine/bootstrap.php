@@ -4,6 +4,10 @@
  * @Author: Maxim P.
  */
 
+# System functions
+include 'functions.php';
+
+
 # Components autoloaders
 include 'Symfony' . S . 'Component' . S . 'Twig' . S . 'Autoloader.php';
 include 'ActiveRecord' . S . 'ActiveRecord.php';
