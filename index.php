@@ -4,6 +4,11 @@
  * @Author: Maxim P.
  */
 
+/*
+ * Internal encoding
+ */
+mb_internal_encoding('UTF-8');
+mb_regex_encoding('UTF-8');
 
 /*
  * Root directory
