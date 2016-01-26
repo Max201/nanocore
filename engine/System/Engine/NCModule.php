@@ -75,7 +75,7 @@ class NCModule
 
         // Analytics module
         if ( $this->analytics ) {
-            $counter = NCService::load('Application.Analytics', [$this->settings->get('timezone')]);
+            $counter = NCService::load('Application.Analytics', [$this->user ? $this->user->id : null]);
             $counter->save();
         }
 

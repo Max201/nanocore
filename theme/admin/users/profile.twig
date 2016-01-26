@@ -11,15 +11,18 @@
         </a>
 
         <nav class="right">
-            <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.edit').show();" class="item">
+            <a href="javascript:void(0);" onclick="$('.form, .log').hide();$('.log').show();" class="item">
+                <i class="fa fa-history"></i> {{ 'user.profile.access_log'|lang }}
+            </a>
+            <a href="javascript:void(0);" onclick="$('.form, .log').hide();$('.form.edit').show();" class="item">
                 <i class="fa fa-edit"></i> {{ 'user.edit.title'|lang }}
             </a>
             {% if profile.id != user.id %}
-                <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.ban').show();" class="item">
+                <a href="javascript:void(0);" onclick="$('.form, .log').hide();$('.form.ban').show();" class="item">
                     <i class="fa fa-lock"></i> {{ 'user.ban.title'|lang }}
                 </a>
             {% endif %}
-            <a href="javascript:void(0);" onclick="$('.form').hide();$('.form.change-password').show();" class="item">
+            <a href="javascript:void(0);" onclick="$('.form, .log').hide();$('.form.change-password').show();" class="item">
                 <i class="fa fa-shield"></i> {{ 'user.edit.password'|lang }}
             </a>
         </nav>
@@ -93,6 +96,41 @@
                 </tr>
             {% endif %}
         </tbody>
+    </table>
+
+    <table class="log">
+        <thead>
+            <tr>
+                <td class="primary x10">IP</td>
+                <td>{{ 'admin.statistic.browser'|lang }}</td>
+                <td>{{ 'admin.statistic.os'|lang }}</td>
+                <td>{{ 'admin.statistic.page'|lang }}</td>
+                <td>{{ 'admin.statistic.site'|lang }}</td>
+                <td>{{ 'admin.statistic.date'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visit in visits_list %}
+                <tr>
+                    <td class="primary x10">{{ visit.ip|longip }}</td>
+                    <td>{{ visit.browser }}</td>
+                    <td>{{ visit.platform|capitalize }}</td>
+                    <td>{{ visit.page }}</td>
+                    <td>{{ visit.referer }}</td>
+                    <td>{{ visit.time|tz|dlang }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="primary x10">IP</td>
+                <td>{{ 'admin.statistic.browser'|lang }}</td>
+                <td>{{ 'admin.statistic.os'|lang }}</td>
+                <td>{{ 'admin.statistic.page'|lang }}</td>
+                <td>{{ 'admin.statistic.site'|lang }}</td>
+                <td>{{ 'admin.statistic.date'|lang }}</td>
+            </tr>
+        </tfoot>
     </table>
 
     <form class="form edit" action="" style="display: none;">

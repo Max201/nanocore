@@ -34,6 +34,11 @@ class Analytics extends NCService
     private $ua;
 
     /**
+     * @var int
+     */
+    private $user_id = null;
+
+    /**
      * @var string
      */
     private $browser;
@@ -71,10 +76,11 @@ class Analytics extends NCService
     /**
      * Create new visit
      */
-    public function __construct($date_shift)
+    public function __construct($uid = null)
     {
         $this->ip = static::long_ip();
         $this->ua = static::ua();
+        $this->user_id = $uid;
 
         $browser_data = static::browser($this->ua);
         $this->browser = $browser_data['name'];
@@ -105,6 +111,7 @@ class Analytics extends NCService
         return [
             'ip'        => $this->ip,
             'ua'        => $this->ua,
+            'user_id'   => $this->user_id,
             'page'      => Env::$request->server->get('REQUEST_URI', '/'),
             'referer'   => $this->referer,
             'internal'  => $this->internal($this->referer),
@@ -122,10 +129,10 @@ class Analytics extends NCService
      * @param string $time_shift
      * @return Analytics
      */
-    static function instance($time_shift = '+0 hours')
+    static function instance($uid = null)
     {
         if ( !static::$instance ) {
-            static::$instance = new Analytics($time_shift);
+            static::$instance = new Analytics($uid);
         }
 
         return static::$instance;

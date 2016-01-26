@@ -12,7 +12,6 @@ use Service\Paginator\Listing;
 use System\Engine\NCControl;
 use System\Engine\NCService;
 use System\Engine\NCWidget;
-use System\Environment\Env;
 
 
 class Control extends NCControl
@@ -141,8 +140,30 @@ class Control extends NCControl
             /** @var \User $user */
             $user = \User::find($matches['id']);
         } catch ( \Exception $e ) {
-            $this->error404($request);
-            return;
+            return $this->error404($request);
+        }
+
+        // User access log filter
+        $access_filter = [
+            'conditions'    => ['user_id = ?', $user->id]
+        ];
+
+        // Paginator access log
+        /** @var Listing $paginator */
+        $paginator = NCService::load('Paginator.Listing', [$request->page, \Visit::count($access_filter)]);
+        $access_filter['order'] = 'id DESC';
+        $access_filter = array_merge($access_filter, $paginator->limit());
+
+        // Unban user
+        if ( $request->get('unban') ) {
+            $user->ban_time = null;
+            $user->ban_user_id = null;
+            $user->ban_reason = null;
+            $user->save();
+
+            static::redirect_response(
+                $this->map->reverse('users.profile', ['id' => $user->id])
+            );
         }
 
         if ( $request->isMethod('post') ) {
@@ -244,7 +265,12 @@ class Control extends NCControl
         return $this->view->render('users/profile.twig', [
             'title'         => $this->lang->translate('user.profile.name', $user->username),
             'profile'       => $user->to_array(),
-            'groups'        => array_map(function($i){ return $i->to_array(); }, \Group::all())
+            'groups'        => array_map(function($i){ return $i->to_array(); }, \Group::all()),
+
+            // Access log
+            'visits_list'   => \Visit::as_array(\Visit::find('all', $access_filter)),
+            'listing'       => $paginator->pages(),
+            'page'          => $paginator->cur_page
         ]);
     }
 
@@ -368,7 +394,7 @@ class Control extends NCControl
         $groups = array_map(function($i){ return $i->to_array(); }, $groups);
         return $this->view->render('users/groups.twig', [
             'title'         => $this->lang->translate('user.groups'),
-            'groups_list'    => $groups,
+            'groups_list'   => $groups,
             'listing'       => $paginator->pages(),
             'page'          => $paginator->cur_page
         ]);

@@ -76,6 +76,20 @@ class Module extends NCControl
             return $str;
         }));
 
+        /**
+         * Long to ip
+         */
+        $view->twig->addFilter(new \Twig_SimpleFilter('longip', function($str){
+            return long2ip($str);
+        }));
+
+        /**
+         * IP to long
+         */
+        $view->twig->addFilter(new \Twig_SimpleFilter('iplong', function($str){
+            return ip2long($str);
+        }));
+
         return [
             'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix'),
             'lang_code'     => $lang->pack
