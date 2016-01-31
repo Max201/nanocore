@@ -1,0 +1,181 @@
+#header > .navbar {
+  background: url("/theme/greenlab/img/logo-bg.png") no-repeat !important;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 0 !important;
+  border: none; }
+  #header > .navbar a {
+    color: #333; }
+#header img {
+  max-height: 32px;
+  margin: -8px 10px 0 0;
+  float: left; }
+#header .navbar-default .navbar-nav > .open > a,
+#header .navbar-default .navbar-nav a:hover,
+#header .navbar-default .navbar-nav > .open > a:focus,
+#header .navbar-default .navbar-nav > .open > a:hover {
+  background: rgba(51, 51, 51, 0.2); }
+
+.wrapper {
+  width: 1200px;
+  margin: 0 auto 30px auto; }
+  @media screen and (max-width: 1199px) {
+    .wrapper {
+      width: auto; } }
+
+.block {
+  background: #ffffff;
+  min-height: 80px;
+  padding: 0;
+  margin: 20px -5px 20px 0;
+  border: 1px solid #c1c1c1;
+  -webkit-box-shadow: 0 1px 2px #ccc;
+  -moz-box-shadow: 0 1px 2px #ccc;
+  box-shadow: 0 1px 2px #ccc; }
+  @media screen and (max-width: 1199px) {
+    .block {
+      display: block;
+      float: none;
+      width: auto;
+      margin: 5px 15px !important; } }
+  .block .block-body {
+    padding: 5px; }
+    .block .block-body.menu a {
+      max-width: 100%;
+      padding: 4px 10px;
+      display: block;
+      text-decoration: none; }
+      .block .block-body.menu a:hover {
+        background: #eeeeee; }
+  .block header {
+    margin: 0;
+    padding: 8px 10px;
+    font-weight: bold;
+    color: #444;
+    background: #f2f2f2; }
+
+#content {
+  padding: 0 15px; }
+  #content .block {
+    min-height: 300px;
+    padding: 5px; }
+    @media screen and (max-width: 1199px) {
+      #content .block {
+        display: block;
+        float: none;
+        width: auto;
+        margin: 5px 15px !important; } }
+    #content .block .media {
+      border-bottom: 3px solid #cecece; }
+      #content .block .media:last-child {
+        border-bottom: none; }
+    #content .block h4 {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0 0 5px 0;
+      line-height: 20px; }
+    #content .block .media-body {
+      min-height: 80px; }
+      #content .block .media-body .info {
+        color: #666666;
+        border-top: 1px dashed #cecece;
+        font-size: 12px;
+        margin: 3px 0;
+        padding: 4px; }
+      #content .block .media-body img {
+        width: 100% !important;
+        max-height: 300px;
+        margin: 5px 0; }
+
+.media-left img {
+  max-width: 64px; }
+
+form {
+  margin: 10px 20px; }
+  form .notice {
+    padding: 7px 0;
+    display: inline-block; }
+
+#com-body {
+  display: block;
+  max-width: 489px;
+  max-height: 64px; }
+
+.media textarea {
+  margin: 0 0 10px 0; }
+
+.media .media-left {
+  min-width: 72px; }
+
+.media.sub .media-left img {
+  margin: 0 !important; }
+
+.media.sub textarea {
+  max-width: 417px !important; }
+
+.media.sub {
+  max-width: 100%; }
+
+#comments-section .media {
+  border: none !important; }
+  #comments-section .media h4 {
+    margin: 2px 0;
+    line-height: 18px;
+    font-size: 14px; }
+
+.avatar {
+  max-width: 128px;
+  max-height: 160px;
+  display: block;
+  margin: 0 auto; }
+
+img.avatar {
+  max-width: 128px;
+  max-height: 160px; }
+
+img.group-icon {
+  max-height: 16px;
+  float: left;
+  margin: 0 5px; }
+
+.group {
+  text-align: center;
+  font-weight: 600;
+  color: dodgerblue; }
+
+.rating {
+  color: green;
+  float: right;
+  font-weight: bold; }
+  .rating.center {
+    float: none;
+    display: block;
+    text-align: center;
+    margin: 5px 0; }
+  .rating.neg {
+    color: red; }
+
+.ulogin {
+  width: 255px;
+  padding: 0 0 0 3px;
+  margin: 0 auto; }
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  min-height: 100%;
+  background: url("/theme/greenlab/img/bg.png") no-repeat fixed;
+  background-position: center center;
+  background-size: cover; }
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.paginator {
+  text-align: center; }
+
+/*# sourceMappingURL=custom.css.map */

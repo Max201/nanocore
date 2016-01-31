@@ -58,7 +58,7 @@ class Module extends NCModule
          * Short description filter
          */
         $theme->twig->addFilter(new \Twig_SimpleFilter('short', function($value){
-            $short_tag = '<br id="short"/>';
+            $short_tag = '<!-- split -->';
             if ( strpos($value, $short_tag) > 0 ) {
                 return reset(explode($short_tag, $value, 2));
             }

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title_prefix }}{% block title %}{{ title }}{% endblock %}</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ 'apple-icon-57x57.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ 'apple-icon-60x60.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ 'apple-icon-72x72.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ 'apple-icon-76x76.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ 'apple-icon-114x114.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ 'apple-icon-120x120.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ 'apple-icon-144x144.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ 'apple-icon-152x152.png'|asset('icon') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ 'apple-icon-180x180.png'|asset('icon') }}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ 'android-icon-192x192.png'|asset('icon') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon-32x32.png'|asset('icon') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ 'favicon-96x96.png'|asset('icon') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ 'favicon-16x16.png'|asset('icon') }}">
+    <link rel="manifest" href="{{ 'manifest.json'|asset('icon') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ 'ms-icon-144x144.png'|asset('icon') }}">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="{{ 'font-awesome.min.css'|cdn('fontawesome') }}" type="text/css">
+    <link rel="stylesheet" href="{{ 'bootstrap.min.css'|cdn('bootstrap', '3.3.6') }}">
+
+    <link rel="stylesheet" href="{{ 'custom.css'|local('css') }}" type="text/css">
+
+    <script type="text/javascript" src="{{ 'jquery.min.js'|cdn('jquery', '2.2.0') }}"></script>
+    <script type="text/javascript" src="{{ 'comment.js'|asset('js') }}"></script>
+    <script type="text/javascript" src="{{ 'bootstrap.min.js'|cdn('bootstrap', '3.3.6') }}"></script>
+    <script type="text/javascript" src="{{ 'bootstrap-theme.min.css'|cdn('bootstrap', '3.3.6') }}"></script>
+    {% block head %}{% endblock %}
+</head>
+
+
+<body>
+<section id="header">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <img id="logo" alt="NanoLab" src="{{ 'core.png'|local('img') }}">
+                    Nanolab
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    {% for page in static_pages %}
+                        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                    {% endfor %}
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                            {% if user.id %}{{ user.username }}{% else %}Гость{% endif %}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if not user.id %}
+                                <li><a href="/user/auth/">Войти</a></li>
+                                <li><a href="/user/new/">Зарегистрироваться</a></li>
+                            {% else %}
+                                {% if group.can('publicate') %}
+                                <li><a href="/post/new/"><i class="fa fa-pencil"></i> Написать</a></li>
+                                {% endif %}
+
+                                {% if group.can('use_admin') %}
+                                <li><a href="/admin/"><i class="fa fa-shield"></i> Панель Управления</a></li>
+                                {% endif %}
+
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/user/exit">Выйти</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+
+<section id="body">
+    <div class="row wrapper">
+        <div class="col-md-3 col-sm-12 block">
+            <header>
+                <i class="fa fa-cubes"></i> Лаборатория
+            </header>
+            <div class="block-body menu">
+                {% for category in post_categories %}
+                    <a href="{{ category.link }}">{{ category.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12" id="content">
+            <div class="block">{% block body %}{% endblock %}</div>
+        </div>
+
+        <div class="col-md-3 col-sm-12 block">
+            <header>
+                {% if not user.id %}
+                    <i class="fa fa-user"></i>
+                    Войти с помощью
+                {% else %}
+                    <img class="group-icon" src="{{ group.icon }}" alt="{{ group.name }}" title="{{ group.name }}"/> {{ user.username }}
+                    <span title="Рейтинг" class="rating{% if user.rating < 0 %} neg{% endif %}">{{ user.rating }}</span>
+                {% endif %}
+            </header>
+            <div class="block-body menu">
+                {% if not user.id %}
+                    <div class="ulogin">
+                        {{ ulogin.panel|raw }}
+                    </div>
+                {% else %}
+                    <div class="avatar" onclick="document.location.href = '/user/avatar/';">
+                        {% if user.avatar %}
+                            <img class="avatar" src="{{ user.avatar }}" alt="{{ user.username }}"/>
+                        {% else %}
+                            <img class="avatar" src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
+                        {% endif %}
+                        <p class="group">{{ group.name }}</p>
+                    </div>
+
+                    {% if group.can('publicate') %}
+                        <a href="/post/new/">
+                            <i class="fa fa-pencil"></i> Написать
+                        </a>
+                        <a href="/post/list/my/">
+                            <i class="fa fa-file"></i> Мои публикации
+                            <span class="label label-info">{{ user_publications }}</span>
+                        </a>
+                    {% endif %}
+                    <a href="/user/exit/">
+                        <i class="fa fa-close"></i> Выход
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{{ counter.ga|raw }}
+</body>
+</html>

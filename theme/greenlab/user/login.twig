@@ -1,0 +1,33 @@
+{% extends 'index.twig' %}
+
+{% block body %}
+    {% if errors %}
+        {% for msg in errors %}
+        <div class="alert alert-info">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="login">Логин</label>
+            <input type="text" class="form-control" value="{{ data.username }}" name="username" id="login" placeholder="{{ 'user.profile.username'|lang }}">
+            <p class="help-block">От 3 до 24 символов</p>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password" class="form-control" value="{{ data.password }}" name="password" id="password" placeholder="{{ 'user.profile.password'|lang }}">
+            <p class="help-block">Выбирайте надежный пароль с длинной от 6 символов</p>
+        </div>
+        <div class="form-group">
+            <label for="captcha">
+                <img onclick="$(this).attr('src', '{{ secure_image }}?r=' + Math.random())" class="captcha" src="{{ secure_image }}" alt="KCaptcha"/>
+            </label>
+            <input type="text" class="form-control" name="code" id="captcha" value="" placeholder="{{ 'user.auth.code'|lang }}">
+            <p class="help-block">Введите код с картинки</p>
+        </div>
+        <div class="panel">
+            <button type="submit" id="submit" class="btn btn-default pull-right">{{ 'user.auth.login'|lang }}</button>
+            <a href="{{ 'user.new'|url }}" class="notice">{{ 'user.registration.not_registered'|lang }}</a>
+        </div>
+    </form>
+{% endblock %}

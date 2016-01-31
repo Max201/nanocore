@@ -1,0 +1,38 @@
+{% extends 'index.twig' %}
+{% set com=('publ' ~ post.id) %}
+
+
+{% block body %}
+    <div class="media">
+        <div class="media-left">
+            <a href="#">
+                {% if post.author.avatar %}
+                    <img src="{{ post.author.avatar }}" alt="{{ post.author.username }}"/>
+                {% else %}
+                    <img src="{{ post.author|grava(160) }}" alt="{{ post.author.username }}"/>
+                {% endif %}
+            </a>
+
+            <span class="rating center">{{ post.author.rating }}</span>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                {{ post.title }}
+            </h4>
+
+            {{ post.content|raw }}
+
+            <div class="info">
+                {{ post.updated_at|tz|dlang }} |
+                <strong>{{ post.views }}</strong> Просмотров |
+                <a target="_blank" href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a>
+                <span class="pull-right">{{ ('publ'~post.id)|comments_count }} Комментариев</span>
+            </div>
+        </div>
+    </div>
+
+    {% set comments=com|comments %}
+    <div id="comments-section">
+    {% include 'comment/list.twig' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,119 @@
+<header>Комментарии</header>
+
+{% if status.success %}
+    <div class="alert alert-success">{{ status.message }}</div>
+{% endif %}
+
+<!-- Comment Form -->
+{% if group.can('comment') %}
+<div class="media">
+    <div class="media-left">
+        <a href="#">
+            {% if user.avatar %}
+                <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
+            {% else %}
+                <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
+            {% endif %}
+        </a>
+    </div>
+    <div class="media-body">
+        <textarea onkeydown="comments.post(this, '{{ com }}')" name="comment" id="com-body" rows="5" cols="97"></textarea>
+    </div>
+</div>
+{% else %}
+    <br>
+    <div class="well well-sm">
+        Вам запрещено комментировать публикации. Необходимо <a target="_blank" href="/user/auth/">войти</a> или <a target="_blank" href="/user/new/">зарегистрироваться</a>.
+    </div>
+{% endif %}
+
+<!-- Comments list -->
+{% for comment in comments %}
+    <div class="media" id="com-{{ comment.id }}">
+        <div class="media-left">
+            <a href="#">
+                {% if comment.author.avatar %}
+                    <img src="{{ comment.author.avatar }}" alt="{{ comment.author.username }}"/>
+                {% else %}
+                    <img src="{{ comment.author|grava(160) }}" alt="{{ comment.author.username }}"/>
+                {% endif %}
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                {% if group.can('comment') %}
+                    <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);">{{ comment.author.username }}</a>
+                {% else %}
+                    {{ comment.author.username }}
+                {% endif %}
+
+                <span class="rating">{{ comment.author.rating }}</span>
+            </h4>
+            <div class="body">
+                {{ comment.body }}
+            </div>
+            <div class="info">
+                {{ comment.created_at|tz|dlang }}
+
+                {% if group.can('edit_comments') %}
+                <a href="javascript:void(0)" class="pull-right" onclick="comments.delete('{{ comment.id }}')"><span class="delete">Удалить</span></a>
+                {% endif %}
+            </div>
+
+            <!-- Answers -->
+            {% for sub in comment.id|comments(10, 1) %}
+                <div class="media" id="com-{{ sub.id }}">
+                    <div class="media-left">
+                        <a href="#">
+                            {% if sub.author.avatar %}
+                                <img src="{{ sub.author.avatar }}" alt="{{ sub.author.username }}"/>
+                            {% else %}
+                                <img src="{{ sub.author|grava(160) }}" alt="{{ sub.author.username }}"/>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            {% if group.can('comment') %}
+                                <a href="#com-{{ sub.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);">{{ sub.author.username }}</a>
+                            {% else %}
+                                {{ sub.author.username }}
+                            {% endif %}
+
+                            <span class="rating">{{ sub.author.rating }}</span>
+                        </h4>
+                        <div class="body">
+                            {{ sub.body }}
+                        </div>
+                        <div class="info">
+                            {{ sub.created_at|tz|dlang }}
+
+                            {% if group.can('edit_comments') %}
+                                <a href="javascript:void(0)" class="pull-right" onclick="comments.delete('{{ sub.id }}')"><span class="delete">Удалить</span></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+            <!-- Answer Form -->
+            {% if group.can('comment') %}
+                <div class="media sub" style="display: none;" id="answer-{{ comment.id }}">
+                    <div class="media-left">
+                        <a href="#">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
+                            {% else %}
+                                <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <textarea onkeydown="comments.post(this, '{{ comment.id }}')" name="comment" id="com-body" rows="5" cols="97"></textarea>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

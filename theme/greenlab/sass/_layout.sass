@@ -1,0 +1,95 @@
+// Settings
+$border_color: #cecece
+
+// Styles
+#header
+  &>.navbar
+    background: url("/theme/greenlab/img/logo-bg.png") no-repeat !important
+    background-size: cover
+    background-position: center center
+    border-radius: 0 !important
+    border: none
+    a
+      color: #333
+
+  img
+    max-height: 32px
+    margin: -8px 10px 0 0
+    float: left
+
+  .navbar-default .navbar-nav>.open>a,
+  .navbar-default .navbar-nav a:hover,
+  .navbar-default .navbar-nav>.open>a:focus,
+  .navbar-default .navbar-nav>.open>a:hover
+    background: rgba(51, 51, 51, .2)
+
+.wrapper
+  width: 1200px
+  margin: 0 auto 30px auto
+  @media screen and (max-width: 1199px)
+    width: auto
+
+.block
+  background: #ffffff
+  min-height: 80px
+  padding: 0
+  margin: 20px -5px 20px 0
+  border: 1px solid darken($border_color, 5)
+  @media screen and (max-width: 1199px)
+    display: block
+    float: none
+    width: auto
+    margin: 5px 15px !important
+  +shadow()
+  .block-body
+    padding: 5px
+    &.menu
+      a
+        max-width: 100%
+        padding: 4px 10px
+        display: block
+        text-decoration: none
+        &:hover
+          background: #eeeeee
+  header
+    margin: 0
+    padding: 8px 10px
+    font-weight: bold
+    color: #444
+    background: darken(#ffffff, 5)
+
+#content
+  padding: 0 15px
+  .block
+    min-height: 300px
+    padding: 5px
+    @media screen and (max-width: 1199px)
+      display: block
+      float: none
+      width: auto
+      margin: 5px 15px !important
+    .media
+      border-bottom: 3px solid $border_color
+      &:last-child
+        border-bottom: none
+    h4
+      font-size: 14px
+      font-weight: bold
+      margin: 0 0 5px 0
+      line-height: 20px
+    .media-body
+      min-height: 80px
+      .info
+        color: #666666
+        border-top: 1px dashed $border_color
+        font-size: 12px
+        margin: 3px 0
+        padding: 4px
+      img
+        width: 100% !important
+        max-height: 300px
+        margin: 5px 0
+
+.media-left
+  img
+    max-width: 64px

@@ -1,0 +1,65 @@
+{% extends 'index.twig' %}
+{% block head %}
+    <script src="/theme/admin/js/webgui.js" type="text/javascript"></script>
+    <script src="/theme/admin/js/string.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function submit()
+        {
+            var data = {
+                'content': tinyMCE.get('edit').getContent(),
+                'title': $('#title').val(),
+                'category': $('#category').val(),
+                'keywords': $('#keywords').val(),
+                'slug': $('#slug').val()
+            };
+
+            $.post('{{ 'new'|url }}?id={{ post.id }}', data, function(r){
+                $('.alert.alert-success').text(r.message).slideDown();
+                {#if ( moderate == '0' ) {#}
+                    {#gui.go('{{ 'list'|url }}', 2);#}
+                {#} else {#}
+                    {#gui.go('{{ 'list.moderation'|url }}', 2);#}
+                {#}#}
+            });
+        }
+    </script>
+{% endblock %}
+{% block body %}
+
+    <div class="alert alert-success" style="display: none;"></div>
+
+    <form class="form wide" method="post" onsubmit="return false;">
+        <div class="form-group">
+            <label for="title">{{ 'post.name'|lang }}</label>
+            <input type="text" data-url-for="#slug" class="form-control" value="{{ post.title }}" name="title" id="title" placeholder="{{ 'post.title'|lang }}">
+            <p class="help-block">От 3 до 255 символов</p>
+        </div>
+        <div class="form-group">
+            <label for="slug">{{ 'post.slug'|lang }}</label>
+            <input type="text" class="form-control" value="{{ post.keywords }}" name="slug" id="slug" placeholder="{{ 'post.slug'|lang }}">
+            <p class="help-block">Отображаемое в URL значение (генерируется автоматически)</p>
+        </div>
+        <div class="form-group">
+            <label for="category">{{ 'post.category'|lang }}</label>
+            <select name="category" id="category" class="form-control">
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}"{% if cat.id == post.category.id %} selected{% endif %}>{{ cat.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="keywords">{{ 'post.keywords'|lang }}</label>
+            <input type="text" class="form-control" value="{{ post.keywords }}" name="keywords" id="keywords" placeholder="{{ 'post.keywords'|lang }}">
+            <p class="help-block">Ключевые слова разделенные пробелами</p>
+        </div>
+
+        {% set wyid='edit' %}
+        {% set wywidth=522 %}
+        {% set edit_content=post.content %}
+        {% include '@assets/tinymce.twig' %}
+
+        <footer class="panel" style="margin-top: 20px">
+            <a onclick="submit()" class="btn btn-default">{{ 'post.publish'|lang }}</a>
+        </footer>
+    </form>
+{% endblock %}

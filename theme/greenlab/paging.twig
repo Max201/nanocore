@@ -1,0 +1,9 @@
+{% if listing %}
+    <nav class="paginator">
+        <ul class="pagination">
+            {% for l in listing %}
+                <li><a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}
