@@ -48,4 +48,8 @@ ini_set('memory_limit', -1);
 /*
  * Engine start
  */
-include 'engine' . S . 'bootstrap.php';
+if ( file_exists('engine' . S . 'installed') ) {
+    include 'engine' . S . 'bootstrap.php';
+} else {
+    include 'install.php';
+}

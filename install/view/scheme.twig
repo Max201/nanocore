@@ -1,0 +1,48 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <form action="" method="post">
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% elseif not import %}
+            <div class="alert alert-success">
+                Database settings was saved. But we need to import DB Schema tables.
+            </div>
+
+            <div class="card card-default">
+                <div class="card-body">
+                    It can take some time
+                </div>
+            </div>
+        {% endif %}
+
+        {% if import %}
+            {% if not errors %}
+                <div class="alert alert-success">Congratulation! Installation was complete without errors.</div>
+            {% else %}
+                <div class="alert alert-warning">Some error happend while importing schema.</div>
+                {% for err in errors %}
+                    <div class="card card-default">
+                        <div class="card-header">
+                            {{ err.query|raw }}
+                        </div>
+                        <div class="card-body">
+                            <strong>#{{ err.errno }}</strong> {{ err.error }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        <footer>
+            <a class="btn btn-info" href="?act=database">Back</a>
+            {% if import %}
+                <a href="?act=superuser&s={{ s }}" class="btn btn-success pull-right">Continue & Create Admin User</a>
+            {% else %}
+                <button name="import" type="submit" class="btn btn-success pull-right">Import</button>
+            {% endif %}
+        </footer>
+    </form>
+{% endblock %}

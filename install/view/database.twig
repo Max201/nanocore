@@ -1,0 +1,55 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <form action="" method="post">
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if success %}
+            <div class="alert alert-success">
+                {{ success }}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="host">
+                Database Host
+            </label>
+            <input type="text" class="form-control" name="host" id="host" value="{{ db.host }}"/>
+            <p class="help-block">By default it may equals to "localhost" or "127.0.0.1"</p>
+        </div>
+
+        <div class="form-group">
+            <label for="name">
+                Database Name
+            </label>
+            <input type="text" class="form-control" name="name" id="name" value="{{ db.name }}"/>
+            <p class="help-block"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="user">
+                Database User's username
+            </label>
+            <input type="text" class="form-control" name="user" id="user" value="{{ db.user }}"/>
+            <p class="help-block">By default it may equals to "root" or "user"</p>
+        </div>
+
+        <div class="form-group">
+            <label for="password">
+                Database User's password
+            </label>
+            <input type="password" class="form-control" name="password" id="password" value="{{ db.password }}"/>
+            <p class="help-block">By default it may be empty</p>
+        </div>
+
+
+        <footer>
+            <button name="test" type="submit" class="btn btn-info">Test Connection</button>
+            <button name="save" type="submit" class="btn btn-success pull-right">Continue</button>
+        </footer>
+    </form>
+{% endblock %}
