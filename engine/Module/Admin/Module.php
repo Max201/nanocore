@@ -149,6 +149,7 @@ class Module extends NCControl
         return $this->view->render('dashboard/stats.twig', [
             'day'       => $cur_day,
             'stat'      => $statistic,
+            'calendar'  => new Calendar(),
             'title'     => $this->lang->translate(
                 'admin.statistic.title',
                 $this->lang->translate_date(

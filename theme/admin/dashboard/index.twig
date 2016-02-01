@@ -12,30 +12,6 @@
         </div>
     {% endfor %}
 
-    <div class="widget-group">
-        <header>{{ month }} {{ ''|date('Y') }}</header>
-        <table class="calendar">
-            <thead>
-            <tr>
-                {% for i in 0..6 %}
-                <td>{{ ('system.week.' ~ i ) |lang }}</td>
-                {% endfor %}
-            </tr>
-            </thead>
-            <tbody>
-            {% for w in calendar %}
-            <tr>
-                {% for d in w %}
-                    <td onclick="gui.go('{{ 'stats'|url(d) }}')"{% if not d %} class="empty"{% endif %}>
-                        <strong class="number{% if d == active %} active{% endif %}">{{ d }}</strong>
-                    </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <header>{{ 'admin.statistic.title'|lang }}</header>
+    <header style="margin-top: 25px">{{ 'admin.statistic.title'|lang }}</header>
     {% include 'com/stats.twig' %}
 {% endblock %}

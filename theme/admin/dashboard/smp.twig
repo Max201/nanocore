@@ -1,15 +1,20 @@
 {% extends 'base.twig' %}
 {% block body %}
     <div>
-        <div class="plain">
-            {{ 'admin.smp.description'|lang|raw }}
-        </div>
-        <header>{{ 'admin.smp.supported_networks'|lang }}</header>
+        <menu>
+            <a href="{{ 'smp'|url }}" class="item active">
+                <i class="fa fa-bullhorn"></i>
+                {{ 'admin.smp.title'|lang }}
+            </a>
+            <nav class="right">
+            </nav>
+        </menu>
+
         <table>
             <thead>
                 <tr>
                     <td class="primary">ID</td>
-                    <td>{{ 'admin.smp.social_network'|lang }}</td>
+                    <td>{{ 'admin.smp.service'|lang }}</td>
                 </tr>
             </thead>
             <tbody>
@@ -23,7 +28,7 @@
             <tfoot>
                 <tr>
                     <td class="primary">ID</td>
-                    <td>{{ 'admin.smp.social_network'|lang }}</td>
+                    <td>{{ 'admin.smp.service'|lang }}</td>
                 </tr>
             </tfoot>
         </table>

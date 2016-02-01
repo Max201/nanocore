@@ -4,6 +4,15 @@
 {% endblock %}
 {% block body %}
     <div>
+        <menu>
+            <a href="{{ 'smp'|url }}" class="item">
+                <i class="fa fa-arrow-left"></i>
+                {{ 'admin.smp.title'|lang }}
+            </a>
+            <nav class="right">
+            </nav>
+        </menu>
+
         {% if message %}
         <div class="message">{{ message }}</div>
         {% endif %}
