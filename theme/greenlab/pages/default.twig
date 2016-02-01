@@ -1,7 +1,9 @@
 {% extends 'index.twig' %}
 
 {% block body %}
-    <div class="content">
-        {{ page.content|raw }}
+    <div class="media">
+        <div class="media-body">
+            {{ page.content|raw }}
+        </div>
     </div>
 {% endblock %}

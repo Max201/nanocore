@@ -65,10 +65,6 @@
         float: none;
         width: auto;
         margin: 5px 15px !important; } }
-    #content .block .media {
-      border-bottom: 3px solid #cecece; }
-      #content .block .media:last-child {
-        border-bottom: none; }
     #content .block h4 {
       font-size: 14px;
       font-weight: bold;
@@ -76,6 +72,10 @@
       line-height: 20px; }
     #content .block .media-body {
       min-height: 80px; }
+      #content .block .media-body .tag {
+        display: inline-block;
+        padding: 0 5px;
+        color: #888888 !important; }
       #content .block .media-body .info {
         color: #666666;
         border-top: 1px dashed #cecece;
@@ -84,7 +84,6 @@
         padding: 4px; }
       #content .block .media-body img {
         width: 100% !important;
-        max-height: 300px;
         margin: 5px 0; }
 
 .media-left img {
@@ -98,7 +97,7 @@ form {
 
 #com-body {
   display: block;
-  max-width: 489px;
+  max-width: 689px;
   max-height: 64px; }
 
 .media textarea {
@@ -111,7 +110,7 @@ form {
   margin: 0 !important; }
 
 .media.sub textarea {
-  max-width: 417px !important; }
+  max-width: 617px !important; }
 
 .media.sub {
   max-width: 100%; }
@@ -159,6 +158,32 @@ img.group-icon {
   width: 255px;
   padding: 0 0 0 3px;
   margin: 0 auto; }
+
+.media-body body {
+  font-size: 14px; }
+.media-body blockquote {
+  background: dodgerblue;
+  border: 1px solid #0483ff;
+  padding: 4px 6px;
+  margin: 5px 10px;
+  border-radius: 2px;
+  color: white; }
+.media-body pre, .media-body code {
+  display: block;
+  margin: 5px 10px;
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  padding: 4px 6px;
+  color: crimson;
+  border-radius: 2px; }
+.media-body code {
+  background: #444444;
+  border: 1px solid #2b2b2b;
+  color: lightgreen; }
+.media-body img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%; }
 
 body,
 html {

@@ -147,7 +147,8 @@ class Post extends Model
     {
         return array_merge([
             'author'    => $this->author->to_array(),
-            'category'  => $this->category->to_array()
+            'category'  => $this->category->to_array(),
+            'tags'      => array_map(function($i) { return trim($i,' ,'); }, explode(' ', $this->keywords))
         ], parent::to_array());
     }
 }

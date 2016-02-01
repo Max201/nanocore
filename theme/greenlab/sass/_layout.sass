@@ -68,10 +68,6 @@ $border_color: #cecece
       float: none
       width: auto
       margin: 5px 15px !important
-    .media
-      border-bottom: 3px solid $border_color
-      &:last-child
-        border-bottom: none
     h4
       font-size: 14px
       font-weight: bold
@@ -79,6 +75,10 @@ $border_color: #cecece
       line-height: 20px
     .media-body
       min-height: 80px
+      .tag
+        display: inline-block
+        padding: 0 5px
+        color: #888888 !important
       .info
         color: #666666
         border-top: 1px dashed $border_color
@@ -87,7 +87,6 @@ $border_color: #cecece
         padding: 4px
       img
         width: 100% !important
-        max-height: 300px
         margin: 5px 0
 
 .media-left

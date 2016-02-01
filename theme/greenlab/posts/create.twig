@@ -54,7 +54,8 @@
         </div>
 
         {% set wyid='edit' %}
-        {% set wywidth=522 %}
+        {% set wywidth=722 %}
+        {% set content_css='tinymce.css'|local('css') %}
         {% set edit_content=post.content %}
         {% include '@assets/tinymce.twig' %}
 

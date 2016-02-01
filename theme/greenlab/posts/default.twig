@@ -19,15 +19,23 @@
             <h4 class="media-heading">
                 {{ post.title }}
             </h4>
-
-            {{ post.content|raw }}
-
+            <div class="media-body">
+                {% for i in post.tags %}
+                    <span class="tag"><i class="fa fa-tag"></i> {{ i }}</span>
+                {% endfor %}
+            </div>
             <div class="info">
                 {{ post.updated_at|tz|dlang }} |
                 <strong>{{ post.views }}</strong> Просмотров |
                 <a target="_blank" href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a>
                 <span class="pull-right">{{ ('publ'~post.id)|comments_count }} Комментариев</span>
             </div>
+        </div>
+    </div>
+
+    <div class="media">
+        <div class="media-body">
+            {{ post.content|raw }}
         </div>
     </div>
 

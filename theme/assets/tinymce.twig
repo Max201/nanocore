@@ -8,11 +8,11 @@
         language_url: '{{ (lang_code ~ '.js')|asset('tinymce_langs') }}',
         plugins: 'colorpicker pagebreak image media link table textcolor wordcount',
         toolbar: [
-            "pagebreak | h2 h3 | bullist numlist | bold italic underline | alignleft aligncenter alignright alignjustify",
-            "forecolor backcolor | link unlink | image media | cmd code blockquote | table"
+            "pagebreak | bullist numlist | bold italic underline | alignleft aligncenter alignright alignjustify",
+            "h2 h3 | forecolor backcolor | link unlink | image media | cmd code blockquote | table"
         ],
-        pagebreak_separator: '<!-- split -->',
-        content_css: "/theme/admin/css/tinymce.css",
+        pagebreak_separator: "<!-- split -->",
+        content_css: "{% if content_css %}{{ content_css }}{% else %}/theme/admin/css/tinymce.css{% endif %}",
         convert_urls: false,
         setup: function(ed) {
             // Shortcuts
