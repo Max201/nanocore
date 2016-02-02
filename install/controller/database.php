@@ -29,7 +29,7 @@ $database = [
     'name'      => post('name', 'nano')
 ];
 
-$config['connections']['default'] = call_user_func_array('sprintf', array_merge($mask, array_values($database)));
+$config['connections']['default'] = call_user_func_array('sprintf', array_merge([$mask], array_values($database)));
 
 // Save form
 if ( isset($_POST['save']) ) {

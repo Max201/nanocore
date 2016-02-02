@@ -39,7 +39,7 @@ if ( isset($_POST['create']) ) {
                 header('Location: /admin/');
                 exit;
             } else {
-                $twig->addGlobal('error', 'Some error happend while creation user');
+                $twig->addGlobal('error', 'Some error happend while creation user: ' . mysql_error());
             }
         }
     }

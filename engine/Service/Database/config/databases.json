@@ -1,7 +1,0 @@
-{
-  "models": "engine/Models",
-  "default_connection": "default",
-  "connections": {
-    "default": "mysql://root:123@localhost/nano?charset=utf8"
-  }
-}
