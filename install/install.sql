@@ -62,35 +62,6 @@ CREATE TABLE `post_category` (
   KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `posts`;
-CREATE TABLE `posts` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `content` longtext NOT NULL,
-  `slug` varchar(255) NOT NULL DEFAULT 'undefined',
-  `keywords` varchar(255) DEFAULT NULL,
-  `moderate` enum('0','1') NOT NULL DEFAULT '0',
-  `post_vkontakte` int(10) unsigned DEFAULT NULL,
-  `post_twitter` int(10) unsigned DEFAULT NULL,
-  `post_facebook` int(10) unsigned DEFAULT NULL,
-  `category_id` int(10) unsigned NOT NULL,
-  `author_id` int(10) unsigned NOT NULL,
-  `views` int(10) unsigned NOT NULL,
-  `created_at` int(10) unsigned NOT NULL,
-  `updated_at` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `author_id` (`author_id`),
-  KEY `category` (`category_id`),
-  KEY `created_at` (`created_at`),
-  KEY `updated_at` (`updated_at`),
-  KEY `post_facebook` (`post_facebook`),
-  KEY `post_twitter` (`post_twitter`),
-  KEY `post_vkontakte` (`post_vkontakte`),
-  KEY `moderate` (`moderate`),
-  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `post_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -149,4 +120,33 @@ CREATE TABLE `visits` (
   KEY `platform` (`platform`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `posts`;
+CREATE TABLE `posts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `slug` varchar(255) NOT NULL DEFAULT 'undefined',
+  `keywords` varchar(255) DEFAULT NULL,
+  `moderate` enum('0','1') NOT NULL DEFAULT '0',
+  `post_vkontakte` int(10) unsigned DEFAULT NULL,
+  `post_twitter` int(10) unsigned DEFAULT NULL,
+  `post_facebook` int(10) unsigned DEFAULT NULL,
+  `category_id` int(10) unsigned NOT NULL,
+  `author_id` int(10) unsigned NOT NULL,
+  `views` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `author_id` (`author_id`),
+  KEY `category` (`category_id`),
+  KEY `created_at` (`created_at`),
+  KEY `updated_at` (`updated_at`),
+  KEY `post_facebook` (`post_facebook`),
+  KEY `post_twitter` (`post_twitter`),
+  KEY `post_vkontakte` (`post_vkontakte`),
+  KEY `moderate` (`moderate`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `post_category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8

@@ -17,7 +17,7 @@ if ( isset($_POST['import']) ) {
     if ( !@mysql_connect($database['host'], $database['user'], $database['password']) || !@mysql_select_db($database['name']) ) {
         $twig->addGlobal('error', 'Connection to database failed. ' . mysql_error());
     } else {
-        mysql_query('SET NAMES utf8');
+        mysql_query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
         $status = $errors = [];
         $install = explode(';', file_get_contents($sql));
         $status['total'] = count($install);
@@ -37,6 +37,7 @@ if ( isset($_POST['import']) ) {
 
         $status['result'] = round($status['success'] / $status['total'] * 100, 2);
 
+        $twig->addGlobal('errors', $errors);
         $twig->addGlobal('status', $status);
         $twig->addGlobal('import', true);
     }

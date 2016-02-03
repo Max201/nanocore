@@ -70,8 +70,8 @@ class Module extends NCControl
          *
          */
         $view->twig->addFilter(new \Twig_SimpleFilter('sub', function($str, $len = 24){
-            if ( len($str) > $len ) {
-                $str = cut($str, 0, $len - 3) . '...';
+            if ( \len($str) > $len ) {
+                $str = \cut($str, 0, $len - 3) . '...';
             }
 
             return $str;
