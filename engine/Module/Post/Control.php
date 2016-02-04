@@ -268,10 +268,11 @@ class Control extends NCControl
             $post = \Post::find_by_id($id);
             $title = $this->lang->translate('post.editing', $post->title);
         } else {
+            $category = \PostCategory::last();
             $post = [
                 'title'     => $this->lang->translate('post.name'),
                 'content'   => '',
-                'category'  => \PostCategory::last()->to_array()
+                'category'  => $category ? $category->to_array() : null
             ];
         }
 

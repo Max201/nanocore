@@ -6,7 +6,8 @@
         "comment": 1,
         "edit_comments": 0,
         "edit_publications": 0,
-        "premoderate_publ": 1
+        "premoderate_publ": 1,
+        "like": true
     },
     "2": {
         "access": 1,
@@ -15,7 +16,8 @@
         "comment": 1,
         "edit_comments": 0,
         "edit_publications": 0,
-        "premoderate_publ": 1
+        "premoderate_publ": 1,
+        "like": true
     },
     "3": {
         "access": 1,
@@ -24,7 +26,8 @@
         "comment": 1,
         "edit_comments": 0,
         "edit_publications": 0,
-        "premoderate_publ": 1
+        "premoderate_publ": 1,
+        "like": 1
     },
     "4": {
         "access": 1,
@@ -33,7 +36,8 @@
         "comment": 1,
         "edit_comments": 0,
         "edit_publications": 0,
-        "premoderate_publ": 1
+        "premoderate_publ": 1,
+        "like": 1
     },
     "5": {
         "access": 1,
@@ -42,6 +46,7 @@
         "comment": 1,
         "edit_comments": 1,
         "edit_publications": 0,
-        "premoderate_publ": 1
+        "premoderate_publ": 1,
+        "like": 1
     }
 }

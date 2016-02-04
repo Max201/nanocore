@@ -1,15 +1,16 @@
 {% extends 'index.twig' %}
 
 {% block body %}
+    {% if not posts %}
+        <div class="message info">
+            Нет записей
+        </div>
+    {% endif %}
     {% for post in posts %}
         <div class="media">
             <div class="media-left">
                 <a href="#">
-                    {% if post.author.avatar %}
-                        <img src="{{ post.author.avatar }}" alt="{{ post.author.username }}"/>
-                    {% else %}
-                        <img src="{{ post.author|grava(160) }}" alt="{{ post.author.username }}"/>
-                    {% endif %}
+                    <img src="{{ post.author|avatar }}" alt="{{ post.author.username }}"/>
                 </a>
 
                 <span class="rating center">{{ post.author.rating }}</span>

@@ -158,6 +158,9 @@ class User extends Model
             return null;
         }
 
+        $user = parent::to_array();
+        unset($user['session_id'], $user['password']);
+
         return array_merge(
             array(
                 'banned'        => $this->banned(),
@@ -165,7 +168,7 @@ class User extends Model
                 'group'         => $this->group->to_array(),
                 'permissions'   => $this->getPermissions()->getArrayCopy()
             ),
-            parent::to_array()
+            $user
         );
     }
 }

@@ -40,19 +40,9 @@ class Module extends NCModule
      */
     static function globalize($module, $theme, $translate)
     {
-        // Default avatar letters
-        $theme->twig->addFilter(new \Twig_SimpleFilter('ava', function($uname){
-            $uname = explode(' ', $uname, 2);
-            if ( count($uname) == 2 ) {
-                return strtoupper($uname[0][0] . $uname[1][0]);
-            }
-
-            return strtoupper($uname[0][0]);
-        }));
-
         // Gravatar
-        $theme->twig->addFilter(new \Twig_SimpleFilter('grava', function($user, $size=128, $default=null) {
-            return User::get_gravatar_url($user['email'], $size, $default);
+        $theme->twig->addFilter(new \Twig_SimpleFilter('avatar', function($user, $default=null) {
+            return $user['avatar'] ? $user['avatar'] : User::get_gravatar_url($user['email'], 256, $default);
         }));
 
         // ULogin authentication

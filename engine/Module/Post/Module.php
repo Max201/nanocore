@@ -32,8 +32,10 @@ class Module extends NCModule
     {
         $this->map->addRoute('/', [$this, 'news'], 'news');
         $this->map->addRoute('new', [$this, 'create'], 'new');
+
         $this->map->addPattern('<id:\d+>-<slug:.+>.html', [$this, 'post'], 'post');
         $this->map->addPattern('category/<id:\d+>', [$this, 'category'], 'category');
+        $this->map->addPattern('list/<id:.+>', [$this, 'user'], 'user');
     }
 
     /**

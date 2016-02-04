@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic&subset=latin,cyrillic-ext)
+
 @import "mixin"
 @import "layout"
 @import "form"
@@ -12,13 +14,15 @@ html
   margin: 0
   height: 100%
   min-height: 100%
-  background: url("/theme/greenlab/img/bg.png") no-repeat fixed
-  background-position: center center
-  background-size: cover
   min-width: 450px
   overflow: auto
+  background: transparent
+  font-family: 'Open Sans', sans-serif
   @media screen and (max-width: 1199px)
     font-size: 18px
+
+body
+  position: relative
 
 *
   -webkit-box-sizing: border-box
@@ -27,3 +31,47 @@ html
 
 .paginator
   text-align: center
+
+// Grid system
+.row
+  display: block
+  min-height: 50px
+  text-align: center
+
+.clear
+  clear: both
+
+@for $i from 1 through 10
+  .col-#{$i}
+    $x: $i - 0.05
+    vertical-align: top
+    text-align: left
+    display: inline-block
+    width: 1% * $x * 10
+    @media screen and (max-width: 761px)
+      width: 95%
+
+.hide
+  &#{-sm}
+    @media (max-width: 760px)
+      display: none !important
+  &#{-md}
+    @media (max-width: 1400px) and (min-width: 761px)
+      display: none !important
+  &#{-lg}
+    @media (min-width: 1401px)
+      display: none !important
+
+.show
+  &#{-sm}
+    display: none !important
+    @media screen and (max-width: 760px)
+      display: inline-block
+  &#{-md}
+    display: none !important
+    @media screen and (max-width: 1400px) and (min-width: 761px)
+      display: inline-block
+  &#{-lg}
+    display: none !important
+    @media screen and (min-width: 1401px)
+      display: inline-block
