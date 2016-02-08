@@ -1,119 +1,160 @@
 <header>Комментарии</header>
 
 {% if status.success %}
-    <div class="alert alert-success">{{ status.message }}</div>
+    <div class="message success">{{ status.message }}</div>
 {% endif %}
 
 <!-- Comment Form -->
 {% if group.can('comment') %}
-<div class="media">
-    <div class="media-left">
-        <a href="#">
-            {% if user.avatar %}
-                <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
-            {% else %}
-                <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
-            {% endif %}
-        </a>
-    </div>
-    <div class="media-body">
-        <textarea onkeydown="comments.post(this, '{{ com }}')" name="comment" id="com-body" rows="5" cols="97"></textarea>
-    </div>
-</div>
+    <table class="comment">
+        <tr>
+            <td class="photo">
+                <img src="{{ user|avatar }}" alt="{{ user.username }}"/>
+            </td>
+            <td class="comment-body">
+                <textarea onkeydown="comments.post(this, '{{ com }}')" id="comment-0" name="comment" rows="2" cols="97"></textarea>
+            </td>
+        </tr>
+
+        <tr class="options">
+            <td colspan="2">
+                <small style="color: #888;padding: 0 20px" class="fleft hide-sm">
+                    Для быстрой отправки можно воспользоваться комбинацией Ctrl+Enter
+                </small>
+                <span class="btn sm" onclick="comments.postEnter($('#comment-0'), '{{ com }}')">
+                    <i class="fa fa-pencil"></i>
+                    Написать
+                </span>
+            </td>
+        </tr>
+    </table>
+
+    {% if not comments %}
+        <div class="message info center">Нет комментариев <br/> Ваш будет первым</div>
+    {% endif %}
 {% else %}
     <br>
-    <div class="well well-sm">
+    <div class="message info">
         Вам запрещено комментировать публикации. Необходимо <a target="_blank" href="/user/auth/">войти</a> или <a target="_blank" href="/user/new/">зарегистрироваться</a>.
     </div>
 {% endif %}
 
 <!-- Comments list -->
 {% for comment in comments %}
-    <div class="media" id="com-{{ comment.id }}">
-        <div class="media-left">
-            <a href="#">
-                {% if comment.author.avatar %}
-                    <img src="{{ comment.author.avatar }}" alt="{{ comment.author.username }}"/>
-                {% else %}
-                    <img src="{{ comment.author|grava(160) }}" alt="{{ comment.author.username }}"/>
-                {% endif %}
-            </a>
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading">
-                {% if group.can('comment') %}
-                    <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);">{{ comment.author.username }}</a>
-                {% else %}
-                    {{ comment.author.username }}
-                {% endif %}
+    <table class="comment">
+        <tr>
+            <td class="photo">
+                <img src="{{ comment.author|avatar }}" alt="{{ comment.author.username }}"/>
+            </td>
+            <td class="comment-body">
+                <div class="author">
+                    {% if group.can('comment') %}
+                        <a href="#com-{{ comment.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);">
+                            <img class="group-icon" src="{{ comment.author.group.icon }}" alt="{{ comment.author.group.name }}" title="{{ comment.author.group.name }}"/>
+                            {{ comment.author.username }}
+                        </a>
+                        <span class="date">написал(а) {{ comment.created_at|tz|dlang }}</span>
+                    {% else %}
+                        <i class="fa fa-user"></i> {{ comment.author.username }}
+                    {% endif %}
 
-                <span class="rating">{{ comment.author.rating }}</span>
-            </h4>
-            <div class="body">
+                    <div class="votes fright">
+                        <span onclick="likes.plus('comment{{ comment.id }}', '#comment-{{ comment.id }}')" class="fa fa-thumbs-up"></span>
+                        <span class="counter" id="comment-{{ comment.id }}">{{ ('comment' ~ comment.id)|likes_count }}</span>
+                        <span onclick="likes.minus('comment{{ comment.id }}', '#comment-{{ comment.id }}')" class="fa fa-thumbs-down"></span>
+                    </div>
+                </div>
+
                 {{ comment.body }}
-            </div>
-            <div class="info">
-                {{ comment.created_at|tz|dlang }}
+            </td>
+        </tr>
+
+        {% if group.can('use_admin') or group.can('edit_comments') %}
+        <tr class="options">
+            <td colspan="2">
+                {% if group.can('use_admin') %}
+                <a class="btn sm" target="_blank" href="http://design.loc/control/user/profile/{{ comment.author.id }}">
+                    <i class="fa fa-user"></i>
+                    Профиль пользователя {{ comment.author.username }}
+                </a>
+                {% endif %}
 
                 {% if group.can('edit_comments') %}
-                <a href="javascript:void(0)" class="pull-right" onclick="comments.delete('{{ comment.id }}')"><span class="delete">Удалить</span></a>
+                <a class="btn sm" href="javascript:void(0);" onclick="comments.delete('{{ comment.id }}')">
+                    <i class="fa fa-trash"></i>
+                    Удалить
+                </a>
                 {% endif %}
-            </div>
+            </td>
+        </tr>
+        {% endif %}
+    </table>
 
-            <!-- Answers -->
-            {% for sub in comment.id|comments(10, 1) %}
-                <div class="media" id="com-{{ sub.id }}">
-                    <div class="media-left">
-                        <a href="#">
-                            {% if sub.author.avatar %}
-                                <img src="{{ sub.author.avatar }}" alt="{{ sub.author.username }}"/>
-                            {% else %}
-                                <img src="{{ sub.author|grava(160) }}" alt="{{ sub.author.username }}"/>
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            {% if group.can('comment') %}
-                                <a href="#com-{{ sub.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);">{{ sub.author.username }}</a>
-                            {% else %}
+
+    {% for sub in comment.id|comments(10, 1) %}
+        <table class="comment answer">
+            <tr>
+                <td class="photo">
+                    <img src="{{ sub.author|avatar }}" alt="{{ sub.author.username }}"/>
+                </td>
+                <td class="comment-body">
+                    <div class="author">
+                        {% if group.can('comment') %}
+                            <a href="#com-{{ sub.id }}" onclick="$('#answer-{{ comment.id }}').toggle(100);">
+                                <img class="group-icon" src="{{ sub.author.group.icon }}" alt="{{ sub.author.group.name }}" title="{{ sub.author.group.name }}"/>
                                 {{ sub.author.username }}
-                            {% endif %}
+                            </a>
+                            <span class="date">написал(а) {{ sub.created_at|tz|dlang }}</span>
+                        {% else %}
+                            <i class="fa fa-user"></i> {{ sub.author.username }}
+                        {% endif %}
 
-                            <span class="rating">{{ sub.author.rating }}</span>
-                        </h4>
-                        <div class="body">
-                            {{ sub.body }}
-                        </div>
-                        <div class="info">
-                            {{ sub.created_at|tz|dlang }}
-
-                            {% if group.can('edit_comments') %}
-                                <a href="javascript:void(0)" class="pull-right" onclick="comments.delete('{{ sub.id }}')"><span class="delete">Удалить</span></a>
-                            {% endif %}
+                        <div class="votes fright">
+                            <span onclick="likes.plus('comment{{ sub.id }}', '#comment-{{ sub.id }}')" class="fa fa-thumbs-up"></span>
+                            <span class="counter" id="comment-{{ sub.id }}">{{ ('comment' ~ sub.id)|likes_count }}</span>
+                            <span onclick="likes.minus('comment{{ sub.id }}', '#comment-{{ sub.id }}')" class="fa fa-thumbs-down"></span>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
 
+                    {{ sub.body }}
+                </td>
+            </tr>
 
-            <!-- Answer Form -->
-            {% if group.can('comment') %}
-                <div class="media sub" style="display: none;" id="answer-{{ comment.id }}">
-                    <div class="media-left">
-                        <a href="#">
-                            {% if user.avatar %}
-                                <img src="{{ user.avatar }}" alt="{{ user.username }}"/>
-                            {% else %}
-                                <img src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <textarea onkeydown="comments.post(this, '{{ comment.id }}')" name="comment" id="com-body" rows="5" cols="97"></textarea>
-                    </div>
-                </div>
+            {% if group.can('use_admin') or group.can('edit_comments') %}
+                <tr class="options">
+                    <td colspan="2">
+                        {% if group.can('use_admin') %}
+                            <a class="btn sm" target="_blank" href="http://design.loc/control/user/profile/{{ sub.author.id }}">
+                                <i class="fa fa-user"></i>
+                                Профиль пользователя {{ sub.author.username }}
+                            </a>
+                        {% endif %}
+
+                        {% if group.can('edit_comments') %}
+                            <a class="btn sm" href="javascript:void(0);" onclick="comments.delete('{{ sub.id }}')">
+                                <i class="fa fa-trash"></i>
+                                Удалить
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
             {% endif %}
-        </div>
-    </div>
+        </table>
+    {% endfor %}
+
+    <!-- Answer Form -->
+    {% if group.can('comment') %}
+        <table class="comment answer" id="answer-{{ comment.id }}" style="display: none;">
+            <tr>
+                <td class="photo">
+                    <img src="{{ user|avatar }}" alt="{{ user.username }}"/>
+                </td>
+                <td class="comment-body">
+                    <textarea onkeydown="comments.post(this, '{{ comment.id }}')" name="comment" rows="2" cols="97"></textarea>
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+
+    <br/>
 {% endfor %}

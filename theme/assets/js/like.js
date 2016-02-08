@@ -19,8 +19,9 @@ likes.add = function(plus, post, counter) {
         if ( 'error' in response ) {
             $(likes.response).show().text(response['message']);
         } else {
+            console.log(counter);
             if ( counter ) {
-                counter.text(response['success']);
+                counter.text(response.success);
             }
 
             $(likes.response).show().text(response['message']);

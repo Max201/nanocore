@@ -2,30 +2,29 @@
 
 {% block body %}
     {% if error %}
-        <div class="alert alert-warning">
+        <div class="message warning center">
             {{ error }}
         </div>
     {% endif %}
     {% if message %}
-        <div class="alert alert-success">
+        <div class="message success center">
             {{ message }}
         </div>
     {% endif %}
     <form action="" method="post" enctype="multipart/form-data">
         <section class="form-body">
             <label for="avatar" class="avatar">
-            {% if user.avatar %}
-                <img class="avatar center" src="{{ user.avatar }}" alt="{{ user.username }}"/>
-            {% else %}
-                <img class="avatar center" src="{{ user|grava(160) }}" alt="{{ user.username }}"/>
-            {% endif %}
+                <img class="avatar center" src="{{ user|avatar }}" alt="{{ user.username }}"/>
             </label>
-            <p class="help-block text-center">Нажмите на изображение и выберите новое</p>
+            <p class="message center">Нажмите на изображение и выберите новое</p>
             <input style="display: none;" id="avatar" type="file" name="avatar">
         </section>
-        <footer class="panel">
-            <a class="notice" href="?delete=1">{{ 'button.delete'|lang }}</a>
-            <button type="submit" class="btn btn-default pull-right">{{ 'button.save'|lang }}</button>
-        </footer>
+        <div class="options">
+            <div>
+                <a style="display: inline-block; padding: 3px 0 0 10px" class="fleft" href="?delete=1">{{ 'button.delete'|lang }}</a>
+                <button type="submit" class="btn btn-default pull-right">{{ 'button.save'|lang }}</button>
+                <div class="clear"></div>
+            </div>
+        </div>
     </form>
 {% endblock %}

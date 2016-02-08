@@ -47,8 +47,12 @@ class Module extends NCModule
          * Likes counter
          */
         $theme->twig->addFilter(new \Twig_SimpleFilter('likes_count', function($post){
-            // Count Likes
-            return \Like::rating($post);
+            $count = \Like::rating($post);
+            if ( $count ) {
+                return $count;
+            }
+
+            return 0;
         }));
 
         return [];
@@ -120,6 +124,14 @@ class Module extends NCModule
                 ]);
             }
 
+            $module = '\\Module\\Like\\Post\\' . $vote['app'];
+            if ( !class_exists($module) || !method_exists($module, $vote['method']) ) {
+                return static::json_response([
+                    'error'     => 4,
+                    'message'   => $this->lang->translate('like.post.failed')
+                ]);
+            }
+
             // Check existings votes
             if ( \Like::count(['conditions' => ['post = ? AND author_id = ?', $post, $this->user->id]]) ) {
                 $likes = \Like::find([
@@ -133,6 +145,11 @@ class Module extends NCModule
                     ]);
                 } else {
                     $likes->delete();
+                    if ( $vote['method'] == 'plus' ) {
+                        call_user_func($module . '::' . 'plus', $vote['id'], $this->user);
+                    } else {
+                        call_user_func($module . '::' . 'minus', $vote['id'], $this->user);
+                    }
                 }
             }
 
@@ -140,14 +157,6 @@ class Module extends NCModule
             if ( !$vote['id'] || !$vote['app'] ) {
                 return static::json_response([
                     'error'     => 3,
-                    'message'   => $this->lang->translate('like.post.failed')
-                ]);
-            }
-
-            $module = '\\Module\\Like\\Post\\' . $vote['app'];
-            if ( !class_exists($module) || !method_exists($module, $vote['method']) ) {
-                return static::json_response([
-                    'error'     => 4,
                     'message'   => $this->lang->translate('like.post.failed')
                 ]);
             }

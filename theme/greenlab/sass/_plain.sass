@@ -1,14 +1,15 @@
-.media-body
-  body
-    font-size: 14px
-
+.plain
   blockquote
-    background: dodgerblue
-    border: 1px solid darken(dodgerblue, 5)
-    padding: 4px 6px
+    background: lightcyan
+    border-left: 4px solid dodgerblue
+    padding: 4px 6px 4px 10px
     margin: 5px 10px
     border-radius: 2px
-    color: white
+    color: #444444
+
+  p
+    padding: 0
+    margin: 10px 0
 
   pre, code
     display: block
@@ -28,3 +29,72 @@
     display: block
     margin: 0 auto
     max-width: 100%
+
+.votes
+  line-height: 14px
+  width: 140px
+  text-align: center
+  color: green
+  .fa
+    background: #FFFFFF
+    cursor: pointer
+    margin: 0 5px
+    padding: 8px 10px
+    border: 1px solid #eeeeee
+    &:hover
+      border-radius: 3px
+      border: 1px solid #cacaca
+      background: #feffff
+      background: -moz-linear-gradient(top, #feffff 0%, #eaeaea 100%)
+      background: -webkit-linear-gradient(top, #feffff 0%,#eaeaea 100%)
+      background: linear-gradient(to bottom, #feffff 0%,#eaeaea 100%)
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#eaeaea',GradientType=0 )
+    &:active
+      background: #feffff
+    &#{-thumbs-up}
+      color: dodgerblue
+    &#{-thumbs-down}
+      color: darkorange
+
+.fright
+  float: right
+  vertical-align: top
+.fleft
+  float: left
+  vertical-align: top
+
+.media
+  padding: 10px
+  .media-body
+    padding: 0 20px
+    border: 1px solid #eeeeee
+    border-left: none
+    border-right: none
+
+  .votes
+    line-height: 80px
+
+  .media-header
+    background: #eee
+    img
+      width: 64px
+      float: left
+      display: inline-block
+      margin: 8px 10px 10px 10px
+    a
+      font-weight: normal
+      font-size: 14px
+      text-decoration: none
+      color: #16559b
+    h4
+      padding: 5px 0 0 0
+      margin: 5px 0 0 0
+      a
+        font-size: 22px
+
+  .info
+    background: #eee
+    margin: 0
+    padding: 8px 20px
+    font-size: 14px
+    color: #666666

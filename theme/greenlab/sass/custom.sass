@@ -29,8 +29,10 @@ body
   -moz-box-sizing: border-box
   box-sizing: border-box
 
-.paginator
-  text-align: center
+// Links
+a
+  color: #16559b
+  text-decoration: none
 
 // Grid system
 .row
@@ -48,8 +50,12 @@ body
     text-align: left
     display: inline-block
     width: 1% * $x * 10
-    @media screen and (max-width: 761px)
+    @media screen and (max-width: 1080px)
       width: 95%
+    &.fright,
+    &.fleft
+      @media screen and (max-width: 1080px)
+        float: none
 
 .hide
   &#{-sm}
@@ -75,3 +81,19 @@ body
     display: none !important
     @media screen and (min-width: 1401px)
       display: inline-block
+
+.paginator
+  .pagination
+    text-align: center
+    border-top: 1px solid #eeeeee
+    padding: 10px
+    margin: 10px
+    li
+      display: inline-block
+      list-style: none
+      margin: 0 3px
+      background: #f5f5f5
+      border: 1px solid #eeeeee
+      a
+        display: block
+        padding: 5px 15px

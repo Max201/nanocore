@@ -8,26 +8,41 @@
     {% endif %}
     {% for post in posts %}
         <div class="media">
-            <div class="media-left">
-                <a href="#">
+            <div class="media-header">
+                <div class="votes fright">
+                    <span onclick="likes.plus('publication{{ post.id }}', '#post-{{ post.id }}')" class="fa fa-thumbs-up"></span>
+                    <span class="counter" id="post-{{ post.id }}">{{ ('publication' ~ post.id)|likes_count }}</span>
+                    <span onclick="likes.minus('publication{{ post.id }}', '#post-{{ post.id }}')" class="fa fa-thumbs-down"></span>
+                </div>
+
+                <a href="{{ 'post'|url(post.id, post.slug) }}">
                     <img src="{{ post.author|avatar }}" alt="{{ post.author.username }}"/>
                 </a>
 
-                <span class="rating center">{{ post.author.rating }}</span>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">
+                <h4>
                     <a href="{{ 'post'|url(post.id, post.slug) }}">{{ post.title }}</a>
                 </h4>
 
-                {{ post.content|short|raw }}
+                <p class="info">
+                    Опубликовал
+                    <a href="/post/list/{{ post.author.id }}/">
+                        <i class="fa fa-user"></i>
+                        {{ post.author.username }}
+                    </a>
+                </p>
+                <div class="clear"></div>
+            </div>
 
-                <div class="info">
-                    {{ post.updated_at|tz|dlang }} |
-                    <strong>{{ post.views }}</strong> Просмотров |
-                    <a target="_blank" href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a>
-                    <span class="pull-right">{{ ('publ'~post.id)|comments_count }} Комментариев</span>
-                </div>
+            <div class="media-body plain">
+                {{ post.content|short|raw }}
+            </div>
+
+            <div class="info">
+                <a target="_blank" href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a> |
+                {{ post.updated_at|tz|dlang }} |
+                <strong>{{ post.views }}</strong> Просмотров
+
+                <span class="fright">{{ ('publ'~post.id)|comments_count }} Комментариев</span>
             </div>
         </div>
     {% endfor %}

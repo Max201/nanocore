@@ -30,41 +30,67 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-
     <section id="navigation">
+        <div class="fleft" id="logo">
+            <img src="/theme/greenlab/img/core.png" alt="NanoLab"/>
+            <span>NanoLab</span>
+        </div>
 
+        {% if not user.id %}
+        <div class="fright ulogin">
+            {{ ulogin.panel|raw }}
+        </div>
+        {% endif %}
+        <div class="clear"></div>
     </section>
 
     <section id="content" class="row">
-        <div class="col-8 content">
-            {% block body %}{% endblock %}
+        <div class="col-3 fright">
+            <div class="tab">
+                <header>
+                    <img class="group-icon" src="{{ group.icon }}" alt="{{ group.name }}"/>
+                    {{ user.username }}
+
+                    {% if user.rating < 0 %}
+                    <span class="rating sm fright">{{ user.rating }}</span>
+                    {% elseif user.rating < 50 %}
+                    <span class="rating md fright">{{ user.rating }}</span>
+                    {% else %}
+                    <span class="rating lg fright">{{ user.rating }}</span>
+                    {% endif %}
+                </header>
+                <div class="body">
+                    <a href="/user/avatar">
+                        <img src="{{ user|avatar }}" alt="{{ user.username }}" class="avatar" />
+                    </a>
+                    <div class="">
+                        asd
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-2 rside">
-            asd
+        <div class="col-7 content">
+            {% block body %}{% endblock %}
         </div>
     </section>
 
-    <section id="footer" class="row hide-sm">
+    <section id="footer" class="row hide-md hide-sm">
         <ul class="col-3">
             <li class="headline">NanoLab</li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
+            {% for page in static_pages %}
+                <li>
+                    <a href="{{ page.url }}">{{ page.title }}</a>
+                </li>
+            {% endfor %}
         </ul>
         <ul class="col-3">
             <li class="headline">Ссылки</li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
-            <li><a href="#content">asdasd</a></li>
+            <li><a href="/">Главная страница</a></li>
+            {% if not user.id %}
+            <li><a href="/user/new">Регистрация</a></li>
+            <li><a href="/user/auth">Авторизация</a></li>
+            {% endif %}
         </ul>
         <div class="col-3">
             <div class="headline">Lorem ipsum dolor sit amet, consectetur.</div>
