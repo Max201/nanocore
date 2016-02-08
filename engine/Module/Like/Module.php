@@ -122,10 +122,18 @@ class Module extends NCModule
 
             // Check existings votes
             if ( \Like::count(['conditions' => ['post = ? AND author_id = ?', $post, $this->user->id]]) ) {
-                return static::json_response([
-                    'error'     => 2,
-                    'message'   => $this->lang->translate('like.post.exists')
+                $likes = \Like::find([
+                    'conditions'    => ['post = ? AND author_id = ?', $post, $this->user->id]
                 ]);
+
+                if ( $likes->vote == 1 && $vote['method'] == 'plus' || $likes->vote == -1 && $vote['method'] == 'minus' ) {
+                    return static::json_response([
+                        'error'     => 2,
+                        'message'   => $this->lang->translate('like.post.exists')
+                    ]);
+                } else {
+                    $likes->delete();
+                }
             }
 
             // Check vote module
