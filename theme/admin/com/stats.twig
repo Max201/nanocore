@@ -27,13 +27,15 @@
             </thead>
             <tbody>
             {% for w in calendar %}
+                {% if w %}
                 <tr>
                     {% for d in w %}
                         <td onclick="gui.go('{{ 'stats'|url(d) }}')"{% if not d %} class="empty"{% endif %}>
-                            <strong class="number{% if d == active %} active{% endif %}">{{ d }}</strong>
+                            {% if d %}<strong class="number{% if d == active %} active{% endif %}">{{ d }}</strong>{% endif %}
                         </td>
                     {% endfor %}
                 </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

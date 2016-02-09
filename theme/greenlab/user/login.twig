@@ -3,7 +3,7 @@
 {% block body %}
     {% if errors %}
         {% for msg in errors %}
-        <div class="alert alert-info">{{ msg }}</div>
+        <div class="message error">{{ msg }}</div>
         {% endfor %}
     {% endif %}
 
@@ -18,16 +18,19 @@
             <input type="password" class="form-control" value="{{ data.password }}" name="password" id="password" placeholder="{{ 'user.profile.password'|lang }}">
             <p class="help-block">Выбирайте надежный пароль с длинной от 6 символов</p>
         </div>
-        <div class="form-group">
+        <div class="form-group primary">
             <label for="captcha">
                 <img onclick="$(this).attr('src', '{{ secure_image }}?r=' + Math.random())" class="captcha" src="{{ secure_image }}" alt="KCaptcha"/>
             </label>
             <input type="text" class="form-control" name="code" id="captcha" value="" placeholder="{{ 'user.auth.code'|lang }}">
             <p class="help-block">Введите код с картинки</p>
         </div>
-        <div class="panel">
-            <button type="submit" id="submit" class="btn btn-default pull-right">{{ 'user.auth.login'|lang }}</button>
-            <a href="{{ 'user.new'|url }}" class="notice">{{ 'user.registration.not_registered'|lang }}</a>
+        <div class="options">
+            <div>
+                <button type="submit" id="submit" class="btn">{{ 'user.auth.login'|lang }}</button>
+                <a href="{{ 'user.new'|url }}" class="notice">{{ 'user.registration.not_registered'|lang }}</a>
+                <div class="clear"></div>
+            </div>
         </div>
     </form>
 {% endblock %}

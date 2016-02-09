@@ -21,6 +21,10 @@ class Publication implements BaseLike
             return false;
         }
 
+        if ( $publication->author_id == $author->id ) {
+            return $publication->author_id;
+        }
+
         $publication->author->rating = $publication->author->rating + 1;
         if ( $publication->author->save() ) {
             return $publication->author_id;
@@ -39,6 +43,10 @@ class Publication implements BaseLike
         $publication = \Post::find(intval($postId));
         if ( !$publication ) {
             return false;
+        }
+
+        if ( $publication->author_id == $author->id ) {
+            return $publication->author_id;
         }
 
         $publication->author->rating = $publication->author->rating - 1;

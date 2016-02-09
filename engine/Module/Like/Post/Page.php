@@ -21,6 +21,10 @@ class Page implements BaseLike
             return false;
         }
 
+        if ( $page->author_id == $author->id ) {
+            return $page->author_id;
+        }
+
         $page->author->rating = $page->author->rating + 1;
         if ( $page->author->save() ) {
             return $page->author_id;
@@ -37,8 +41,12 @@ class Page implements BaseLike
     public static function minus($postId, \User $author)
     {
         $page = \Page::find(intval($postId));
-        if ( !$page ) {
+        if ( !$page  ) {
             return false;
+        }
+
+        if ( $page->author_id == $author->id ) {
+            return $page->author_id;
         }
 
         $page->author->rating = $page->author->rating - 1;

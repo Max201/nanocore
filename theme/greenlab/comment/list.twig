@@ -73,7 +73,7 @@
         <tr class="options">
             <td colspan="2">
                 {% if group.can('use_admin') %}
-                <a class="btn sm" target="_blank" href="http://design.loc/control/user/profile/{{ comment.author.id }}">
+                <a class="btn sm" target="_blank" href="/control/user/profile/{{ comment.author.id }}">
                     <i class="fa fa-user"></i>
                     Профиль пользователя {{ comment.author.username }}
                 </a>
@@ -124,7 +124,7 @@
                 <tr class="options">
                     <td colspan="2">
                         {% if group.can('use_admin') %}
-                            <a class="btn sm" target="_blank" href="http://design.loc/control/user/profile/{{ sub.author.id }}">
+                            <a class="btn sm" target="_blank" href="/control/user/profile/{{ sub.author.id }}">
                                 <i class="fa fa-user"></i>
                                 Профиль пользователя {{ sub.author.username }}
                             </a>

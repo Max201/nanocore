@@ -104,6 +104,10 @@ class Calendar extends \ArrayObject
         $week = 1;
         while ( $this->cur_day <= $this->count() ) {
             for ( $i = 0; $i < 7; $i ++ ) {
+                if ( $this->cur_day > $this->count() ) {
+                    break;
+                }
+
                 $this[$week][$i] = $this->cur_day;
                 $this->cur_day++;
             }

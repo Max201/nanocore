@@ -28,25 +28,37 @@
     <script type="text/javascript" src="{{ 'comment.js'|asset('js') }}"></script>
     <script type="text/javascript" src="{{ 'like.js'|asset('js') }}"></script>
     {% block head %}{% endblock %}
+
+    <script type="text/javascript">
+        can_like = '{{ group.can('like') }}';
+    </script>
 </head>
 <body>
     <section id="navigation">
-        <div class="fleft" id="logo">
-            <img src="/theme/greenlab/img/core.png" alt="NanoLab"/>
-            <span>NanoLab</span>
-        </div>
+        <a href="/">
+            <div class="fleft" id="logo">
+                <img src="/theme/greenlab/img/core.png" alt="NanoLab"/>
+                <span>NanoLab</span>
+            </div>
+        </a>
 
         {% if not user.id %}
         <div class="fright ulogin">
             {{ ulogin.panel|raw }}
+        </div>
+        {% else %}
+        <div class="fright">
+            <strong style="color: #888; line-height: 48px;">{{ user.username }}</strong>
+            <img class="avatar sm" src="{{ user|avatar }}" alt="{{ user.username }}"/>
         </div>
         {% endif %}
         <div class="clear"></div>
     </section>
 
     <section id="content" class="row">
-        <div class="col-3 fright">
+        <div class="col-2 fright">
             <div class="tab">
+                {% if user.id %}
                 <header>
                     <img class="group-icon" src="{{ group.icon }}" alt="{{ group.name }}"/>
                     {{ user.username }}
@@ -60,43 +72,73 @@
                     {% endif %}
                 </header>
                 <div class="body">
-                    <a href="/user/avatar">
+                    <a href="/user/avatar" class="avatar">
                         <img src="{{ user|avatar }}" alt="{{ user.username }}" class="avatar" />
                     </a>
-                    <div class="">
-                        asd
-
-                    </div>
+                    <a class="btn menu" href="/post/new/">Написать</a>
+                    <a class="btn menu" href="/post/list/my/">Мои публикации</a>
+                    <a class="btn menu" href="/user/exit/">Выход</a>
                 </div>
+                {% else %}
+                <header>
+                    <i class="fa fa-shield"></i> Авторизация
+                </header>
+
+                <div class="body">
+                    <a class="btn menu" href="/user/auth/">Войти</a>
+                    <a class="btn menu" href="/user/new/">Создать аккаунт</a>
+                </div>
+                {% endif %}
             </div>
         </div>
-        <div class="col-7 content">
+        <div class="col-8 content">
             {% block body %}{% endblock %}
         </div>
     </section>
+    <div class="clear"></div>
 
     <section id="footer" class="row hide-md hide-sm">
         <ul class="col-3">
             <li class="headline">NanoLab</li>
             {% for page in static_pages %}
                 <li>
-                    <a href="{{ page.url }}">{{ page.title }}</a>
+                    <a href="{{ page.url }}">
+                        <i class="fa fa-file"></i>
+                        {{ page.title }}
+                    </a>
                 </li>
             {% endfor %}
         </ul>
         <ul class="col-3">
             <li class="headline">Ссылки</li>
-            <li><a href="/">Главная страница</a></li>
+            <li><a href="/"><i class="fa fa-home"></i> Главная страница</a></li>
+            <li><a href="#"><i class="fa fa-clock-o"></i> NanoCore CMS <small>(скоро)</small></a></li>
             {% if not user.id %}
-            <li><a href="/user/new">Регистрация</a></li>
-            <li><a href="/user/auth">Авторизация</a></li>
+            <li><a href="/user/new"><i class="fa fa-user-plus"></i> Регистрация</a></li>
+            <li><a href="/user/auth"><i class="fa fa-sign-in"></i> Авторизация</a></li>
             {% endif %}
         </ul>
         <div class="col-3">
-            <div class="headline">Lorem ipsum dolor sit amet, consectetur.</div>
+            <div class="headline">О сообществе...</div>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aut blanditiis cumque, cupiditate delectus dolore doloremque dolores eligendi fuga fugiat incidunt nam nemo nesciunt officia quia ratione rem reprehenderit, sapiente similique voluptas.
+                Наше сообщество не терпит информационной безгамотности. Мы стараемся собрать максимально
+                актуальную и интересную информацию.
             </p>
+            <p>
+                Каждый из вас может <a href="/user/new">присоединиться</a> к нам чтобы внести свой вклад в развитие
+                и рассказать людям об интересующих вас вещах.
+            </p>
+            <p>
+                Любопытство одна из движущих сил нашего сообщества.
+            </p>
+            <div class="text-center">
+                <a href="http://vk.com/nanolabpw" target="_blank" class="btn sm">
+                    <i class="fa fa-vk"></i> ВКонтакте
+                </a>
+                <a href="http://twitter.com/nanolab_pw" target="_blank" class="btn sm">
+                    <i class="fa fa-twitter"></i> Twitter
+                </a>
+            </div>
         </div>
 
         <div class="clear"></div>

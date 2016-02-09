@@ -12,13 +12,11 @@
         </div>
     {% endif %}
     <form action="" method="post" enctype="multipart/form-data">
-        <section class="form-body">
-            <label for="avatar" class="avatar">
-                <img class="avatar center" src="{{ user|avatar }}" alt="{{ user.username }}"/>
+            <label for="avatar">
+                <img class="profile-photo" src="{{ user|avatar }}" alt="{{ user.username }}"/>
             </label>
             <p class="message center">Нажмите на изображение и выберите новое</p>
             <input style="display: none;" id="avatar" type="file" name="avatar">
-        </section>
         <div class="options">
             <div>
                 <a style="display: inline-block; padding: 3px 0 0 10px" class="fleft" href="?delete=1">{{ 'button.delete'|lang }}</a>

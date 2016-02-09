@@ -32,11 +32,11 @@
         {% if group.can('use_admin') %}
         <div class="options">
             <div>
-                <a class="btn sm" target="_blank" href="http://design.loc/control/user/profile/{{ post.author.id }}">
+                <a class="btn sm" target="_blank" href="/control/user/profile/{{ post.author.id }}">
                     <i class="fa fa-user"></i>
                     Профиль пользователя {{ post.author.username }}
                 </a>
-                <a class="btn sm" target="_blank" href="http://design.loc/control/post/edit/{{ post.id }}">
+                <a class="btn sm" target="_blank" href="/control/post/edit/{{ post.id }}">
                     <i class="fa fa-pencil"></i>
                     Редактировать
                 </a>

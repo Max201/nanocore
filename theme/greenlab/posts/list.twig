@@ -38,11 +38,17 @@
             </div>
 
             <div class="info">
-                <a target="_blank" href="{{ 'category'|url(post.category_id) }}">#{{ post.category.title }}</a> |
-                {{ post.updated_at|tz|dlang }} |
-                <strong>{{ post.views }}</strong> Просмотров
+                <a target="_blank" href="{{ 'category'|url(post.category_id) }}">
+                    <i class="fa fa-tag"></i>
+                    <span>{{ post.category.title }}</span>
+                </a>
 
-                <span class="fright">{{ ('publ'~post.id)|comments_count }} Комментариев</span>
+                <span class="fright">
+                    <strong>{{ ('publ'~post.id)|comments_count }}</strong> Комментариев
+                </span>
+                <span class="fright">
+                    <strong>{{ post.views }}</strong> Просмотров &nbsp;&nbsp;&nbsp;
+                </span>
             </div>
         </div>
     {% endfor %}

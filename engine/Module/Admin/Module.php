@@ -336,7 +336,7 @@ class Module extends NCControl
         }
 
         return $this->view->render('users/login.twig', [
-            'title' => 'Authorization'
+            'title' => $this->lang->translate('user.auth.title')
         ]);
     }
 

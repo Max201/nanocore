@@ -13,20 +13,24 @@ likes.response = '#liked';
  * @param counter
  */
 likes.add = function(plus, post, counter) {
-    counter = counter ? $(counter) : $('.' + post);
-    plus = plus ? '+' : '-';
-    $.post('/like/post/' + plus+post, {}, function(response){
-        if ( 'error' in response ) {
-            $(likes.response).show().text(response['message']);
-        } else {
-            console.log(counter);
-            if ( counter ) {
-                counter.text(response.success);
-            }
+    if ( can_like ) {
+        counter = counter ? $(counter) : $('.' + post);
+        plus = plus ? '+' : '-';
+        $.post('/like/post/' + plus+post, {}, function(response){
+            if ( 'error' in response ) {
+                $(likes.response).show().text(response['message']);
+            } else {
+                console.log(counter);
+                if ( counter ) {
+                    counter.text(response.success);
+                }
 
-            $(likes.response).show().text(response['message']);
-        }
-    })
+                $(likes.response).show().text(response['message']);
+            }
+        })
+    } else {
+        document.location.href = '/user/auth/';
+    }
 };
 
 /**

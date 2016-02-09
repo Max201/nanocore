@@ -21,6 +21,10 @@ class User implements BaseLike
             return false;
         }
 
+        if ( $user->author_id == $author->id ) {
+            return $user->author_id;
+        }
+
         $user->rating = $user->rating + 1;
         if ( $user->save() ) {
             return $user->id;
@@ -39,6 +43,10 @@ class User implements BaseLike
         $user = \User::find(intval($postId));
         if ( !$user ) {
             return false;
+        }
+
+        if ( $user->author_id == $author->id ) {
+            return $user->author_id;
         }
 
         $user->rating = $user->rating - 1;

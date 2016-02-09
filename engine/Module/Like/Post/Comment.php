@@ -21,6 +21,10 @@ class Comment implements BaseLike
             return false;
         }
 
+        if ( $comment->author_id == $author->id ) {
+            return $comment->author_id;
+        }
+
         $comment->author->rating = $comment->author->rating + 1;
         if ( $comment->author->save() ) {
             return $comment->author_id;
@@ -39,6 +43,10 @@ class Comment implements BaseLike
         $comment = \Comment::find(intval($postId));
         if ( !$comment ) {
             return false;
+        }
+
+        if ( $comment->author_id == $author->id ) {
+            return $comment->author_id;
         }
 
         $comment->author->rating = $comment->author->rating - 1;

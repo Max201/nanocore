@@ -309,10 +309,17 @@ class Module extends NCModule
             $post = \Post::find(['conditions' => ['id = ? AND author_id = ?', $id, $this->user->id]]);
             $title = $this->lang->translate('post.editing', $post->title);
         } else {
+            $last_category = \PostCategory::last();
+            if ( $last_category ) {
+                $last_category = $last_category->to_array();
+            } else {
+                $last_category = null;
+            }
+
             $post = [
                 'title'     => $this->lang->translate('post.name'),
                 'content'   => '',
-                'category'  => \PostCategory::last()->to_array()
+                'category'  => $last_category
             ];
         }
 
