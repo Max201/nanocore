@@ -53,6 +53,18 @@ CREATE TABLE `comments` (
   KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `forums`;
+CREATE TABLE `forums` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `forum_id` int(10) unsigned DEFAULT NULL,
+  `author_id` int(10) unsigned DEFAULT NULL,
+  `title` varchar(64) NOT NULL,
+  `updated_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `forum_id` (`forum_id`,`author_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `group_permissions`;
 CREATE TABLE `group_permissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

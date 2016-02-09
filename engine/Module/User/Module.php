@@ -45,6 +45,25 @@ class Module extends NCModule
             return $user['avatar'] ? $user['avatar'] : User::get_gravatar_url($user['email'], 256, $default);
         }));
 
+        // Refer host
+        $theme->twig->addFilter(new \Twig_SimpleFilter('host', function($url, $default = 1) {
+            $data = parse_url($url);
+            if ( isset($data['host']) ) {
+                return $data['host'];
+            }
+
+            if ( $default === 1 ) {
+                return $url;
+            }
+
+            return $default;
+        }));
+
+        // URL Decode
+        $theme->twig->addFilter(new \Twig_SimpleFilter('url_decode', function($url) {
+            return urldecode($url);
+        }));
+
         // ULogin authentication
         if ( !$module->user && Env::$request->isMethod('post') && isset($_POST['token']) ) {
             $s = file_get_contents('http://ulogin.ru/token.php?token=' . $_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);

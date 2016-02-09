@@ -115,8 +115,8 @@
                     <td class="primary x10">{{ visit.ip|longip }}</td>
                     <td>{{ visit.browser }}</td>
                     <td>{{ visit.platform|capitalize }}</td>
-                    <td>{{ visit.page }}</td>
-                    <td>{{ visit.referer }}</td>
+                    <td>{{ visit.page|url_decode }}</td>
+                    <td>{{ visit.referer|host }}</td>
                     <td>{{ visit.time|tz|dlang }}</td>
                 </tr>
             {% endfor %}

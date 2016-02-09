@@ -1,0 +1,76 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <menu>
+        <a href="{{ 'topic.new'|url }}" class="item">
+            <i class="fa fa-plus"></i>
+            {{ 'forum.create'|lang }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})"  class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'page.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'page.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'page.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
+                <td>{{ 'button.delete'|lang }}</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% if not forums_list %}
+            <tr>
+                <td colspan="7" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+        {% for forum in forums_list %}
+            <tr>
+                <td onclick="gui.go('{{ 'topic.edit'|url(forum.id) }}')" class="primary">#{{ forum.id }}</td>
+                <td>{{ forum.title }}</td>
+                <td onclick="gui.uri({author:'{{ forum.author_id }}'})">{{ forum.author.username }}</td>
+                <td>{{ forum.updated_at|tz|dlang }}</td>
+                <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ forum.title }}\'?')) gui.uri({'delete': '{{ forum.id }}'})">
+                    <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'page.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'page.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
+                <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'page.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
+                <td>{{ 'button.delete'|lang }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <menu>
+        <a href="{{ 'topic.new'|url }}" class="item">
+            <i class="fa fa-plus"></i>
+            {{ 'forum.create'|lang }}
+        </a>
+
+        <nav class="right">
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </nav>
+    </menu>
+{% endblock %}

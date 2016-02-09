@@ -14,7 +14,7 @@ use System\Engine\NCService;
 
 class Control extends NCControl
 {
-    static $fa_icon = 'comments';
+    static $fa_icon = 'comment';
     static $menu = [
         'comment.list' => '/control/comment/',
     ];
@@ -33,7 +33,7 @@ class Control extends NCControl
                 $comment = \Comment::find_by_id(intval($delete));
 
                 if ( $comment ) {
-                    // Delete childs comments
+                    // Delete child comments
                     \Comment::table()->delete('parent_id = ' . $comment->id);
 
                     if ( $comment->delete() ) {

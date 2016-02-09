@@ -75,8 +75,10 @@
                     <a href="/user/avatar" class="avatar">
                         <img src="{{ user|avatar }}" alt="{{ user.username }}" class="avatar" />
                     </a>
+                    {% if group.can('publicate') %}
                     <a class="btn menu" href="/post/new/">Написать</a>
                     <a class="btn menu" href="/post/list/my/">Мои публикации</a>
+                    {% endif %}
                     <a class="btn menu" href="/user/exit/">Выход</a>
                 </div>
                 {% else %}
