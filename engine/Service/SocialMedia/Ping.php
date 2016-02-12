@@ -25,17 +25,22 @@ class Ping extends NCService
     static $instance;
 
     /**
+     * @var array
+     */
+    static $services = [
+        'http://www.bing.com/webmaster/ping.aspx?siteMap=%s',
+        'http://blogs.yandex.ru/pings/?status=success&url=%s',
+        'http://www.google.com/webmasters/tools/ping?sitemap=%s',
+        'http://submissions.ask.com/ping?sitemap=%s'
+    ];
+
+    /**
      * Pings services
      */
     public function __construct()
     {
-        $services = [
-            'http://www.bing.com/webmaster/ping.aspx?siteMap=%s',
-            'http://blogs.yandex.ru/pings/?status=success&url=%s',
-            'http://www.google.com/webmasters/tools/ping?sitemap=%s'
-        ];
 
-        foreach ( $services as $pinger ) {
+        foreach ( static::$services as $pinger ) {
             $url = sprintf($pinger, Env::$request->getSchemeAndHttpHost() . '/sitemap.xml');
             static::GET($url);
         }
