@@ -9,10 +9,10 @@ use ActiveRecord\Model;
 
 
 /**
- * Class Page
+ * Class ForumPost
  * @package Model
  */
-class Forum extends Model
+class ForumPost extends Model
 {
     static $before_create = ['created_at'];
     static $before_save = ['updated_at'];
@@ -23,7 +23,7 @@ class Forum extends Model
      */
     static $belongs_to = array(
         ['author', 'class_name' => 'User', 'foreign_key' => 'author_id'],
-        ['forum', 'class_name' => 'Forum', 'foreign_key' => 'forum_id']
+        ['theme', 'class_name' => 'ForumTheme', 'foreign_key' => 'theme_id']
     );
 
     /**
@@ -43,21 +43,12 @@ class Forum extends Model
     }
 
     /**
-     * Delete child forums & topics
+     * Delete likes
      */
     public function dispose()
     {
-        // Drop subjects
-        $subjects = Forum::find('all', ['conditions' => ['forum_id = ?', $this->id]]);
-        foreach ( $subjects as $sbj ) {
-            $sbj->delete();
-        }
-
-        // Drop themes
-        $themes = ForumTheme::find('all', ['conditions' => ['forum_id = ?', $this->id]]);
-        foreach ( $themes as $thm ) {
-            $thm->delete();
-        }
+        // Delete likes
+        Like::table()->delete('post = "topicpost' . $this->id . '"');
     }
 
     /**
@@ -67,9 +58,7 @@ class Forum extends Model
     {
         return array_merge([
             'author'    => $this->author->to_array(),
-            'forum'     => $this->forum_id ? $this->forum->to_array() : [],
-            'subjects'  => $this->forum_id ? 0 : Forum::count(['conditions' => ['forum_id = ?', $this->id]]),
-            'topics'    => $this->forum_id ? ForumTheme::count(['conditions' => ['forum_id = ?', $this->id]]) : 0,
+            'theme'     => $this->theme->to_array(),
         ], parent::to_array());
     }
 }

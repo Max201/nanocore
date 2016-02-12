@@ -12,7 +12,7 @@
             </div>
 
             <a href="{{ 'post'|url(post.id, post.slug) }}">
-                <img src="{{ post.author|avatar }}" alt="{{ post.author.username }}"/>
+                <img class="image" src="{{ post.author|avatar }}" alt="{{ post.author.username }}"/>
             </a>
 
             <h4>{{ post.title }}</h4>

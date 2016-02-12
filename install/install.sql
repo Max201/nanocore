@@ -65,6 +65,40 @@ CREATE TABLE `forums` (
   KEY `forum_id` (`forum_id`,`author_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `forum_themes`;
+CREATE TABLE IF NOT EXISTS `forum_themes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `forum_id` int(10) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `priority` enum('0','1','2') NOT NULL DEFAULT '0',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `close_id` int(10) unsigned DEFAULT NULL,
+  `close_reason` varchar(255) DEFAULT NULL,
+  `author_id` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned DEFAULT NULL,
+  `updated_at` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `forum_id` (`forum_id`,`author_id`),
+  KEY `author_id` (`author_id`),
+  KEY `priprity` (`priority`),
+  KEY `active` (`active`),
+  KEY `close_id` (`close_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `forums_posts`;
+CREATE TABLE IF NOT EXISTS `forum_posts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `author_id` int(10) unsigned NOT NULL,
+  `theme_id` int(10) unsigned NOT NULL,
+  `content` text NOT NULL,
+  `created_at` int(10) unsigned DEFAULT NULL,
+  `updated_at` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `author_id` (`author_id`,`theme_id`),
+  KEY `theme_id` (`theme_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `group_permissions`;
 CREATE TABLE `group_permissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -75,7 +109,7 @@ CREATE TABLE `group_permissions` (
   KEY `permission` (`permission`),
   KEY `permission_3` (`permission`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-INSERT INTO `group_permissions` VALUES (1,'access',1),(2,'use_admin',0),(3,'publicate',1),(4,'comment',1),(5,'edit_comments',0),(6,'edit_publications',0),(7,'premoderate_publ',1),(8,'like',1);
+INSERT INTO `group_permissions` VALUES (1,'access',1),(2,'use_admin',0),(3,'publicate',1),(4,'comment',1),(5,'edit_comments',0),(6,'edit_publications',0),(7,'premoderate_publ',1),(8,'like',1),(9, 'manage_forum', 0),(10, 'write_forum', 1);
 
 DROP TABLE IF EXISTS `pages`;
 CREATE TABLE `pages` (

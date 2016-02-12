@@ -29,10 +29,10 @@ trait Template
      * Render selected template
      *
      * @param $template
-     * @param null $context
+     * @param array $context
      * @return mixed
      */
-    public function render($template, $context = null)
+    public function render($template, $context = [])
     {
         return $this->twig->render($template, $context);
     }

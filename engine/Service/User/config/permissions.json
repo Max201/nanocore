@@ -7,7 +7,9 @@
         "edit_comments": 0,
         "edit_publications": 0,
         "premoderate_publ": 1,
-        "like": true
+        "like": 1,
+        "manage_forum": 0,
+        "write_forum": 1
     },
     "2": {
         "access": 1,
@@ -16,28 +18,34 @@
         "comment": 1,
         "edit_comments": 0,
         "edit_publications": 0,
-        "premoderate_publ": 1,
-        "like": true
+        "premoderate_publ": 0,
+        "like": 1,
+        "manage_forum": 0,
+        "write_forum": 1
     },
     "3": {
         "access": 1,
         "use_admin": 0,
         "publicate": 1,
         "comment": 1,
-        "edit_comments": 0,
+        "edit_comments": 1,
         "edit_publications": 0,
         "premoderate_publ": 1,
-        "like": 1
+        "like": 1,
+        "manage_forum": 1,
+        "write_forum": 1
     },
     "4": {
         "access": 1,
-        "use_admin": 0,
+        "use_admin": 1,
         "publicate": 1,
         "comment": 1,
-        "edit_comments": 0,
-        "edit_publications": 0,
+        "edit_comments": 1,
+        "edit_publications": 1,
         "premoderate_publ": 1,
-        "like": 1
+        "like": 1,
+        "manage_forum": 1,
+        "write_forum": 1
     },
     "5": {
         "access": 1,
@@ -45,8 +53,10 @@
         "publicate": 1,
         "comment": 1,
         "edit_comments": 1,
-        "edit_publications": 0,
+        "edit_publications": 1,
         "premoderate_publ": 1,
-        "like": 1
+        "like": 1,
+        "manage_forum": 1,
+        "write_forum": 1
     }
 }

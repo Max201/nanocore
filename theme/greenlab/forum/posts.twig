@@ -1,0 +1,55 @@
+<div id="posts-section">
+    {% if status.success %}
+        <div class="message success">{{ status.message }}</div>
+    {% endif %}
+
+    {% if status.error %}
+        <div class="message error">{{ status.message }}</div>
+    {% endif %}
+
+    {% if not posts_list and topic.active %}
+        <div class="message info center">Нет комментариев</div>
+    {% endif %}
+
+    {% for post in posts_list %}
+        <div class="media topic">
+            <div class="media-header">
+                <div class="votes fright">
+                    <span onclick="likes.plus('forumpost{{ post.id }}', '#forumpost-{{ post.id }}')" class="fa fa-thumbs-up"></span>
+                    <span class="counter" id="forumpost-{{ post.id }}">{{ ('forumpost' ~ post.id)|likes_count }}</span>
+                    <span onclick="likes.minus('forumpost{{ post.id }}', '#forumpost-{{ post.id }}')" class="fa fa-thumbs-down"></span>
+                </div>
+
+                <img class="topic-image image" src="{{ post.author|avatar }}" alt="aslasld"/>
+                <div class="topic-author">
+                    <img class="group-icon inline" src="{{ post.author.group.icon }}" alt="{{ post.author.group.name }}" title="{{ post.author.group.name }}"/>
+                    {{ post.author.username }}
+                </div>
+                <div class="topic-title">
+                    <small>Рейтинг пользователя: {{ post.author.rating }}</small>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="media-body plain">
+                {{ post.content|raw }}
+            </div>
+            <p class="info">
+                Опубликовано <small>{{ post.updated_at|tz|dlang }}</small>
+            </p>
+            {% if group.can('manage_forum') %}
+            <div class="options">
+                <div>
+                    <a class="btn sm inform" href="/control/user/profile/{{ post.author.id }}" target="_blank">
+                        <i class="fa fa-user"></i>
+                        Профиль пользователя {{ post.author.username }}
+                    </a>
+                    <a class="btn sm error" href="javascript:void(0)" onclick="forum.delete('{{ post.id }}')">
+                        <i class="fa fa-trash"></i>
+                        Удалить
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

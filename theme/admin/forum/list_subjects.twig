@@ -2,10 +2,10 @@
 
 {% block body %}
     <menu>
-        <a href="{{ 'list'|url }}" class="item active">
+        <a href="{{ 'list'|url }}" class="item">
             {{ 'forum.list'|lang }}
         </a>
-        <a href="" class="item">
+        <a href="" class="item active">
             {{ 'forum.themes'|lang }}
         </a>
         <a href="{{ 'topic.new'|url }}" class="item">
@@ -32,29 +32,29 @@
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})"  class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'page.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'page.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
-                <td>{{ 'forum.themes'|lang }}</td>
-                <td>{{ 'forum.subjects'|lang }}</td>
+                <td>{{ 'forum.subject'|lang }}</td>
+                <td>{{ 'forum.posts'|lang }}</td>
                 <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'page.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
         </thead>
         <tbody>
-        {% if not forums_list %}
+        {% if not subjects_list %}
             <tr>
                 <td colspan="7" class="message">
                     <div>{{ 'form.empty'|lang }}</div>
                 </td>
             </tr>
         {% endif %}
-        {% for forum in forums_list %}
+        {% for subj in subjects_list %}
             <tr>
-                <td onclick="gui.go('{{ 'topic.edit'|url(forum.id) }}')" class="primary">#{{ forum.id }}</td>
-                <td>{{ forum.title }}</td>
-                <td onclick="gui.uri({author:'{{ forum.author_id }}'})">{{ forum.author.username }}</td>
-                <td onclick="gui.go('{{ 'list.subjects'|url(forum.id) }}')">{{ forum.topics }}</td>
-                <td onclick="gui.go('{{ 'list'|url }}?parent={{ forum.id }}')">{{ forum.subjects }}</td>
-                <td>{{ forum.updated_at|tz|dlang }}</td>
-                <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ forum.title }}\'?')) gui.uri({'delete': '{{ forum.id }}'})">
+                <td onclick="gui.go('{{ 'topic.edit'|url(subj.id) }}')" class="primary">#{{ subj.id }}</td>
+                <td>{{ subj.title }}</td>
+                <td onclick="gui.uri({author:'{{ subj.author_id }}'})">{{ subj.author.username }}</td>
+                <td onclick="gui.go('{{ 'list'|url }}?parent={{ subj.forum.id }}')">{{ subj.forum.title }}</td>
+                <td>{{ subj.posts }}</td>
+                <td>{{ subj.updated_at|tz|dlang }}</td>
+                <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ subj.title }}\'?')) gui.uri({'delete': '{{ subj.id }}'})">
                     <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
                 </td>
             </tr>
@@ -65,8 +65,8 @@
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'page.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'page.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
-                <td>{{ 'forum.themes'|lang }}</td>
-                <td>{{ 'forum.subjects'|lang }}</td>
+                <td>{{ 'forum.subject'|lang }}</td>
+                <td>{{ 'forum.posts'|lang }}</td>
                 <td onclick="gui.uri({'order': gui.order_toggle('updated_at')})">{{ 'page.updated'|lang }} <i class="fa {{ 'updated_at'|ord }}"></i></td>
                 <td>{{ 'button.delete'|lang }}</td>
             </tr>
@@ -74,10 +74,10 @@
     </table>
 
     <menu>
-        <a href="{{ 'list'|url }}" class="item active">
+        <a href="{{ 'list'|url }}" class="item">
             {{ 'forum.list'|lang }}
         </a>
-        <a href="" class="item">
+        <a href="" class="item active">
             {{ 'forum.themes'|lang }}
         </a>
         <a href="{{ 'topic.new'|url }}" class="item">

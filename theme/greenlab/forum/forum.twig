@@ -1,0 +1,21 @@
+{% extends 'index.twig' %}
+
+{% block body %}
+    {% for forum in forums_list %}
+        <div class="media">
+            <div class="media-header">
+                <img class="image topic-image" src="{{ 'forum.png'|local('img') }}" alt="aslasld"/>
+                <h4><strong>{{ forum.title }}</strong></h4>
+                <div class="clear"></div>
+            </div>
+            <div class="media-body">
+                {% for subject in forum.subjects %}
+                    <a href="{{ 'subject'|url(subject.id) }}" class="subject">
+                        {{ subject.title }}
+                        <span class="fright">{{ subject.topics }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

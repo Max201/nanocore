@@ -20,12 +20,29 @@ use System\Engine\NCService;
  */
 class Module extends NCModule
 {
+    /**
+     * Disable analytics for likes module
+     * @var bool
+     */
+    public $analytics = false;
+
+    /**
+     * Router
+     */
     public function route()
     {
         $this->map->addPattern('post/<post:.+>', [$this, 'post'], 'like');
         $this->map->addPattern('list/<post:.+>', [$this, 'likes_list'], 'list');
     }
 
+    /**
+     * Globalize twig filters
+     *
+     * @param NCModule $module
+     * @param \Service\Render\Theme $theme
+     * @param \Service\Application\Translate $translate
+     * @return \System\Engine\NCBlock[]
+     */
     static function globalize($module, $theme, $translate)
     {
         /*

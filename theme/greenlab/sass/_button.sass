@@ -1,0 +1,90 @@
+$btn_default_bg:  #fff
+$btn_inform_bg:   lightcyan
+$btn_success_bg:  #bbffbb
+$btn_warning_bg:  #ffe5cd
+$btn_error_bg:    #ffbcbf
+
+.btn
+  background: $btn_default_bg
+  border: 1px solid darken($btn_default_bg, 10)
+  border-radius: 3px
+  padding: 5px 10px
+  margin: 0 4px
+  cursor: pointer
+  color: darkblue
+  display: inline-block
+  +animate(box-shadow, .2s)
+  &:disabled,
+  &.disabled
+    border: 1px solid darken($btn_default_bg, 15)
+    background: $btn_default_bg
+    color: #666666
+  &:hover:not(:disabled):not(.disabled)
+    text-decoration: none
+    border: 1px solid darken($btn_default_bg, 15)
+    +gradient($btn_default_bg, darken($btn_default_bg, 5))
+    +shadow
+  &:active,
+  &:focus
+    background: $btn_default_bg !important
+
+  &.inform
+    background: $btn_inform_bg
+    color: darkblue
+    border: 1px solid darken($btn_inform_bg, 10)
+    &:hover:not(:disabled):not(.disabled)
+      text-decoration: none
+      border: 1px solid darken($btn_inform_bg, 15)
+      +gradient($btn_inform_bg, darken($btn_inform_bg, 15))
+      +shadow
+    &:active,
+    &:focus
+      background: $btn_inform_bg !important
+
+  &.error
+    background: $btn_error_bg
+    color: darkred
+    border: 1px solid darken($btn_error_bg, 10)
+    &:hover:not(:disabled):not(.disabled)
+      text-decoration: none
+      border: 1px solid darken($btn_error_bg, 15)
+      +gradient($btn_error_bg, darken($btn_error_bg, 15))
+      +shadow
+    &:active,
+    &:focus
+      background: $btn_error_bg !important
+
+  &.success
+    background: $btn_success_bg
+    color: darkgreen
+    border: 1px solid darken($btn_success_bg, 10)
+    &:hover:not(:disabled):not(.disabled)
+      text-decoration: none
+      border: 1px solid darken($btn_success_bg, 15)
+      +gradient($btn_success_bg, darken($btn_success_bg, 15))
+      +shadow
+    &:active,
+    &:focus
+      background: $btn_success_bg !important
+
+  &.warning
+    background: $btn_warning_bg
+    color: #bf6700
+    border: 1px solid darken($btn_warning_bg, 10)
+    &:hover:not(:disabled):not(.disabled)
+      text-decoration: none
+      border: 1px solid darken($btn_warning_bg, 15)
+      +gradient($btn_warning_bg, darken($btn_warning_bg, 15))
+      +shadow
+    &:active,
+    &:focus
+      background: $btn_warning_bg !important
+
+  &.sm
+    margin: 0 2px !important
+    padding: 3px 6px !important
+    font-size: 12px !important
+
+.info .btn
+  vertical-align: top !important
+  margin: -3px 0 0 3px !important

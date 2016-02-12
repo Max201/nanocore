@@ -3,11 +3,10 @@
  * @Product: NanoCore
  * @Author: Maxim P.
  */
-
 namespace Module\Like\Post;
 
 
-class Forum implements BaseLike
+class Forumpost implements BaseLike
 {
     /**
      * @param $postId
@@ -16,7 +15,7 @@ class Forum implements BaseLike
      */
     public static function plus($postId, \User $author)
     {
-        $forum = \ForumTheme::find(intval($postId));
+        $forum = \ForumPost::find(intval($postId));
         if ( !$forum ) {
             return false;
         }
@@ -40,7 +39,7 @@ class Forum implements BaseLike
      */
     public static function minus($postId, \User $author)
     {
-        $forum = \ForumTheme::find(intval($postId));
+        $forum = \ForumPost::find(intval($postId));
         if ( !$forum ) {
             return false;
         }

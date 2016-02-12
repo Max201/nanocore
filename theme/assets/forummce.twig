@@ -1,0 +1,99 @@
+<script type="text/javascript" src="{{ 'tinymce.min.js'|cdn('tinymce') }}"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: '#{% if wyid %}{{ wyid }}{% else %}edit{% endif %}',
+        width: {% if wywidth %}{{ wywidth }}{% else %}1165{% endif %},
+        min_height: 80,
+        menubar: false,
+        language_url: '{{ (lang_code ~ '.js')|asset('tinymce_langs') }}',
+        plugins: 'colorpicker image media link textcolor autoresize',
+        toolbar: "bold italic underline | h2 h3 | forecolor backcolor | link unlink | image media | cmd code blockquote | table",
+        content_css: "{% if content_css %}{{ content_css }}{% else %}/theme/greenlab/css/tinymce.css{% endif %}",
+        convert_urls: false,
+        setup: function(ed) {
+            // Shortcuts
+            ed.addShortcut('alt+d','Format Heading 2', ['mceToggleFormat', false, 'h2'], this);
+            ed.addShortcut('alt+e','Format Code', ['mceToggleFormat', false, 'pre'], this);
+            ed.addShortcut('alt+c','Format Command Line', ['mceToggleFormat', false, 'code'], this);
+            ed.addShortcut('alt+q','Format Blockquote', ['mceToggleFormat', false, 'blockquote'], this);
+
+            // Code button
+            ed.addButton('code', {
+                title : 'Code',
+                icon : 'code',
+                onclick: function() { ed.execCommand('mceToggleFormat', false, 'pre'); },
+                onPostProcess: function() {
+                    var self = this, setup = function() {
+                        ed.formatter.formatChanged('pre', function(state) {
+                            self.active(state);
+                        });
+                    };
+                    ed.formatter ? setup() : ed.on('init', setup);
+                }
+            });
+
+            // CMD button
+            ed.addButton('cmd', {
+                title : 'Command line',
+                text : 'CMD',
+                onclick: function() { ed.execCommand('mceToggleFormat', false, 'code'); },
+                onPostProcess: function() {
+                    var self = this, setup = function() {
+                        ed.formatter.formatChanged('code', function(state) {
+                            self.active(state);
+                        });
+                    };
+                    ed.formatter ? setup() : ed.on('init', setup);
+                }
+            });
+
+            // Blockquote
+            ed.addButton('blockquote', {
+                title : 'Blockquote',
+                icon : 'blockquote',
+                onclick: function() { ed.execCommand('mceToggleFormat', false, 'blockquote'); },
+                onPostProcess: function() {
+                    var self = this, setup = function() {
+                        ed.formatter.formatChanged('blockquote', function(state) {
+                            self.active(state);
+                        });
+                    };
+                    ed.formatter ? setup() : ed.on('init', setup);
+                }
+            });
+
+            // Heading 2
+            ed.addButton('h2', {
+                title : 'Heading 2',
+                text : 'H2',
+                onclick: function() { ed.execCommand('mceToggleFormat', false, 'h2'); },
+                onPostProcess: function() {
+                    var self = this, setup = function() {
+                        ed.formatter.formatChanged('h2', function(state) {
+                            self.active(state);
+                        });
+                    };
+                    ed.formatter ? setup() : ed.on('init', setup);
+                }
+            });
+
+            // Heading 3
+            ed.addButton('h3', {
+                title : 'Heading 3',
+                text : 'H3',
+                onclick: function() { ed.execCommand('mceToggleFormat', false, 'h3'); },
+                onPostProcess: function() {
+                    var self = this, setup = function() {
+                        ed.formatter.formatChanged('h3', function(state) {
+                            self.active(state);
+                        });
+                    };
+                    ed.formatter ? setup() : ed.on('init', setup);
+                }
+            });
+        }
+    });
+</script>
+<div>
+    <textarea name="{% if wyid %}{{ wyid }}{% else %}edit{% endif %}" id="{% if wyid %}{{ wyid }}{% else %}edit{% endif %}">{{ edit_content|raw }}</textarea>
+</div>

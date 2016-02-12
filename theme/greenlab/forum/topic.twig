@@ -1,0 +1,114 @@
+{% extends 'index.twig' %}
+
+{% block body %}
+    <nav class="navigation">
+        <span class="menu">
+            <a href="/forum/">{{ topic.forum.forum.title }}</a>
+        </span>
+        <span class="menu">
+            <a href="{{ 'subject'|url(topic.forum.id) }}">{{ topic.forum.title }}</a>
+        </span>
+        <span class="menu last">
+            <a href="{{ 'topic'|url(topic.id) }}">{{ topic.title }}</a>
+        </span>
+    </nav>
+    <div class="media topic">
+        <div class="media-header">
+            <div class="votes fright">
+                <span onclick="likes.plus('forum{{ topic.id }}', '#forum-{{ topic.id }}')" class="fa fa-thumbs-up"></span>
+                <span class="counter" id="forum-{{ topic.id }}">{{ ('forum' ~ topic.id)|likes_count }}</span>
+                <span onclick="likes.minus('forum{{ topic.id }}', '#forum-{{ topic.id }}')" class="fa fa-thumbs-down"></span>
+            </div>
+
+            <img class="topic-image image" src="{{ topic.author|avatar }}" alt="aslasld"/>
+            <div class="topic-author">
+                <img class="group-icon inline" src="{{ topic.author.group.icon }}" alt="{{ topic.author.group.name }}" title="{{ topic.author.group.name }}"/>
+                {{ topic.author.username }}
+            </div>
+            <div class="topic-title">
+                {{ topic.title }}
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="media-body">
+            {{ topic.description|raw }}
+        </div>
+
+        <p class="info">
+            Опубликовано <small>{{ topic.updated_at|tz|dlang }}</small>
+        </p>
+        {% if group.can('manage_forum') %}
+        <div class="options">
+            <div>
+                <a class="btn sm inform" href="/control/user/profile/{{ topic.author.id }}" target="_blank">
+                    <i class="fa fa-user"></i>
+                    Профиль пользователя {{ topic.author.username }}
+                </a>
+
+                {% if topic.priority < 2 %}
+                    <a class="btn sm" href="{{ 'subject'|url(topic.forum.id) }}?pin={{ topic.id }}&next={{ 'topic'|url(topic.id) }}">
+                        <i class="fa fa-thumb-tack"></i>
+                        Прикрепить
+                    </a>
+                {% else %}
+                    <a class="btn sm" href="{{ 'subject'|url(topic.forum.id) }}?unpin={{ topic.id }}&next={{ 'topic'|url(topic.id) }}">
+                        <i class="fa fa-thumb-tack"></i>
+                        Открепить
+                    </a>
+                {% endif %}
+
+                {% if topic.active %}
+                    <a class="btn sm warning" href="{{ 'subject'|url(topic.forum.id) }}?close={{ topic.id }}&next={{ 'topic'|url(topic.id) }}">
+                        <i class="fa fa-close"></i>
+                        Закрыть
+                    </a>
+                {% else %}
+                    <a class="btn sm warning" href="{{ 'subject'|url(topic.forum.id) }}?open={{ topic.id }}&next={{ 'topic'|url(topic.id) }}">
+                        <i class="fa fa-close"></i>
+                        Открыть
+                    </a>
+                {% endif %}
+
+                <a class="btn sm error" href="{{ 'subject'|url(topic.forum.id) }}?delete={{ topic.id }}">
+                    <i class="fa fa-trash"></i>
+                    Удалить
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if group.can('write_forum') and topic.active %}
+    <table class="comment">
+        <tr>
+            <td class="photo">
+                <img src="{{ user|avatar }}" alt="{{ user.username }}"/>
+            </td>
+            <td class="comment-body">
+                {% include '@assets/forummce.twig' %}
+            </td>
+        </tr>
+
+        <tr class="options">
+            <td colspan="2">
+                <span class="btn sm" onclick="forum.postEnter('{{ topic.id }}')">
+                    <i class="fa fa-pencil"></i>
+                    Написать
+                </span>
+            </td>
+        </tr>
+    </table>
+    {% elseif topic.active %}
+        <div class="message info">
+            Вам запрещено комментировать публикации. Необходимо <a target="_blank" href="/user/auth/">войти</a> или <a target="_blank" href="/user/new/">зарегистрироваться</a>.
+        </div>
+    {% else %}
+        <div class="message center">
+            Тема закрыта пользователем {{ topic.close.username }}
+        </div>
+    {% endif %}
+
+    {% include 'forum/posts.twig' %}
+    {% include 'paging.twig' %}
+{% endblock %}

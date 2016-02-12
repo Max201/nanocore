@@ -1,0 +1,53 @@
+{% extends 'index.twig' %}
+
+{% block body %}
+    <nav class="navigation">
+        <span class="menu">
+            <a href="/forum/">{{ subject.forum.title }}</a>
+        </span>
+        <span class="menu">
+            <a href="{{ 'subject'|url(subject.id) }}">{{ subject.title }}</a>
+        </span>
+        <span class="menu last">
+            Новая тема
+        </span>
+    </nav>
+
+    {% if errors %}
+        <div class="message error">
+            {% for msg in errors %}
+                <div>{{ msg }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="title">
+                Заголовок обсуждения
+            </label>
+            <input type="text" id="title" name="title" value="{{ data.title }}"/>
+        </div>
+
+        <table class="comment">
+            <tr>
+                <td class="photo">
+                    <img src="{{ user|avatar }}" alt="{{ user.username }}"/>
+                </td>
+                <td class="comment-body">
+                    {% set edit_content=data.description %}
+                    {% include '@assets/forummce.twig' %}
+                </td>
+            </tr>
+
+            <tr class="options">
+                <td colspan="2">
+                    <button type="submit" class="btn sm">
+                        <i class="fa fa-pencil"></i>
+                        Написать
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

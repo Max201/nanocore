@@ -27,6 +27,7 @@
     <script type="text/javascript" src="{{ 'jquery.min.js'|cdn('jquery', '2.2.0') }}"></script>
     <script type="text/javascript" src="{{ 'comment.js'|asset('js') }}"></script>
     <script type="text/javascript" src="{{ 'like.js'|asset('js') }}"></script>
+    <script type="text/javascript" src="{{ 'forum.js'|asset('js') }}"></script>
     {% block head %}{% endblock %}
 
     <script type="text/javascript">
@@ -56,7 +57,7 @@
     </section>
 
     <section id="content" class="row">
-        <div class="col-2 fright">
+        <div class="col-3 fright">
             <div class="tab">
                 {% if user.id %}
                 <header>
@@ -93,7 +94,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="col-8 content">
+        <div class="col-7 content">
             {% block body %}{% endblock %}
         </div>
     </section>
@@ -114,6 +115,7 @@
         <ul class="col-3">
             <li class="headline">Ссылки</li>
             <li><a href="/"><i class="fa fa-home"></i> Главная страница</a></li>
+            <li><a href="/forum/"><i class="fa fa-comments"></i> Форум</a></li>
             <li><a href="#"><i class="fa fa-clock-o"></i> NanoCore CMS <small>(скоро)</small></a></li>
             {% if not user.id %}
             <li><a href="/user/new"><i class="fa fa-user-plus"></i> Регистрация</a></li>

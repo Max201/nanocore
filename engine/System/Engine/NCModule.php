@@ -224,7 +224,7 @@ class NCModule
             return static::error403(Env::$request);
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -236,7 +236,7 @@ class NCModule
             return static::error403(Env::$request);
         }
 
-        return true;
+        return false;
     }
 
     /**

@@ -1,0 +1,93 @@
+{% extends 'index.twig' %}
+
+{% block body %}
+    <nav class="navigation">
+        <span class="menu">
+            <a href="/forum/">{{ subject.forum.title }}</a>
+        </span>
+        <span class="menu">
+            <a href="{{ 'subject'|url(subject.id) }}">{{ subject.title }}</a>
+        </span>
+        {% if group.can('write_forum') %}
+        <a href="{{ 'newtop'|url(subject.id) }}" class="btn sm">
+            <i class="fa fa-plus"></i>
+            Новая тема
+        </a>
+        {% endif %}
+    </nav>
+
+    {% if success %}
+        <div class="message success">
+            {{ success }}
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="message error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% for topic in topics_list %}
+        <div class="media topic">
+            <div class="media-header" onclick="document.location.href = '{{ 'topic'|url(topic.id) }}';">
+                <div class="votes fright">
+                    <span onclick="likes.plus('forum{{ topic.id }}', '#forum-{{ topic.id }}')" class="fa fa-thumbs-up"></span>
+                    <span class="counter" id="forum-{{ topic.id }}">{{ ('forum' ~ topic.id)|likes_count }}</span>
+                    <span onclick="likes.minus('forum{{ topic.id }}', '#forum-{{ topic.id }}')" class="fa fa-thumbs-down"></span>
+                </div>
+
+                <img class="topic-image image" src="{{ topic.author|avatar }}" alt="aslasld"/>
+                <div class="topic-author">
+                    <img class="group-icon inline" src="{{ topic.author.group.icon }}" alt="{{ topic.author.group.name }}" title="{{ topic.author.group.name }}"/>
+                    {{ topic.author.username }}
+                </div>
+                <div class="topic-title">
+                    {{ topic.title }} <sup>({{ topic.posts }})</sup>
+                </div>
+                <div class="clear"></div>
+            </div>
+            {% if group.can('manage_forum') %}
+                <div class="options">
+                    <div>
+                        <a class="btn sm inform" href="/control/user/profile/{{ topic.author.id }}" target="_blank">
+                            <i class="fa fa-user"></i>
+                            Профиль пользователя {{ topic.author.username }}
+                        </a>
+
+                        {% if topic.priority < 2 %}
+                            <a class="btn sm" href="{{ 'subject'|url(topic.forum.id) }}?pin={{ topic.id }}">
+                                <i class="fa fa-thumb-tack"></i>
+                                Прикрепить
+                            </a>
+                        {% else %}
+                            <a class="btn sm" href="{{ 'subject'|url(topic.forum.id) }}?unpin={{ topic.id }}">
+                                <i class="fa fa-thumb-tack"></i>
+                                Открепить
+                            </a>
+                        {% endif %}
+
+                        {% if topic.active %}
+                            <a class="btn sm warning" href="{{ 'subject'|url(topic.forum.id) }}?close={{ topic.id }}">
+                                <i class="fa fa-close"></i>
+                                Закрыть
+                            </a>
+                        {% else %}
+                            <a class="btn sm warning" href="{{ 'subject'|url(topic.forum.id) }}?open={{ topic.id }}">
+                                <i class="fa fa-close"></i>
+                                Открыть
+                            </a>
+                        {% endif %}
+
+                        <a class="btn sm error" href="{{ 'subject'|url(topic.forum.id) }}?delete={{ topic.id }}">
+                            <i class="fa fa-trash"></i>
+                            Удалить
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    {% include 'paging.twig' %}
+{% endblock %}
