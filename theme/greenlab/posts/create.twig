@@ -35,22 +35,12 @@
             <p class="help-block">От 3 до 255 символов</p>
         </div>
         <div class="form-group">
-            <label for="slug">{{ 'post.slug'|lang }}</label>
-            <input type="text" class="wide" value="{{ post.keywords }}" name="slug" id="slug" placeholder="{{ 'post.slug'|lang }}">
-            <p class="help-block">Отображаемое в URL значение (генерируется автоматически)</p>
-        </div>
-        <div class="form-group">
             <label for="category">{{ 'post.category'|lang }}</label>
             <select name="category" id="category" class="wide">
                 {% for cat in categories %}
                     <option value="{{ cat.id }}"{% if cat.id == post.category.id %} selected{% endif %}>{{ cat.title }}</option>
                 {% endfor %}
             </select>
-        </div>
-        <div class="form-group">
-            <label for="keywords">{{ 'post.keywords'|lang }}</label>
-            <input type="text" class="wide" value="{{ post.keywords }}" name="keywords" id="keywords" placeholder="{{ 'post.keywords'|lang }}">
-            <p class="help-block">Ключевые слова разделенные пробелами</p>
         </div>
 
         {% set wyid='edit' %}
@@ -61,12 +51,24 @@
             <label for="">Описание статьи</label>
             {% include '@assets/tinymce.twig' %}
             <p class="help-block">
-                Вы должны разделить ваш материал на две части при помощи кнопки
+                Вы должны разделить ваш материал на две части (краткое описание и продолжение) при помощи кнопки
                 <span class="btn disabled">
                     <span class="mce-ico mce-i-pagebreak"></span>
                 </span>
                 иначе материал не будет одобрен администрацией сайта на публикацию.
             </p>
+        </div>
+
+        <div class="form-group">
+            <label for="keywords">{{ 'post.keywords'|lang }}</label>
+            <input type="text" class="wide" value="{{ post.keywords }}" name="keywords" id="keywords" placeholder="{{ 'post.keywords'|lang }}">
+            <p class="help-block">Ключевые слова разделенные пробелами</p>
+        </div>
+
+        <div class="form-group">
+            <label for="slug">{{ 'post.slug'|lang }}</label>
+            <input type="text" disabled class="wide" value="{{ post.keywords }}" name="slug" id="slug" placeholder="{{ 'post.slug'|lang }}">
+            <p class="help-block">Отображаемое в URL значение (генерируется автоматически)</p>
         </div>
 
         <footer class="options">

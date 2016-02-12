@@ -546,6 +546,9 @@ input {
   border-bottom: 1px dotted dodgerblue;
   display: block;
   margin: 8px 0; }
+  .subject:hover {
+    text-decoration: none;
+    border-bottom: 1px solid dodgerblue; }
 
 .topic.media div[onclick] {
   cursor: pointer; }
