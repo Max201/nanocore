@@ -25,8 +25,7 @@ class Forum implements BaseLike
             return $forum->author_id;
         }
 
-        $forum->author->rating = $forum->author->rating + 1;
-        if ( $forum->author->save() ) {
+        if ( $forum->author->rate(1) ) {
             return $forum->author_id;
         }
 
@@ -49,8 +48,7 @@ class Forum implements BaseLike
             return $forum->author_id;
         }
 
-        $forum->author->rating = $forum->author->rating - 1;
-        if ( $forum->author->save() ) {
+        if ( $forum->author->rate(-1) ) {
             return $forum->author_id;
         }
 

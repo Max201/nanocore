@@ -140,6 +140,22 @@ class User extends Model
     }
 
     /**
+     * @param $rating
+     * @param bool $force
+     * @return bool
+     */
+    public function rate($rating, $force = true)
+    {
+        $cur = $this->rating;
+        if ( $cur == 0 && $rating < 0 && $force === false ) {
+            return true;
+        }
+
+        $this->assign_attribute('rating', $this->rating + $rating);
+        return $this->save();
+    }
+
+    /**
      * @param int $uid
      * @return array
      */

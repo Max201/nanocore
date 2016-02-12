@@ -25,8 +25,7 @@ class User implements BaseLike
             return $user->author_id;
         }
 
-        $user->rating = $user->rating + 1;
-        if ( $user->save() ) {
+        if ( $user->rate(1) ) {
             return $user->id;
         }
 
@@ -49,8 +48,7 @@ class User implements BaseLike
             return $user->author_id;
         }
 
-        $user->rating = $user->rating - 1;
-        if ( $user->save() ) {
+        if ( $user->save(-1) ) {
             return $user->id;
         }
 

@@ -23,7 +23,7 @@ class NCSitemapBuilder
     /**
      * @var string
      */
-    private $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    private $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<?xml-stylesheet type=\"text/xsl\" href=\"/theme/assets/sitemap.xsl\"?>";
 
     /**
      * @var array

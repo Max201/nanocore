@@ -47,3 +47,11 @@ function match($pattern, $substring, $options = 'ms') {
     preg_match($pattern, $substring, $result);
     return $result;
 }
+
+/**
+ * @param array $arr
+ * @return \System\Engine\NCLazyVar
+ */
+function lazy_arr($arr = []) {
+    return new \System\Engine\NCLazyVar($arr);
+}

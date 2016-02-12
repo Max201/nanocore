@@ -25,8 +25,7 @@ class Page implements BaseLike
             return $page->author_id;
         }
 
-        $page->author->rating = $page->author->rating + 1;
-        if ( $page->author->save() ) {
+        if ( $page->author->rate(1) ) {
             return $page->author_id;
         }
 
@@ -49,8 +48,7 @@ class Page implements BaseLike
             return $page->author_id;
         }
 
-        $page->author->rating = $page->author->rating - 1;
-        if ( $page->author->save() ) {
+        if ( $page->author->rate(-1) ) {
             return $page->author_id;
         }
 

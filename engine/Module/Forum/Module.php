@@ -8,6 +8,7 @@ namespace Module\Forum;
 
 
 use Service\Paginator\Listing;
+use Service\SocialMedia\Ping;
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCModule;
 use System\Engine\NCService;
@@ -61,6 +62,42 @@ class Module extends NCModule
         }
 
         return $builder;
+    }
+
+    /**
+     * @param NCModule $module
+     * @param \Service\Render\Theme $theme
+     * @param \Service\Application\Translate $translate
+     * @return array|\System\Engine\NCBlock[]
+     */
+    static function globalize($module, $theme, $translate)
+    {
+        /*
+         * Last 5 topics
+         */
+        $last_topics = function () {
+            $topics = \ForumTheme::as_array(\ForumTheme::find('all', [
+                'conditions' => ['active = 1'],
+                'order'    => 'updated_at DESC',
+                'limit'    => 5
+            ]));
+
+            $topics = array_map(
+                function($item) {
+                    $item['link'] = '/forum/topic/' . $item['id'];
+                    return $item;
+                },
+                $topics
+            );
+
+            return $topics;
+        };
+
+        return [
+            '_forum'  => lazy_arr([
+                '$last' => $last_topics
+            ])
+        ];
     }
 
     /**
@@ -215,6 +252,8 @@ class Module extends NCModule
             } else {
                 $topic = new \ForumTheme($data);
                 if ( $topic->save() ) {
+                    /** @var Ping $ping */
+                    $ping = NCService::load('SocialMedia.Ping');
                     return static::redirect_response($this->map->reverse('topic', ['id' => $topic->id]));
                 } else {
                     $this->view->assign('errors', [$this->lang->translate('forum.topic.new_failed')]);

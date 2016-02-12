@@ -25,8 +25,7 @@ class Publication implements BaseLike
             return $publication->author_id;
         }
 
-        $publication->author->rating = $publication->author->rating + 1;
-        if ( $publication->author->save() ) {
+        if ( $publication->author->rate(1) ) {
             return $publication->author_id;
         }
 
@@ -49,8 +48,7 @@ class Publication implements BaseLike
             return $publication->author_id;
         }
 
-        $publication->author->rating = $publication->author->rating - 1;
-        if ( $publication->author->save() ) {
+        if ( $publication->author->rate(-1) ) {
             return $publication->author_id;
         }
 

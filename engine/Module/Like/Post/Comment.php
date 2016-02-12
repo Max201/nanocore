@@ -25,8 +25,7 @@ class Comment implements BaseLike
             return $comment->author_id;
         }
 
-        $comment->author->rating = $comment->author->rating + 1;
-        if ( $comment->author->save() ) {
+        if ( $comment->author->rate(1) ) {
             return $comment->author_id;
         }
 
@@ -49,8 +48,7 @@ class Comment implements BaseLike
             return $comment->author_id;
         }
 
-        $comment->author->rating = $comment->author->rating - 1;
-        if ( $comment->author->save() ) {
+        if ( $comment->author->rate(-1) ) {
             return $comment->author_id;
         }
 

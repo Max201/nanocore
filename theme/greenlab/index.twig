@@ -48,11 +48,19 @@
             {{ ulogin.panel|raw }}
         </div>
         {% else %}
-        <div class="fright">
-            <strong style="color: #888; line-height: 48px;">{{ user.username }}</strong>
-            <img class="avatar sm" src="{{ user|avatar }}" alt="{{ user.username }}"/>
+        <div class="fright menu">
+            <a><i class="fa fa-user"></i> {{ user.username }}</a>
         </div>
         {% endif %}
+
+        <div class="fright menu">
+            <a href="/">Новости</a>
+        </div>
+
+        <div class="fright menu">
+            <a href="/forum/">Форум</a>
+        </div>
+
         <div class="clear"></div>
     </section>
 
@@ -93,6 +101,68 @@
                 </div>
                 {% endif %}
             </div>
+
+            <div class="tab">
+                <header><i class="fa fa-cubes"></i> Лабораторий Nano</header>
+                <div class="body">
+                    {% for category in _publ.categories %}
+                        <a class="btn menu" href="{{ category.link }}">
+                            {{ category.title }}
+                            <span class="fright">{{ category.posts }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="tab">
+                <header><i class="fa fa-comment"></i> Последние комментарии</header>
+                {% for comment in _comm.last %}
+                    <div class="body">
+                        <div>
+                            <strong>
+                                <img class="group-icon" title="{{ comment.author.group.name }}" src="{{ comment.author.group.icon }}" alt="{{ comment.author.group.name }}"/>
+                                {{ comment.author.username }}
+                            </strong>
+                            написал(а)
+                        </div>
+                        <div style="color: #888;">{{ comment.body }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="tab">
+                <header><i class="fa fa-comments"></i> Актуальные темы</header>
+                <div class="body">
+                {% for top in _forum.last %}
+                    <div>
+                        <strong>
+                            <img class="group-icon" title="{{ top.author.group.name }}" src="{{ top.author.group.icon }}" alt="{{ top.author.group.name }}"/>
+                            {{ top.author.username }}
+                        </strong>
+                        <small style="color: #888888;"><i class="fa fa-arrow-right"></i> {{ top.forum.title }}</small>
+                        <a class="btn menu" href="{{ top.link }}">
+                            {{ top.title }}
+                            <span class="fright">{{ top.posts }}</span>
+                        </a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+
+            <div class="tab">
+                <header><i class="fa fa-users"></i> Новички</header>
+                <div class="body">
+                {% for prof in _user.last %}
+                    <div class="btn menu">
+                        <strong>
+                            <img class="group-icon" title="{{ prof.group.name }}" src="{{ prof.group.icon }}" alt="{{ prof.group.name }}"/>
+                            {{ prof.username }}
+                            <span class="fright" title="Рейтинг">{{ prof.rating }}</span>
+                        </strong>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
         </div>
         <div class="col-7 content">
             {% block body %}{% endblock %}
@@ -103,7 +173,7 @@
     <section id="footer" class="row hide-md hide-sm">
         <ul class="col-3">
             <li class="headline">NanoLab</li>
-            {% for page in static_pages %}
+            {% for page in _pages.list %}
                 <li>
                     <a href="{{ page.url }}">
                         <i class="fa fa-file"></i>

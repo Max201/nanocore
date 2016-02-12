@@ -48,11 +48,13 @@ class Module extends NCModule
         /*
          * Add all pages to context
          */
-        $pages = array_map(function($p) {
-            $page = $p->to_array();
-            $page['url'] = '/page/' . $page['id'] . '-' . $page['slug'] . '.html';
-            return $page;
-        }, \Page::all());
+        $pages = function() {
+            return array_map(function($p) {
+                $page = $p->to_array();
+                $page['url'] = '/page/' . $page['id'] . '-' . $page['slug'] . '.html';
+                return $page;
+            }, \Page::all());
+        };
 
         /*
          * Short description filter
@@ -67,7 +69,7 @@ class Module extends NCModule
         }));
 
         return [
-            'static_pages'  => $pages
+            '_pages'  => lazy_arr(['$list' => $pages])
         ];
     }
 

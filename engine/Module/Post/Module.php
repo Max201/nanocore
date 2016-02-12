@@ -86,28 +86,38 @@ class Module extends NCModule
     public static function globalize(NCModule $module, Theme $view, Translate $lang)
     {
         // Categories listing
-        $categories = \PostCategory::listing();
-        /** @var RecursiveTree $recursive_tree */
-        $recursive_tree = NCService::load('Module.RecursiveTree', [$categories]);
-        $categories = array_map(function($item) use($recursive_tree) {
-            $result = $item->to_array();
-            $result['link'] = '/post/category/' . $item->id;
-            $result['posts'] = \Post::count([
-                'conditions'    => ['category_id IN (?)', $recursive_tree->childs($item->id)]
-            ]);
+        $categories = function () {
+            $categories = \PostCategory::listing();
+            /** @var RecursiveTree $recursive_tree */
+            $recursive_tree = NCService::load('Module.RecursiveTree', [$categories]);
+            $categories = array_map(function($item) use($recursive_tree) {
+                $result = $item->to_array();
+                $result['link'] = '/post/category/' . $item->id;
+                $result['posts'] = \Post::count([
+                    'conditions'    => ['category_id IN (?)', $recursive_tree->childs($item->id)]
+                ]);
 
-            return $result;
-        }, $categories);
+                return $result;
+            }, $categories);
+
+            return $categories;
+        };
 
         // User publications
-        $publications = 0;
-        if ( $module->user ) {
-            $publications = \Post::count(['conditions' => ['author_id = ?', $module->user->id]]);
-        }
+        $publications = function () use($module) {
+            $publications = 0;
+            if ( $module->user ) {
+                $publications = \Post::count(['conditions' => ['author_id = ?', $module->user->id]]);
+            }
+
+            return $publications;
+        };
 
         return [
-            'post_categories'   => $categories,
-            'user_publications' => $publications
+            '_publ'  => lazy_arr([
+                '$categories'   => $categories,
+                '$users'        => $publications
+            ])
         ];
     }
 

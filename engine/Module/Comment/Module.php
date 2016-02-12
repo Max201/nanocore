@@ -65,7 +65,20 @@ class Module extends NCModule
             ]);
         }));
 
-        return [];
+
+        /*
+         * Last 5 comments
+         */
+        $last_comments = function () {
+            return \Comment::as_array(\Comment::find('all', [
+                'order'    => 'created_at DESC',
+                'limit'    => 5
+            ]));
+        };
+
+        return [
+            '_comm'  => lazy_arr(['$last' => $last_comments])
+        ];
     }
 
     /**

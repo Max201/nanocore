@@ -2,7 +2,7 @@
 #content {
   background: rgba(255, 255, 255, 0.3);
   max-width: 1100px;
-  margin: 0 auto 320px auto; }
+  margin: 0 auto 80px auto; }
   @media screen and (max-width: 1080px) {
     #content {
       margin-bottom: 20px !important; } }
@@ -32,6 +32,13 @@
       float: left;
       margin-right: 10px;
       max-height: 48px; }
+  #navigation .menu a {
+    display: inline-block;
+    line-height: 48px;
+    margin: 0 30px 0 0;
+    color: #444444;
+    font-weight: 600;
+    cursor: pointer; }
 
 #footer {
   border-top: 2px solid #444444;
@@ -93,10 +100,10 @@
   .tab .body {
     padding: 10px;
     min-height: 80px; }
-  .tab a.menu {
+  .tab .menu {
     display: block;
     margin: 0 0 4px 0; }
-    .tab a.menu:hover {
+    .tab .menu:hover {
       text-decoration: none; }
 
 .navigation {
@@ -415,32 +422,34 @@ input {
 .text-justify {
   text-align: justify; }
 
-.plain blockquote {
-  background: lightcyan;
-  border-left: 4px solid dodgerblue;
-  padding: 4px 6px 4px 10px;
-  margin: 5px 10px;
-  border-radius: 2px;
-  color: #444444; }
-.plain p {
-  padding: 0;
-  margin: 10px 0; }
-.plain pre, .plain code {
-  display: block;
-  margin: 5px 10px;
-  background: #f5f5f5;
-  border: 1px solid #e8e8e8;
-  padding: 4px 6px;
-  color: crimson;
-  border-radius: 2px; }
-.plain code {
-  background: #444444;
-  border: 1px solid #2b2b2b;
-  color: lightgreen; }
-.plain img {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%; }
+.plain {
+  padding-bottom: 10px; }
+  .plain blockquote {
+    background: lightcyan;
+    border-left: 4px solid dodgerblue;
+    padding: 4px 6px 4px 10px;
+    margin: 5px 10px;
+    border-radius: 2px;
+    color: #444444; }
+  .plain p {
+    padding: 0;
+    margin: 10px 0; }
+  .plain pre, .plain code {
+    display: block;
+    margin: 5px 10px;
+    background: #f5f5f5;
+    border: 1px solid #e8e8e8;
+    padding: 4px 6px;
+    color: crimson;
+    border-radius: 2px; }
+  .plain code {
+    background: #444444;
+    border: 1px solid #2b2b2b;
+    color: lightgreen; }
+  .plain img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%; }
 
 .votes {
   line-height: 14px;
