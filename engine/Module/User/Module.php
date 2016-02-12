@@ -82,12 +82,12 @@ class Module extends NCModule
                     'avatar'    => $data->get('photo', ''),
                     'group_id'  => $module->settings->get('users_group')
                 ]);
+            }
 
-                if ( $user instanceof User ) {
-                    $module->auth->login($user);
-                    Env::$response->sendHeaders();
-                    return static::redirect_response('/');
-                }
+            if ( isset($user) && $user instanceof User ) {
+                $module->auth->login($user);
+                Env::$response->sendHeaders();
+                return static::redirect_response('/');
             }
         }
 
