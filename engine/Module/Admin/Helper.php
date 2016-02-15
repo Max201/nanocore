@@ -10,6 +10,7 @@ namespace Module\Admin;
 use Service\Application\Translate;
 use Service\Render\Theme;
 use System\Engine\NCService;
+use System\Engine\NCStore;
 use System\Engine\NCWidget;
 
 class Helper
@@ -204,10 +205,23 @@ class Helper
     }
 
     /**
+     * Building menu to cache
      * @param Translate $lang
      * @return array
      */
     static function build_menu(Translate $lang)
+    {
+        $store = NCStore::instance();
+        return $store->get('admin.main.menu', 120, function() use($lang) {
+            return Helper::rebuild_menu($lang);
+        });
+    }
+
+    /**
+     * @param Translate $lang
+     * @return array
+     */
+    static function rebuild_menu(Translate $lang)
     {
         $groups = [];
 
@@ -234,15 +248,22 @@ class Helper
 
             // Translate menu
             $menu = [];
-            foreach ( $admin_class::$menu as $key => $value ) {
-                $translate = $lang->translate($key);
-                $menu[$translate] = $value;
+
+            foreach ( $admin_class::$menu as $item ) {
+                $menu[] = [
+                    'title' => $lang->translate($item['title']),
+                    'href'  => $item['href'],
+                    'show_counter'  => isset($item['counter']),
+                    'count' => isset($item['counter']) ? $admin_class::{$item['counter']}() : 0
+                ];
             }
 
-            // Assign icon
-            $menu['$icon'] = $admin_class::$fa_icon;
-
-            $groups[$group_name] = $menu;
+            // Build group
+            $groups[] = [
+                'title' => $group_name,
+                'icon'  => $admin_class::$fa_icon,
+                'items' => $menu
+            ];
         }
 
         return $groups;

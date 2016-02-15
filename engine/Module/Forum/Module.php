@@ -94,7 +94,7 @@ class Module extends NCModule
         };
 
         return [
-            '_forum'  => lazy_arr([
+            '_forum'  => lazy_arr('forum', [
                 '$last' => $last_topics
             ])
         ];

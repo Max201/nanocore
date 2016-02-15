@@ -9,17 +9,32 @@ namespace System\Engine;
 
 class NCLazyVar extends \ArrayObject
 {
-    /**
-     * @var array
-     */
-    private $cache = [];
+    const CACHE_TIME = 300;
 
     /**
+     * @var NCStore
+     */
+    private $store;
+
+    /**
+     * @var string
+     */
+    private $id;
+
+    /**
+     * @param string $id
      * @param array $array
      * @throws \Exception
      */
-    public function __construct($array = [])
+    public function __construct($id, $array = [])
     {
+        // Loading store
+        $this->store = NCStore::instance();
+
+        // Set current ID
+        $this->id = $id;
+
+        // Init vars
         foreach ( $array as $call => $func ) {
             if ( !is_callable($func) ) {
                 throw new \Exception($func . ' is not callable');
@@ -64,18 +79,12 @@ class NCLazyVar extends \ArrayObject
         // Get call data
         $data = parent::offsetGet($name);
 
-        // Return from the cache
-        if ( $data['cache'] && isset($this->cache[$name]) ) {
-            return $this->cache[$name];
-        }
-
-        // Get new value
-        $value = $data['func']();
-        if ( $data['cache'] ) {
-            $this->cache[$name] = $value;
-        }
-
-        return $value;
+        // Return data from the cache
+        return $this->store->get(
+            'system.lazyload.' . $this->id . '.' . $name,
+            static::CACHE_TIME,
+            $data['func']
+        );
     }
 
     /**

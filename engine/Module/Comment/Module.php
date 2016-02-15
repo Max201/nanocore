@@ -77,7 +77,9 @@ class Module extends NCModule
         };
 
         return [
-            '_comm'  => lazy_arr(['$last' => $last_comments])
+            '_comm'  => lazy_arr('comments', [
+                '$last' => $last_comments
+            ])
         ];
     }
 

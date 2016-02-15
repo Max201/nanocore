@@ -1,157 +1,165 @@
-    <div class="widget-group" style="margin: 25px 0;">
-        <div class="widget">
-            <header>{{ 'admin.statistic.views'|lang }}</header>
-            <strong class="number">{{ stat.views }}</strong>
-        </div>
-        <div class="widget">
-            <header>{{ 'admin.statistic.visits'|lang }}</header>
-            <strong class="number">{{ stat.visits }}</strong>
-        </div>
-        <div class="widget">
-            <header>{{ 'admin.statistic.online'|lang }}</header>
-            <strong class="number green">
-                {{ stat.online }}
-            </strong>
-        </div>
-    </div>
-
-    <div class="widget-group">
-        <header>{{ month }} {{ ''|date('Y') }}</header>
-        <table class="calendar">
-            <thead>
-            <tr>
-                {% for i in 0..6 %}
-                    <td>{{ ('system.week.' ~ i ) |lang }}</td>
-                {% endfor %}
-            </tr>
-            </thead>
-            <tbody>
-            {% for w in calendar %}
-                {% if w %}
+<div class="widget-group">
+    <header>{{ month }} {{ ''|date('Y') }}</header>
+    <table class="calendar">
+        <thead>
+        <tr>
+            {% for i in 0..6 %}
+                <td>{{ ('system.week.' ~ i ) |lang }}</td>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for w in calendar %}
+            {% if w %}
                 <tr>
                     {% for d in w %}
                         <td onclick="gui.go('{{ 'stats'|url(d) }}')"{% if not d %} class="empty"{% endif %}>
-                            {% if d %}<strong class="number{% if d == active %} active{% endif %}">{{ d }}</strong>{% endif %}
+                            {% if d %}<strong class="number{% if d == active or d == day %} active{% endif %}">{{ d }}</strong>{% endif %}
                         </td>
                     {% endfor %}
                 </tr>
-                {% endif %}
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <!--header>{{ 'admin.statistic.terms'|lang }}</header>
-    <table>
-        <thead>
-            <tr>
-                <td class="primary x10">{{ 'admin.statistic.visits'|lang }}</td>
-                <td>{{ 'admin.statistic.term'|lang }}</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% if not stat.terms %}
-                <tr>
-                    <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
-                </tr>
             {% endif %}
-            {% for site in stat.terms %}
-                <tr>
-                    <td class="primary x10">{{ site.visits }}</td>
-                    <td>{{ site.term }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table-->
-
-    <header>{{ 'admin.statistic.browsers'|lang }}</header>
-    <table>
-        <thead>
-        <tr>
-            <td class="primary x10">{{ 'admin.statistic.views'|lang }}</td>
-            <td>{{ 'admin.statistic.browser'|lang }}</td>
-        </tr>
-        </thead>
-        <tbody>
-        {% if not stat.browsers %}
-            <tr>
-                <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
-            </tr>
-        {% endif %}
-        {% for site in stat.browsers %}
-            <tr>
-                <td class="primary x10">{{ site.views }}</td>
-                <td>{{ site.browser_name }}</td>
-            </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
 
-    <header>{{ 'admin.statistic.platforms'|lang }}</header>
-    <table>
-        <thead>
+<header>{{ 'admin.statistic.title'|lang }}</header>
+<table>
+    <thead>
         <tr>
-            <td class="primary x10">{{ 'admin.statistic.views'|lang }}</td>
-            <td>{{ 'admin.statistic.os'|lang }}</td>
+            <td class="primary x10">{{ 'admin.statistic.value'|lang }}</td>
+            <td>{{ 'admin.statistic.property'|lang }}</td>
         </tr>
-        </thead>
-        <tbody>
-        {% if not stat.platforms %}
-            <tr>
-                <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
-            </tr>
-        {% endif %}
-        {% for site in stat.platforms %}
-            <tr>
-                <td class="primary x10">{{ site.views }}</td>
-                <td>{{ site.platform_name }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    </thead>
 
-    <header>{{ 'admin.statistic.pages'|lang }}</header>
-    <table>
-        <thead>
-            <tr>
-                <td class="primary x10">{{ 'admin.statistic.views'|lang }}</td>
-                <td>{{ 'admin.statistic.page'|lang }}</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% if not stat.pages %}
-                <tr>
-                    <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
-                </tr>
-            {% endif %}
-            {% for site in stat.pages %}
-                <tr>
-                    <td class="primary x10">{{ site.views }}</td>
-                    <td>{{ site.uri }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <tbody>
+        <tr>
+            <td class="primary">{{ stat.views }}</td>
+            <td>{{ 'admin.statistic.views'|lang }}</td>
+        </tr>
+        <tr>
+            <td class="primary">{{ stat.visits }}</td>
+            <td>{{ 'admin.statistic.visits'|lang }}</td>
+        </tr>
+        <tr>
+            <td class="primary">{{ stat.online }}</td>
+            <td>{{ 'admin.statistic.online'|lang }}</td>
+        </tr>
+    </tbody>
+</table>
 
-    <header>{{ 'admin.statistic.websites'|lang }}</header>
-    <table>
-        <thead>
+<!--header>{{ 'admin.statistic.terms'|lang }}</header>
+<table>
+    <thead>
         <tr>
             <td class="primary x10">{{ 'admin.statistic.visits'|lang }}</td>
-            <td>{{ 'admin.statistic.site'|lang }}</td>
+            <td>{{ 'admin.statistic.term'|lang }}</td>
         </tr>
-        </thead>
-        <tbody>
-        {% if not stat.websites %}
+    </thead>
+    <tbody>
+        {% if not stat.terms %}
             <tr>
                 <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
             </tr>
         {% endif %}
-        {% for site in stat.websites %}
+        {% for site in stat.terms %}
             <tr>
                 <td class="primary x10">{{ site.visits }}</td>
-                <td>{{ site.website }}</td>
+                <td>{{ site.term }}</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table-->
+
+<header>{{ 'admin.statistic.browsers'|lang }}</header>
+<table>
+    <thead>
+    <tr>
+        <td class="primary x10">{{ 'admin.statistic.views'|lang }}</td>
+        <td>{{ 'admin.statistic.browser'|lang }}</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not stat.browsers %}
+        <tr>
+            <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+        </tr>
+    {% endif %}
+    {% for site in stat.browsers %}
+        <tr>
+            <td class="primary x10">{{ site.views }}</td>
+            <td>{{ site.browser_name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<header>{{ 'admin.statistic.platforms'|lang }}</header>
+<table>
+    <thead>
+    <tr>
+        <td class="primary x10">{{ 'admin.statistic.views'|lang }}</td>
+        <td>{{ 'admin.statistic.os'|lang }}</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not stat.platforms %}
+        <tr>
+            <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+        </tr>
+    {% endif %}
+    {% for site in stat.platforms %}
+        <tr>
+            <td class="primary x10">{{ site.views }}</td>
+            <td>{{ site.platform_name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<header>{{ 'admin.statistic.pages'|lang }}</header>
+<table>
+    <thead>
+        <tr>
+            <td class="primary x10">{{ 'admin.statistic.views'|lang }}</td>
+            <td>{{ 'admin.statistic.page'|lang }}</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% if not stat.pages %}
+            <tr>
+                <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+            </tr>
+        {% endif %}
+        {% for site in stat.pages %}
+            <tr>
+                <td class="primary x10">{{ site.views }}</td>
+                <td>{{ site.uri }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<header>{{ 'admin.statistic.websites'|lang }}</header>
+<table>
+    <thead>
+    <tr>
+        <td class="primary x10">{{ 'admin.statistic.visits'|lang }}</td>
+        <td>{{ 'admin.statistic.site'|lang }}</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not stat.websites %}
+        <tr>
+            <td colspan="2" class="message">{{ 'form.empty'|lang }}</td>
+        </tr>
+    {% endif %}
+    {% for site in stat.websites %}
+        <tr>
+            <td class="primary x10">{{ site.visits }}</td>
+            <td>{{ site.website }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

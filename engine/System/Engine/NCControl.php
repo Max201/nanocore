@@ -23,6 +23,14 @@ class NCControl extends NCModule
     public $analytics = false;
 
     /**
+     * @return null
+     */
+    static function counter()
+    {
+        return null;
+    }
+
+    /**
      * @return NCWidget[]
      */
     static function widget()

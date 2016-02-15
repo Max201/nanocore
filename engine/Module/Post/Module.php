@@ -114,7 +114,7 @@ class Module extends NCModule
         };
 
         return [
-            '_publ'  => lazy_arr([
+            '_publ'  => lazy_arr('publications', [
                 '$categories'   => $categories,
                 '$users'        => $publications
             ])

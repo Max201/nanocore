@@ -17,8 +17,17 @@ class Control extends NCControl
 {
     static $fa_icon = 'comments';
     static $menu = [
-        'forum.list' => '/control/forum/',
+        [
+            'title' => 'forum.list',
+            'href'  => '/control/forum/',
+            'counter' => 'total'
+        ]
     ];
+
+    static function total()
+    {
+        return \Forum::count();
+    }
 
     public function route()
     {

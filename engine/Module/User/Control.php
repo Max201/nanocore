@@ -16,40 +16,55 @@ use System\Engine\NCWidget;
 
 class Control extends NCControl
 {
+    /**
+     * Control Panel menu
+     *
+     * @var array
+     */
     static $menu = [
-        'user.list' => '/control/user/',
-        'user.groups' => '/control/user/groups/',
+        [
+            'title' => 'user.list',
+            'href'  => '/control/user/',
+            'counter'   => 'total_users',
+        ],
+        [
+            'title' => 'user.groups',
+            'href'  => '/control/user/groups/',
+            'counter'   => 'total_groups',
+        ],
     ];
 
-    static function widget()
+    /**
+     * Users counter
+     *
+     * @return int|string
+     */
+    static function total_users()
     {
-        // Users total
-        $users_widget = new NCWidget('admin.dashboard', 'users/widgets/total.twig');
-        $users_widget->context(['created' => \User::count()]);
-
-        // Users month
-        $users_month_widget = new NCWidget('admin.dashboard', 'users/widgets/month.twig');
-        $users_month_widget->context([
-            'created' => \User::count([
-                    'conditions' => ['register_date > ?', mktime(0, 0, 0, date('m'), 1, date('Y'))]
-                ])
+        $last_day = \User::count([
+            'conditions' => ['register_date > ?', mktime(0, 0, 0)]
         ]);
 
-        // Users today
-        $users_today_widget = new NCWidget('admin.dashboard', 'users/widgets/today.twig');
-        $users_today_widget->context([
-            'created' => \User::count([
-                'conditions' => ['last_visit > ?', mktime(0, 0, 0)]
-            ])
-        ]);
+        if ( $last_day > 0 ) {
+            return '+' . $last_day;
+        }
 
-        return [
-            $users_widget,
-            $users_today_widget,
-            $users_month_widget,
-        ];
+        return \User::count();
     }
 
+    /**
+     * Groups counter
+     *
+     * @return int
+     */
+    static function total_groups()
+    {
+        return \Group::count();
+    }
+
+    /**
+     * Module routing
+     */
     public function route()
     {
         // Users
@@ -66,6 +81,13 @@ class Control extends NCControl
         $this->map->addRoute('settings', [$this, 'users_settings'], 'settings');
     }
 
+    /**
+     * Create new user
+     *
+     * @param Request $request
+     * @param null $matches
+     * @return mixed|string
+     */
     public function create_user(Request $request, $matches = null)
     {
         if ( $request->isMethod('post') ) {
@@ -134,6 +156,13 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * View user profile
+     *
+     * @param Request $request
+     * @param $matches
+     * @return mixed|string
+     */
     public function profile(Request $request, $matches)
     {
         try {
@@ -274,6 +303,13 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * Create new group
+     *
+     * @param Request $request
+     * @param $matches
+     * @return mixed|string
+     */
     public function group_create(Request $request, $matches)
     {
         \GroupPermission::updatePermissionsList();
@@ -315,6 +351,13 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * View group profile
+     *
+     * @param Request $request
+     * @param $matches
+     * @return mixed|string
+     */
     public function group_profile(Request $request, $matches)
     {
         \GroupPermission::updatePermissionsList();
@@ -378,6 +421,12 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * View groups
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function groups_list(Request $request)
     {
         $filter = [];
@@ -400,6 +449,13 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * View users list
+     *
+     * @param Request $request
+     * @param $matches
+     * @return mixed
+     */
     public function users_list(Request $request, $matches)
     {
         $filter = [];

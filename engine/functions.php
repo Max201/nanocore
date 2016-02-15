@@ -49,9 +49,10 @@ function match($pattern, $substring, $options = 'ms') {
 }
 
 /**
+ * @param string $id
  * @param array $arr
  * @return \System\Engine\NCLazyVar
  */
-function lazy_arr($arr = []) {
-    return new \System\Engine\NCLazyVar($arr);
+function lazy_arr($id, $arr = []) {
+    return new \System\Engine\NCLazyVar($id, $arr);
 }

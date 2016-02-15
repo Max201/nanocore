@@ -17,8 +17,17 @@ class Control extends NCControl
 {
     static $fa_icon = 'file';
     static $menu = [
-        'page.list' => '/control/page/',
+        [
+            'title' => 'page.list',
+            'href'  => '/control/page/',
+            'counter'   => 'total'
+        ],
     ];
+
+    static function total()
+    {
+        return \Page::count();
+    }
 
     public function route()
     {

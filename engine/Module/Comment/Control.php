@@ -14,16 +14,52 @@ use System\Engine\NCService;
 
 class Control extends NCControl
 {
+    /**
+     * Control panel menu
+     *
+     * @var string
+     */
     static $fa_icon = 'comment';
     static $menu = [
-        'comment.list' => '/control/comment/',
+        [
+            'title'     => 'comment.list',
+            'href'      => '/control/comment/',
+            'counter'   => 'counter'
+        ],
     ];
 
+    /**
+     * Comments counter
+     *
+     * @return int|null
+     */
+    static function counter()
+    {
+        $last_day = \Comment::count([
+            'conditions'    => ['created_at > ?', mktime(0, 0, 0)]
+        ]);
+
+        if ( $last_day > 0 ) {
+            return '+' . $last_day;
+        }
+
+        return \Comment::count();
+    }
+
+    /**
+     * Routing
+     */
     public function route()
     {
         $this->map->addRoute('/', [$this, 'comments_list'], 'list');
     }
 
+    /**
+     * Comments list
+     *
+     * @param $request
+     * @return mixed
+     */
     public function comments_list($request)
     {
         // Delete page

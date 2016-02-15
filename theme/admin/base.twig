@@ -83,16 +83,19 @@
         <section id="container">
             <!--Navigation bar-->
             <nav id="main-context">
-                {% for group in menu|keys %}
+                {% for group in menu %}
                     <header>
-                        <i class="fa fa-{{ menu[group]['$icon'] }}"></i>
-                        {{ group }}
+                        <i class="fa fa-{{ group.icon }}"></i>
+                        {{ group.title }}
                     </header>
 
-                    {% for title in menu[group]|keys %}
-                        {% if title not in '$icon' %}
-                        <a href="{{ menu[group][title] }}">{{ title }}</a>
-                        {% endif %}
+                    {% for item in group.items %}
+                        <a href="{{ item.href }}">
+                            {{ item.title }}
+                            {% if item.show_counter %}
+                            <span class="counter">{{ item.count }}</span>
+                            {% endif %}
+                        </a>
                     {% endfor %}
                 {% endfor %}
             </nav>

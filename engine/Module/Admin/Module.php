@@ -95,7 +95,7 @@ class Module extends NCControl
         return [
             'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix'),
             'lang_code'     => $lang->pack,
-            'ga'            => lazy_arr([
+            'ga'            => lazy_arr('ga', [
                 '$code'  => function() {
                     /** @var GA $manager */
                     $manager = NCService::load('SocialMedia.GA');

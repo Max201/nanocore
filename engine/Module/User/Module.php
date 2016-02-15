@@ -103,7 +103,7 @@ class Module extends NCModule
         };
 
         return [
-            '_user'     => lazy_arr([
+            '_user'     => lazy_arr('users', [
                 '$last' => $last_users
             ]),
             'ulogin'    => [

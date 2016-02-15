@@ -69,7 +69,9 @@ class Module extends NCModule
         }));
 
         return [
-            '_pages'  => lazy_arr(['$list' => $pages])
+            '_pages'  => lazy_arr('pages', [
+                '$list' => $pages
+            ])
         ];
     }
 

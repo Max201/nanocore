@@ -20,12 +20,56 @@ use System\Environment\Arguments;
 
 class Control extends NCControl
 {
+    /**
+     * Control panel menu
+     *
+     * @var string
+     */
     static $fa_icon = 'rss';
     static $menu = [
-        'post.list' => '/control/post/',
-        'post.categories' => '/control/post/categories/',
+        [
+            'title' => 'post.list',
+            'href'  => '/control/post/',
+            'counter' => 'total_posts',
+        ],
+        [
+            'title' => 'post.categories',
+            'href'  => '/control/post/categories/',
+            'counter' => 'total_categories'
+        ],
     ];
 
+    /**
+     * Count posts
+     *
+     * @return int|string
+     */
+    static function total_posts()
+    {
+        $new_posts = \Post::count([
+            'conditions' => ['created_at > ?', mktime(0, 0, 0)]
+        ]);
+
+        if ( $new_posts > 0 ) {
+            return '+' . $new_posts;
+        }
+
+        return \Post::count();
+    }
+
+    /**
+     * Count categories
+     *
+     * @return int
+     */
+    static function total_categories()
+    {
+        return \PostCategory::count();
+    }
+
+    /**
+     * Module routing
+     */
     public function route()
     {
         $this->map->addRoute('/', [$this, 'posts_list'], 'list');
@@ -37,19 +81,12 @@ class Control extends NCControl
         $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_post'], 'post.edit');
     }
 
-    static function widget()
-    {
-        $readed = \Post::find(['select' => 'SUM(views) as views'])->views;
-        $total = \Post::count();
-        $authors = \Post::find(['select' => 'COUNT(DISTINCT(author_id)) as authors'])->authors;
-
-        return [
-            new NCWidget('readed', 'posts/widgets/views.twig', ['views' => number_format($readed, 0, '.', ' ')]),
-            new NCWidget('total', 'posts/widgets/total.twig', ['total' => number_format($total, 0, '.', ' ')]),
-            new NCWidget('authors', 'posts/widgets/authors.twig', ['authors' => number_format($authors, 0, '.', ' ')]),
-        ];
-    }
-
+    /**
+     * Edit category
+     *
+     * @param Request $request
+     * @return mixed|string
+     */
     public function edit_category(Request $request)
     {
         // Looking for category
@@ -132,6 +169,12 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * Categories list
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function posts_categories(Request $request)
     {
         $title = $this->lang->translate('post.categories');
@@ -171,11 +214,24 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * List moderate posts
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function posts_moderate(Request $request)
     {
         return $this->posts_list($request, new Arguments(['mod' => true]));
     }
 
+    /**
+     * Posts list
+     *
+     * @param Request $request
+     * @param $opts
+     * @return mixed
+     */
     public function posts_list(Request $request, $opts)
     {
         $title = $this->lang->translate('post.list');
@@ -258,6 +314,13 @@ class Control extends NCControl
         ]);
     }
 
+    /**
+     * Edit post or create new
+     *
+     * @param Request $request
+     * @param $matches
+     * @return mixed|string
+     */
     public function edit_post(Request $request, $matches)
     {
         $title = $this->lang->translate('post.create');
