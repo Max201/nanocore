@@ -23,19 +23,21 @@
         "date": "Дата"
     },
     "smp": {
-        "title": "Интеграция социальных сетей",
-        "setup": "Интеграция %s",
+        "title": "Интеграция сторонних сервисов и API",
+        "setup": "Подключение %s",
         "token": "Access Token",
         "expires": "Истекает",
         "connect": "Подключение приложения",
         "service": "Сервис API",
         "app_id": "ID Приложения",
+        "analytics_id": "ID Google Analytics",
         "api_secret": "API Secret",
         "vkcode": "Код из адресной строки",
         "social_network": "Социальная сеть",
         "consumer_key": "Consumer API Key",
         "consumer_secret": "Consumer API Secret",
-        "token_secret": "Access Token Secret"
+        "token_secret": "Access Token Secret",
+        "ga_integration": "Для установки счетчика на всех страницах сайта, разместите код <i>{{ ga.counter|raw }}</i> перед закрывающимся тегом &lt;/body&gt; в базавом шаблоне вашей темы"
     },
     "file": {
         "manage": "Менеджер файлов",

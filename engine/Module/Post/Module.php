@@ -354,6 +354,9 @@ class Module extends NCModule
                 ]);
             }
 
+            // Updating instance
+            $post->save();
+
             if ( !$post->moderate ) {
                 // Exporting to social
                 if ( !$post->post_vkontakte && !$post->post_twitter ) {
@@ -363,9 +366,6 @@ class Module extends NCModule
                 // Ping sitemap
                 NCService::load('SocialMedia.Ping');
             }
-
-            // Updating instance
-            $post->save();
 
             return static::json_response([
                 'success'   => true,

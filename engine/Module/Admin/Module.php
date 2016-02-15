@@ -10,6 +10,7 @@ namespace Module\Admin;
 use Module\Admin\SMP\Driver;
 use Service\Application\Translate;
 use Service\Render\Theme;
+use Service\SocialMedia\GA;
 use Service\SocialMedia\SocialMedia;
 use Service\SocialMedia\Vkontakte;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,7 +68,7 @@ class Module extends NCControl
         }));
 
         /**
-         *
+         * Substr
          */
         $view->twig->addFilter(new \Twig_SimpleFilter('sub', function($str, $len = 24){
             if ( \len($str) > $len ) {
@@ -93,7 +94,14 @@ class Module extends NCControl
 
         return [
             'title_prefix'  => NCService::load('Application.Settings')->conf->get('title_prefix'),
-            'lang_code'     => $lang->pack
+            'lang_code'     => $lang->pack,
+            'ga'            => lazy_arr([
+                '$code'  => function() {
+                    /** @var GA $manager */
+                    $manager = NCService::load('SocialMedia.GA');
+                    return $manager->code();
+                }
+            ])
         ];
     }
 

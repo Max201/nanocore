@@ -8,5 +8,10 @@
         "name": "Twitter",
         "icon": "twitter",
         "id": "tw"
+    },
+    {
+        "name": "Google Analytics",
+        "icon": "area-chart",
+        "id": "ga"
     }
 ]

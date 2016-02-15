@@ -64,7 +64,7 @@ class SocialMedia extends NCService
     public function network($id)
     {
         foreach ( $this->social_list() as $network ) {
-            if ( $network['id'] == $id ) {
+            if ( $network['id'] == strtolower(trim($id)) ) {
                 $manager = $this->get_manager($id);
                 $network['data'] = $manager->conf;
                 $network['auth'] = $manager->authorize_url();
@@ -103,5 +103,13 @@ class SocialMedia extends NCService
     public function tw()
     {
         return $this->load('SocialMedia.Twitter');
+    }
+
+    /**
+     * @return GA
+     */
+    public function ga()
+    {
+        return $this->load('SocialMedia.GA');
     }
 } 
