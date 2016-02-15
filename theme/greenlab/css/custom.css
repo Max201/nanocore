@@ -524,6 +524,10 @@ input {
     font-size: 14px;
     color: #666666; }
 
+iframe.youtube {
+  width: 100%;
+  height: 480px; }
+
 .topic-image {
   max-width: 36px;
   max-height: 36px; }

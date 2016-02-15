@@ -1,0 +1,54 @@
+{% extends 'base.twig' %}
+{% block head %}{% endblock %}
+{% block body %}
+    <menu>
+        <a href="{{ 'list'|url }}" class="item">
+            {{ 'post.list'|lang }}
+        </a>
+        <a href="{{ 'list.moderation'|url }}" class="item">
+            {{ 'post.onmoderation'|lang }}
+        </a>
+        <a href="{{ 'list.categories'|url }}" class="item">
+            {{ 'post.categories'|lang }}
+        </a>
+        <a href="{{ 'post.new'|url }}" class="item">
+            <i class="fa fa-plus"></i>
+            {{ 'post.create'|lang }}
+        </a>
+        <a href="{{ 'post.import'|url }}" class="item active">
+            <i class="fa fa-database"></i>
+            {{ 'post.import'|lang }}
+        </a>
+
+        <nav class="right">
+            <span class="preloader off"></span>
+            <a class="item" href="#" onclick="gui.preloader.start();$('#yt-import').submit();">
+                <i class="fa fa-save"></i>
+                {{ 'button.save'|lang }}
+            </a>
+        </nav>
+    </menu>
+
+    <form action="" method="post" class="form" id="yt-import">
+        <label for="ytid">
+            <span class="title">Youtube Channel ID:</span>
+            <input type="text" name="channel" id="ytid" value="" placeholder="UC4rdGijkmGX-qo7tjstu-pA" />
+        </label>
+        <label for="type" class="cselect">
+            <span class="title">Import Type:</span>
+            <select name="type" id="type">
+                <option value="full" selected>Full</option>
+                <option value="data">Data only</option>
+                <option value="media">Media only</option>
+            </select>
+        </label>
+        <label for="category" class="cselect">
+            <span class="title">Import to:</span>
+            <select name="category" id="category">
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}"{% if cat.id == post.category.id %} selected{% endif %}>{{ cat.title }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </form>
+{% endblock %}

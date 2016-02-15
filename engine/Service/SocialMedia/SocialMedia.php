@@ -112,4 +112,12 @@ class SocialMedia extends NCService
     {
         return $this->load('SocialMedia.GA');
     }
+
+    /**
+     * @return Google
+     */
+    public function go()
+    {
+        return $this->load('SocialMedia.Google');
+    }
 } 

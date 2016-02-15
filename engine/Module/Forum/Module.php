@@ -8,6 +8,7 @@ namespace Module\Forum;
 
 
 use Service\Paginator\Listing;
+use Service\SocialMedia\Google;
 use Service\SocialMedia\Ping;
 use Symfony\Component\HttpFoundation\Request;
 use System\Engine\NCModule;

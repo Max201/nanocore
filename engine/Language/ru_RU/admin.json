@@ -35,6 +35,7 @@
         "app_id": "ID Приложения",
         "analytics_id": "ID Google Analytics",
         "api_secret": "API Secret",
+        "api_key": "API Key",
         "vkcode": "Код из адресной строки",
         "social_network": "Социальная сеть",
         "consumer_key": "Consumer API Key",

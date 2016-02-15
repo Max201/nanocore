@@ -1,0 +1,28 @@
+{% extends 'base.twig' %}
+{% block body %}
+    <div>
+        <menu>
+            <a href="{{ 'smp'|url }}" class="item">
+                <i class="fa fa-arrow-left"></i>
+                {{ 'admin.smp.title'|lang }}
+            </a>
+            <nav class="right">
+            </nav>
+        </menu>
+
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+        <form action="{{ 'smpp'|url('go') }}" method="get" class="form">
+            <label for="ga_id">
+                <span class="title">{{ 'admin.smp.api_key'|lang }}</span>
+                <input type="password" name="key" id="key" value="{{ network.data.key }}" placeholder="{{ 'admin.smp.api_key'|lang }}" />
+            </label>
+
+            <footer>
+                <button type="submit" class="button">{{ 'button.save'|lang }}</button>
+            </footer>
+        </form>
+
+    </div>
+{% endblock %}

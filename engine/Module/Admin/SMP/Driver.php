@@ -8,6 +8,7 @@ namespace Module\Admin\SMP;
 
 
 use Service\SocialMedia\GA;
+use Service\SocialMedia\Google;
 use Service\SocialMedia\SocialMedia;
 use Service\SocialMedia\Twitter;
 use Service\SocialMedia\Vkontakte;
@@ -72,6 +73,19 @@ class Driver
         $smp = NCService::load('SocialMedia');
         /** @var GA $manager */
         $manager = $smp->ga();
+        return $manager->setup($_GET);
+    }
+
+    /**
+     * @param null $redirect_uri
+     * @return bool
+     */
+    public static function go($redirect_uri = null)
+    {
+        /** @var SocialMedia $smp */
+        $smp = NCService::load('SocialMedia');
+        /** @var Google $manager */
+        $manager = $smp->go();
         return $manager->setup($_GET);
     }
 } 

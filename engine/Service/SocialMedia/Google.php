@@ -12,10 +12,10 @@ use System\Environment\Options;
 
 
 /**
- * Class GA
+ * Class Google
  * @package Service\SocialMedia
  */
-class GA extends NCService
+class Google extends NCService
 {
     use API;
 
@@ -25,7 +25,7 @@ class GA extends NCService
     const CONFIG = 'SocialMedia.setup';
 
     /**
-     * @var GA
+     * @var Google
      */
     static $instance;
 
@@ -44,16 +44,16 @@ class GA extends NCService
      */
     public function __construct()
     {
-        $this->conf = $this->config('ga');
+        $this->conf = $this->config('google');
     }
 
     /**
-     * @return GA
+     * @return Google
      */
     static function instance()
     {
         if ( !static::$instance ) {
-            static::$instance = new GA();
+            static::$instance = new Google();
         }
 
         return static::$instance;
@@ -66,8 +66,8 @@ class GA extends NCService
     public function setup($config)
     {
         $opt = new Options($config);
-        $this->conf['id'] = $opt->get('id');
-        return $this->update_config('ga', $this->conf->getArrayCopy());
+        $this->conf['key'] = $opt->get('key');
+        return $this->update_config('google', $this->conf->getArrayCopy());
     }
 
     /**
@@ -75,7 +75,7 @@ class GA extends NCService
      */
     public function active()
     {
-        return $this->conf->get('id');
+        return $this->conf->get('key');
     }
 
     /**
@@ -83,7 +83,7 @@ class GA extends NCService
      */
     public function configured()
     {
-        return $this->conf->get('id');
+        return $this->conf->get('key');
     }
 
     /**
@@ -96,14 +96,13 @@ class GA extends NCService
     }
 
     /**
-     * @return string
+     * @param $url
+     * @param array $data
+     * @return mixed
      */
-    public function code()
+    public function request($url, $data = [])
     {
-        if ( $this->configured() ) {
-            return "<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '{$this->conf->get('id')}', 'auto');ga('send', 'pageview');</script>";
-        }
-
-        return null;
+        $data['key'] = $this->conf->get('key');
+        return static::GET($url, $data);
     }
 }

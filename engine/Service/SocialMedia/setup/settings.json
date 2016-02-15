@@ -13,5 +13,10 @@
         "name": "Google Analytics",
         "icon": "area-chart",
         "id": "ga"
+    },
+    {
+        "name": "Google APIs",
+        "icon": "google",
+        "id": "go"
     }
 ]

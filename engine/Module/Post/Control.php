@@ -7,6 +7,7 @@
 namespace Module\Post;
 
 
+use Service\SocialMedia\Google;
 use Service\SocialMedia\SocialMedia;
 use Service\SocialMedia\Twitter;
 use Service\SocialMedia\Vkontakte;
@@ -79,6 +80,7 @@ class Control extends NCControl
         $this->map->addRoute('create', [$this, 'edit_post'], 'post.new');
 
         $this->map->addPattern('edit/<id:\d+?>', [$this, 'edit_post'], 'post.edit');
+        $this->map->addRoute('import', [$this, 'import'], 'post.import');
     }
 
     /**
@@ -386,6 +388,72 @@ class Control extends NCControl
         return $this->view->render('posts/create.twig', [
             'post'          => $post,
             'title'         => $title,
+            'categories'    => \PostCategory::as_array(\PostCategory::all())
+        ]);
+    }
+
+    /**
+     * Import videos from youtube
+     *
+     * @param Request $request
+     * @param $match
+     * @return string
+     */
+    public function import(Request $request, $match)
+    {
+        if ( $request->isMethod('post') ) {
+            $items = [];
+            $query = [
+                'part' => 'snippet,id',
+                'channelId' => $request->get('channel')
+            ];
+
+            // Fetch videos
+            /** @var Google $sm */
+            $sm = NCService::load('SocialMedia.Google');
+            while ( $response = $sm->request('https://www.googleapis.com/youtube/v3/search', $query) ) {
+                $response = json_decode($response, true);
+                $items = array_merge($items, $response['items']);
+
+                // Move to next page or break
+                if ( isset($response['nextPageToken']) && $response['nextPageToken'] ) {
+                    $query['pageToken'] = $response['nextPageToken'];
+                } else {
+                    break;
+                }
+            }
+
+            // Save videos
+            foreach ( $items as $video ) {
+                $id = $video['id']['videoId'];
+                $url = 'https://www.youtube.com/watch?v=' . $id;
+                $title = $video['snippet']['title'];
+                $description = $video['snippet']['description'];
+                $iframe = '<iframe class="youtube" width="560" height="315" src="https://www.youtube.com/embed/' . $id . '" frameborder="0" allowfullscreen></iframe>';
+                $created_at = strtotime($video['snippet']['publishedAt']);
+
+                switch ( $request->get('type') ) {
+                    default: // Full
+                        $body = '<p style="text-align: center;" class="media-wrapper">' . $iframe . '</p>';
+                        $body .= '<p>' . nl2br($description) . '</p>';
+                }
+
+                $entity = new \Post([
+                    'author_id' => $this->user->id,
+                    'title'     => $title,
+                    'content'   => $body,
+                    'moderate'  => 1,
+                    'category_id'   => $request->get('category'),
+                    'created_at'    => $created_at,
+                    'updated_at'    => $created_at
+                ]);
+
+                $entity->save();
+            }
+        }
+
+        return $this->view->render('posts/import.twig', [
+            'title'         => $this->lang->translate('post.import'),
             'categories'    => \PostCategory::as_array(\PostCategory::all())
         ]);
     }
