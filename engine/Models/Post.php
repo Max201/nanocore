@@ -98,7 +98,7 @@ class Post extends Model
     /**
      * Exporting to social
      */
-    public function export()
+    public function export($templates)
     {
         /** @var \Service\SocialMedia\SocialMedia $smp */
         $smp = \System\Engine\NCService::load('SocialMedia');
@@ -106,15 +106,12 @@ class Post extends Model
         $url = \System\Environment\Env::$request->getSchemeAndHttpHost() . $post_url;
 
         // Posting vk
-        if ( $this->category->post_vkontakte ) {
+        if ( $this->category->post_vkontakte && isset($templates['vkontakte']) ) {
             $vk = $smp->vk();
             $this->assign_attribute(
                 'post_vkontakte',
                 $vkp = $vk->m_post(
-                    $this->category->post_vkontakte,
-                    $this->title . "\n\n" .
-                    $this->content_plain() .
-                    implode(' ', $this->hashtags()),
+                    $templates['vkontakte'],
                     [
                         'attachments'   => $url
                     ]
@@ -123,12 +120,12 @@ class Post extends Model
         }
 
         // Posting twitter
-        if ( $this->category->post_twitter ) {
+        if ( $this->category->post_twitter && isset($templates['twitter']) ) {
             $tw = $smp->tw();
             $this->assign_attribute(
                 'post_twitter',
                 $tw->m_post(
-                    $url . ' ' . $this->title . ' ' . implode(' ', $this->hashtags()),
+                    $templates['twitter'],
                     reset($this->images(ROOT))
                 )->id
             );

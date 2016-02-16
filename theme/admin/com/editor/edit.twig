@@ -1,0 +1,58 @@
+{% extends 'base.twig' %}
+{% block head %}
+    <script type="application/javascript" src="{{ 'ace.js'|cdn('ace') }}"></script>
+    <script>
+        $(function(){
+            var editor = ace.edit("template");
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode("ace/mode/html");
+
+            $('#save').on('click', function(){
+                $.post('/admin/templates/edit/{{ filename }}', { 'content': editor.getValue() }, function(r){
+                    $('.response').show(100).text(r.message);
+                });
+            });
+        });
+
+
+    </script>
+{% endblock %}
+
+{% block body %}
+    <menu>
+        <a class="item" href="{{ 'editor.files'|url }}">
+            <i class="fa fa-arrow-left"></i>
+            {{ title }}
+        </a>
+        <span class="cselect">
+            <select name="file" id="file" onchange="document.location.href = $(this).val()">
+                {% for file in files %}
+                    <option value="{{ 'editor.file'|url(file.name) }}" {% if filename == file.name %}selected="selected"{% endif %}>{{ file.name }}</option>
+                {% endfor %}
+            </select>
+        </span>
+
+        <nav class="right" style="margin: 6px 0 0 0">
+            <a href="javascript:void(0);" class="item" id="save">
+                <i class="fa fa-save"></i>
+                {{ 'button.save'|lang }}
+            </a>
+        </nav>
+    </menu>
+
+    {% if message %}
+        <div class="message success">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <div class="message response" style="display: none;">
+        {{ message }}
+    </div>
+
+    <div class="editor-ace" id="template">{{ content|raw }}</div>
+
+    {% if meta %}
+        {% include meta %}
+    {% endif %}
+{% endblock %}

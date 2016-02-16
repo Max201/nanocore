@@ -6,6 +6,8 @@
     "modules": "Модули",
     "guard": "WEB-Defender",
     "bug": "Сообщить об ошибке",
+    "cms_wall": "CMSWall",
+    "templates": "Редактор системных шаблонов",
     "statistic": {
         "title": "Статистика посещейний сайта",
         "websites": "Переходы с сайтов",

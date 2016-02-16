@@ -1,0 +1,52 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <menu>
+        <a class="item active" href="{{ 'editor.files'|url }}">
+            <i class="fa fa-file-code-o"></i>
+            {{ title }}
+        </a>
+    </menu>
+
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <table>
+        <thead>
+        <tr>
+            <td>Filename</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% if not templates %}
+            <tr>
+                <td colspan="8" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+        {% for file in templates %}
+            <tr>
+                <td onclick="gui.go('{{ 'editor.file'|url(file.name) }}')">
+                    <i class="fa fa-file-code-o"></i>  {{ file.name }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>Filename</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <menu>
+        <a class="item active" href="{{ 'editor.files'|url }}">
+            <i class="fa fa-file-code-o"></i>
+            {{ title }}
+        </a>
+    </menu>
+{% endblock %}

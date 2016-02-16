@@ -91,6 +91,20 @@ var gui = {
 
         _wnd = window.open(url, $opt.name, 'height=' + $opt.height + ',width=' + $opt.width);
         return _wnd;
+    },
+    'copy': function(element) {
+        var $el = $(element);
+        $el.attr('contenteditable', true).focus();
+
+        document.execCommand('selectAll', false, null);
+        document.execCommand('copy', false, null);
+        $el.removeAttr('contenteditable');
+    },
+    'snippetclip': function(element) {
+        var val = $(element).text();
+        $(element).text('{{ ' + val + ' }}');
+        gui.copy(element);
+        $(element).text(val);
     }
 };
 

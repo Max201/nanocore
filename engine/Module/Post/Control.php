@@ -255,6 +255,12 @@ class Control extends NCControl
                 if ( $post->save() ) {
                     $this->view->assign('message', $this->lang->translate('post.published'));
                 }
+
+                // Export to social
+                $post->export();
+
+                // Pinging sitemap
+                NCService::load('SocialMedia.Ping');
             } else {
                 $this->view->assign('message', $this->lang->translate('post.error_publish'));
             }
@@ -301,11 +307,48 @@ class Control extends NCControl
         }
 
         /** @var Listing $paginator */
-        $paginator = NCService::load('Paginator.Listing', [$request->page, \Page::count()]);
+        $paginator = NCService::load('Paginator.Listing', [$request->page, \Post::count($filter)]);
         $filter = array_merge($filter, $paginator->limit());
 
         // Filter users
         $posts = \Post::all($filter);
+
+        // Mass managing
+        // Accept all visible
+        if ( $request->get('accept') == 'all' ) {
+            foreach ( $posts as $item ) {
+                $item->moderate = '0';
+                $item->save();
+
+                // Export to social
+                Module::export($item, $this->view);
+            }
+
+            // Pinging sitemap
+            NCService::load('SocialMedia.Ping');
+            return static::redirect_response($request->getPathInfo());
+        }
+
+        // Sent to moderate all visible
+        if ( $request->get('moderate') == 'all' ) {
+            foreach ( $posts as $item ) {
+                $item->moderate = '1';
+                $item->save();
+            }
+
+            return static::redirect_response($request->getPathInfo());
+        }
+
+        // Delete all visible
+        if ( $request->get('delete') == 'all' ) {
+            foreach ( $posts as $item ) {
+                $item->delete();
+            }
+
+            return static::redirect_response($request->getPathInfo());
+        }
+
+
         $posts = array_map(function($i){ return $i->to_array(); }, $posts);
         return $this->view->render('posts/list.twig', [
             'title'         => $title,
@@ -367,9 +410,7 @@ class Control extends NCControl
 
             if ( !$post->moderate ) {
                 // Exporting to social
-                if ( !$post->post_vkontakte && !$post->post_twitter ) {
-                    $post->export();
-                }
+                Module::export($post, $this->view);
 
                 // Ping sitemap
                 NCService::load('SocialMedia.Ping');

@@ -8,6 +8,7 @@ namespace Module\Admin;
 
 
 use Module\Admin\SMP\Driver;
+use Module\Admin\Templates\Editor;
 use Service\Application\Translate;
 use Service\Render\Theme;
 use Service\SocialMedia\GA;
@@ -28,11 +29,16 @@ use System\Util\FileUploader;
 
 class Module extends NCControl
 {
+    use Editor;
+
     /**
      * Disable analytics
      */
     public $analytics = false;
 
+    /**
+     * Routing
+     */
     public function route()
     {
         // Disabling namespace
@@ -48,6 +54,8 @@ class Module extends NCControl
         $this->map->addRoute('services', [$this, 'services'], 'services');
         $this->map->addRoute('modules', [$this, 'modules'], 'modules');
         $this->map->addRoute('social-posting', [$this, 'smp'], 'smp');
+        $this->map->addRoute('templates', [$this, 'editor_files'], 'editor.files');
+        $this->map->addPattern('templates/edit/<tpl:.+?>', [$this, 'editor_file'], 'editor.file');
 
         $this->map->addPattern('stats/<day:\d+?>', [$this, 'stats'], 'stats');
         $this->map->addPattern('stats/<day:\d+?>/<method:\w+?>', [$this, 'stats'], 'mstats');
@@ -56,6 +64,14 @@ class Module extends NCControl
         $this->map->addRoute('files', [$this, 'fmanager'], 'filemanager');
     }
 
+    /**
+     * Global vars
+     *
+     * @param NCModule $module
+     * @param Theme $view
+     * @param Translate $lang
+     * @return array|\System\Engine\NCBlock[]
+     */
     static function globalize(NCModule $module, Theme $view, Translate $lang)
     {
         $view->twig->addFilter(new \Twig_SimpleFilter('ord', function($order){
@@ -105,6 +121,11 @@ class Module extends NCControl
         ];
     }
 
+    /**
+     * Check permissions to access module
+     *
+     * @return bool
+     */
     public function access()
     {
         if ( is_null($this->user) ) {
@@ -119,6 +140,13 @@ class Module extends NCControl
         return parent::access();
     }
 
+    /**
+     * Site statistic
+     *
+     * @param Request $request
+     * @param Options $matches
+     * @return mixed|void
+     */
     public function stats(Request $request, Options $matches = null)
     {
         $cur_day = $matches->get('day', date('d'));
@@ -167,6 +195,13 @@ class Module extends NCControl
         ]);
     }
 
+    /**
+     * Social media posting
+     *
+     * @param Request $request
+     * @param Options $matches
+     * @return mixed
+     */
     public function smp(Request $request, Options $matches = null)
     {
         /** @var SocialMedia $smp */

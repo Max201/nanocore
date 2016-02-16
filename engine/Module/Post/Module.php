@@ -122,6 +122,33 @@ class Module extends NCModule
     }
 
     /**
+     * @param \Post $post
+     * @param Theme $view
+     * @return bool
+     */
+    static function export(\Post $post, Theme $view)
+    {
+        $post->save();
+        if ( $post->post_vkontakte && $post->post_twitter ) {
+            return true;
+        }
+
+        $context = [
+            'title' => $post->title,
+            'content' => $post->content_plain(),
+            'tags' => implode(' ', $post->hashtags()),
+            'url' => Env::$request->getSchemeAndHttpHost() . '/post/' . $post->id . '-' . $post->slug . '.html',
+            'author' => $post->author->username,
+            'category' => $post->category->name,
+        ];
+
+        return $post->export([
+            'vkontakte'     => $view->render('@assets/templates/smp.vkontakte.twig', $context),
+            'twitter'       => $view->render('@assets/templates/smp.twitter.twig', $context),
+        ]);
+    }
+
+    /**
      * @param Request $request
      * @param Options $matches
      * @return string
@@ -359,9 +386,7 @@ class Module extends NCModule
 
             if ( !$post->moderate ) {
                 // Exporting to social
-                if ( !$post->post_vkontakte && !$post->post_twitter ) {
-                    $post->export();
-                }
+                static::export($post, $this->view);
 
                 // Ping sitemap
                 NCService::load('SocialMedia.Ping');

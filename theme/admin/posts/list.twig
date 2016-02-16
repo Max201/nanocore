@@ -38,12 +38,12 @@
             <tr>
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
-                <td onclick="gui.uri({'order': gui.order_toggle('views')})" title="{{ 'post.views'|lang }}"><i class="fa fa-eye"></i><i class="fa {{ 'views'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'post.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
-                <td>{{ 'post.checked'|lang }}</td>
-                <td>{{ 'button.delete'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('views')})" title="{{ 'post.views'|lang }}"><i class="fa fa-eye"></i><i class="fa {{ 'views'|ord }}"></i></td>
+                <td title="{{ 'post.checked'|lang }}"><i class="fa fa-check"></i></td>
+                <td title="{{ 'button.delete_all'|lang }}" onclick="if (confirm('{{ 'button.delete_all'|lang }} ' + (document.querySelectorAll('.primary').length - 1) + '?')) gui.uri({'delete': 'all'})"><i class="fa fa-trash"></i></td>
             </tr>
         </thead>
         <tbody>
@@ -58,21 +58,21 @@
             <tr>
                 <td onclick="gui.go('{{ 'post.edit'|url(post.id) }}')" class="primary">#{{ post.id }}</td>
                 <td onclick="gui.go('/post/{{ post.id }}-{{ post.slug }}.html')" title="{{ post.title }}">{{ post.title }}</td>
-                <td>{{ post.views }}</td>
                 <td onclick="gui.uri({'category': '{{ post.category.id }}'})">{{ post.category.title }}</td>
                 <td onclick="gui.uri({'author': '{{ post.author.id }}'})">{{ post.author.username }}</td>
                 <td>{{ post.updated_at|tz|dlang }}</td>
+                <td>{{ post.views }}</td>
                 {% if post.moderate == 1 %}
-                <td onclick="if (confirm('{{ 'post.publish'|lang }} \'{{ post.title }}\'?')) gui.uri({'accept': '{{ post.id }}'})">
-                    <i class="fa fa-check"></i> {{ 'post.publish'|lang }}
+                <td title="{{ 'post.publish'|lang }}" onclick="if (confirm('{{ 'post.publish'|lang }} \'{{ post.title }}\'?')) gui.uri({'accept': '{{ post.id }}'})">
+                    <i class="fa fa-close"></i>
                 </td>
                 {% else %}
-                <td>
-                    <i class="fa fa-checked"></i> {{ 'post.checked'|lang }}
+                <td title="{{ 'post.checked'|lang }}">
+                    <i class="fa fa-check"></i>
                 </td>
                 {% endif %}
                 <td onclick="if (confirm('{{ 'button.delete'|lang }} \'{{ post.title }}\'?')) gui.uri({'delete': '{{ post.id }}'})">
-                    <i class="fa fa-trash"></i> {{ 'button.delete'|lang }}
+                    <i class="fa fa-trash"></i>
                 </td>
             </tr>
         {% endfor %}
@@ -81,12 +81,12 @@
             <tr>
                 <td onclick="gui.uri({'order': gui.order_toggle('id')})" class="primary">ID <i class="fa {{ 'id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('title')})">{{ 'post.name'|lang }} <i class="fa {{ 'title'|ord }}"></i></td>
-                <td onclick="gui.uri({'order': gui.order_toggle('views')})" title="{{ 'post.views'|lang }}"><i class="fa fa-eye"></i><i class="fa {{ 'views'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('category_id')})">{{ 'post.category'|lang }} <i class="fa {{ 'category_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'post.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
-                <td>{{ 'post.checked'|lang }}</td>
-                <td>{{ 'button.delete'|lang }}</td>
+                <td onclick="gui.uri({'order': gui.order_toggle('views')})" title="{{ 'post.views'|lang }}"><i class="fa fa-eye"></i><i class="fa {{ 'views'|ord }}"></i></td>
+                <td title="{{ 'post.checked'|lang }}"><i class="fa fa-check"></i></td>
+                <td title="{{ 'button.delete'|lang }}"><i class="fa fa-trash"></i></td>
             </tr>
         </tfoot>
     </table>
