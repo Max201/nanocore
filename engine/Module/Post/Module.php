@@ -94,7 +94,7 @@ class Module extends NCModule
                 $result = $item->to_array();
                 $result['link'] = '/post/category/' . $item->id;
                 $result['posts'] = \Post::count([
-                    'conditions'    => ['category_id IN (?)', $recursive_tree->childs($item->id)]
+                    'conditions'    => ['category_id IN (?) AND moderate = ?', $recursive_tree->childs($item->id), '0']
                 ]);
 
                 return $result;
