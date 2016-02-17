@@ -9,6 +9,7 @@ namespace Module\Admin;
 
 use Module\Admin\SMP\Driver;
 use Module\Admin\Templates\Editor;
+use Module\Admin\Wall\CMSWall;
 use Service\Application\Translate;
 use Service\Render\Theme;
 use Service\SocialMedia\GA;
@@ -30,6 +31,7 @@ use System\Util\FileUploader;
 class Module extends NCControl
 {
     use Editor;
+    use CMSWall;
 
     /**
      * Disable analytics
@@ -46,7 +48,7 @@ class Module extends NCControl
         // Admin Menu
         $this->view->assign('menu', Helper::build_menu($this->lang));
 
-        // Routes
+        // System
         $this->map->addRoute('/', [$this, 'dashboard'], 'dashboard');
         $this->map->addRoute('login', [$this, 'login'], 'login');
         $this->map->addRoute('logout', [$this, 'logout'], 'logout');
@@ -54,13 +56,20 @@ class Module extends NCControl
         $this->map->addRoute('services', [$this, 'services'], 'services');
         $this->map->addRoute('modules', [$this, 'modules'], 'modules');
         $this->map->addRoute('social-posting', [$this, 'smp'], 'smp');
+
+        // Editor
         $this->map->addRoute('templates', [$this, 'editor_files'], 'editor.files');
         $this->map->addPattern('templates/edit/<tpl:.+?>', [$this, 'editor_file'], 'editor.file');
 
+        // Statistic
         $this->map->addPattern('stats/<day:\d+?>', [$this, 'stats'], 'stats');
         $this->map->addPattern('stats/<day:\d+?>/<method:\w+?>', [$this, 'stats'], 'mstats');
         $this->map->addPattern('social-posting/<drv:\w+?>', [$this, 'smp'], 'smpp');
 
+        // CMS Wall
+        $this->map->addRoute('wall', [$this, 'wall_ips'], 'wall.banned');
+
+        // Filemanage
         $this->map->addRoute('files', [$this, 'fmanager'], 'filemanager');
     }
 

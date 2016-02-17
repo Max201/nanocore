@@ -78,12 +78,13 @@ class Post extends Model
     public function content_plain($max_len=-1)
     {
         $content = $max_len > 0 ? substr($this->content, 0, $max_len) : $this->content;
-        return strtr($content, [
+        $content = html_entity_decode($content);
+        return strip_tags(strtr($content, [
             '</div>'    => "\n",
             '</p>'      => "\n\n",
             '<br/>'     => "\n",
             "&nbsp;"    => " "
-        ]);
+        ]));
     }
 
     /**
@@ -106,11 +107,12 @@ class Post extends Model
         $url = \System\Environment\Env::$request->getSchemeAndHttpHost() . $post_url;
 
         // Posting vk
-        if ( $this->category->post_vkontakte && isset($templates['vkontakte']) ) {
+        if ( $this->category->post_vkontakte && isset($templates['vkontakte']) && !$this->post_twitter ) {
             $vk = $smp->vk();
             $this->assign_attribute(
                 'post_vkontakte',
                 $vkp = $vk->m_post(
+                    $this->category->post_vkontakte,
                     $templates['vkontakte'],
                     [
                         'attachments'   => $url
@@ -120,7 +122,7 @@ class Post extends Model
         }
 
         // Posting twitter
-        if ( $this->category->post_twitter && isset($templates['twitter']) ) {
+        if ( $this->category->post_twitter && isset($templates['twitter']) && !$this->post_twitter ) {
             $tw = $smp->tw();
             $this->assign_attribute(
                 'post_twitter',
@@ -131,10 +133,14 @@ class Post extends Model
             );
         }
 
-        return [
-            'vk'    => $this->post_vkontakte,
-            'tw'    => $this->post_twitter,
-        ];
+        if ( $this->save() ) {
+            return [
+                'vk'    => $this->post_vkontakte,
+                'tw'    => $this->post_twitter,
+            ];
+        }
+
+        return false;
     }
 
     /**

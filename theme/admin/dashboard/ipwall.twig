@@ -1,0 +1,57 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <menu>
+        <a href="{{ 'wall.banned'|url }}" class="item active">
+            {{ 'admin.ip.list'|lang }}
+        </a>
+
+        <nav class="right">
+            <a class="item" href="javascript:void(0);" onclick="if ( ip = prompt('{{ 'admin.ip.addr'|lang }}' ) ) gui.go('?ban=' + ip)">
+                <i class="fa fa-lock"></i>
+                {{ 'admin.ip.ban'|lang }}
+            </a>
+        </nav>
+    </menu>
+
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <table>
+        <thead>
+        <tr>
+            <td>{{ 'admin.ip.banned'|lang }}</td>
+            <td class="x5"><i class="fa fa-unlock"></i> {{ 'admin.ip.unban'|lang }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% if not banned %}
+            <tr>
+                <td colspan="8" class="message">
+                    <div>{{ 'form.empty'|lang }}</div>
+                </td>
+            </tr>
+        {% endif %}
+        {% for ip in banned %}
+            <tr>
+                <td>{{ ip }}</td>
+                <td class="x5" onclick="gui.go('?unban={{ ip }}')"><i class="fa fa-trash"></i> {{ 'admin.ip.unban'|lang }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>{{ 'admin.ip.banned'|lang }}</td>
+            <td class="x5"><i class="fa fa-unlock"></i> {{ 'admin.ip.unban'|lang }}</td>
+        </tr>
+        </tfoot>
+    </table>
+    <menu>
+        <a href="{{ 'wall.banned'|url }}" class="item active">
+            {{ 'admin.ip.list'|lang }}
+        </a>
+    </menu>
+{% endblock %}

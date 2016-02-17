@@ -1,10 +1,22 @@
 <div class="snippet head">YouTube Video Import Template</div>
+<p style="padding: 10px 20px;">
+    <i>{{ 'post.youtube.tpl.guide'|lang }}</i>
+</p>
 <div class="snippet">
-    <span onclick="gui.snippetclip(this)" class="snippet twig">title</span> - Video title
+    <span onclick="gui.snippetclip(this)" class="snippet twig">title</span> - {{ 'post.youtube.tpl.title'|lang }}
 </div>
 <div class="snippet">
-    <span onclick="gui.snippetclip(this)" class="snippet twig">description</span> - Video description
+    <span onclick="gui.snippetclip(this)" class="snippet twig">description</span> - {{ 'post.youtube.tpl.description'|lang }}
 </div>
 <div class="snippet">
-    <span onclick="gui.snippetclip(this)" class="snippet twig">player</span> - YouTube Videplayer
+    <span onclick="gui.snippetclip(this)" class="snippet twig">player|raw</span> - {{ 'post.youtube.tpl.player'|lang }}
+</div>
+<div class="snippet">
+    <span onclick="gui.snippetclip(this)" class="snippet twig">short</span> - {{ 'post.youtube.tpl.short'|lang }}
+</div>
+<div class="snippet">
+    <span onclick="gui.snippetclip(this)" class="snippet twig">preview</span> - {{ 'post.youtube.tpl.preview'|lang }}
+</div>
+<div class="snippet">
+    <span onclick="gui.snippetclip(this)" class="snippet twig">url</span> - {{ 'post.youtube.tpl.url'|lang }}
 </div>

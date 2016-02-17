@@ -20,6 +20,8 @@ class NCContainer
     public function __construct()
     {
         session_start();
+
+        // Init request and response objects
         Env::$request = Request::createFromGlobals();
         Env::$response = Response::create();
 
@@ -27,6 +29,8 @@ class NCContainer
         NCService::load('Database');
 
         // Starts application kernel
-        Env::$kernel = NCService::load('Application', [Env::$request->server->get('REQUEST_URI')]);
+        NCService::load('Application', [
+            Env::$request->server->get('REQUEST_URI')
+        ]);
     }
 } 

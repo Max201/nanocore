@@ -41,9 +41,14 @@ class Application extends NCService
     ];
 
     /**
-     * @var Options
+     * @var Settings
      */
     public $conf;
+
+    /**
+     * @var IPWall
+     */
+    public $ipwall;
 
     /**
      * @var NCModule|bool
@@ -55,7 +60,22 @@ class Application extends NCService
      */
     public function __construct($url)
     {
-        $this->conf = $this->load('Application.Settings')->conf;
+        // Load config
+        $this->conf = $this->load('Application.Settings');
+
+        // Assign kernel variable
+        Env::$kernel = &$this;
+
+        // IP Wall
+        $this->ipwall = new IPWall($this);
+        if ( !$this->ipwall->allowed(Analytics::ip()) ) {
+            $content = file_get_contents(ROOT . S . 'theme' . S . 'assets' . S . 'ipwall.twig');
+
+            Env::$response->setStatusCode(403, 'Not allowed');
+            Env::$response->setContent(str_replace('[ip]', Analytics::ip(), $content));
+            Env::$response->send();
+            die;
+        }
 
         // Parse URL
         $url = reset(explode('?', $url, 2));

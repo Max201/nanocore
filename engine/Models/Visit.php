@@ -201,4 +201,14 @@ class Visit extends Model
 
         return reset($visits)->views;
     }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public static function ips_by_user(\User $user)
+    {
+        $visits = static::find_by_sql('SELECT DISTINCT(ip) AS ip FROM visits WHERE `user_id` = ?', [$user->id]);
+        return $visits;
+    }
 }

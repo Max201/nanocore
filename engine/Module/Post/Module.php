@@ -130,7 +130,10 @@ class Module extends NCModule
     {
         $post->save();
         if ( $post->post_vkontakte && $post->post_twitter ) {
-            return true;
+            return [
+                'vkontakte' => $post->post_vkontakte,
+                'twitter'   => $post->post_twitter,
+            ];
         }
 
         $context = [
@@ -139,7 +142,7 @@ class Module extends NCModule
             'tags' => implode(' ', $post->hashtags()),
             'url' => Env::$request->getSchemeAndHttpHost() . '/post/' . $post->id . '-' . $post->slug . '.html',
             'author' => $post->author->username,
-            'category' => $post->category->name,
+            'category' => $post->category->title,
         ];
 
         return $post->export([
@@ -214,7 +217,6 @@ class Module extends NCModule
             /** @var \PostCategory $category */
             $user = \User::find($matches->get('id'));
         }
-
 
         if ( $user ) {
             // Filter conditions
@@ -298,7 +300,7 @@ class Module extends NCModule
         ];
 
         // Rows count
-        $rows = \Post::count();
+        $rows = \Post::count($filter);
 
         // Paginator
         /** @var Listing $pagination */

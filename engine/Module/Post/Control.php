@@ -473,16 +473,23 @@ class Control extends NCControl
                 $iframe = '<iframe class="youtube" width="560" height="315" src="https://www.youtube.com/embed/' . $id . '" frameborder="0" allowfullscreen></iframe>';
                 $created_at = strtotime($video['snippet']['publishedAt']);
 
-                switch ( $request->get('type') ) {
-                    default: // Full
-                        $body = '<p style="text-align: center;" class="media-wrapper">' . $iframe . '</p>';
-                        $body .= '<p>' . nl2br($description) . '</p>';
-                }
+                // Get image url
+                $preview_img = end(array_values($video['snippet']['thumbnails']))['url'];
+
+                // Render import template
+                $body = $this->view->render('@assets/templates/youtube.import.twig', [
+                    'title' => $title,
+                    'description' => $description,
+                    'player' => $iframe,
+                    'url' => $url,
+                    'short' => '#split#',
+                    'preview' => $preview_img
+                ]);
 
                 $entity = new \Post([
                     'author_id' => $this->user->id,
                     'title'     => $title,
-                    'content'   => $body,
+                    'content'   => str_replace('#split#', '<!-- split -->', $body),
                     'moderate'  => 1,
                     'category_id'   => $request->get('category'),
                     'created_at'    => $created_at,
@@ -491,6 +498,8 @@ class Control extends NCControl
 
                 $entity->save();
             }
+
+            $this->view->assign('message', $this->lang->translate('post.youtube.done', count($items)));
         }
 
         return $this->view->render('posts/import.twig', [

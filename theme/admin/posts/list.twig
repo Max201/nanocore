@@ -42,7 +42,7 @@
                 <td onclick="gui.uri({'order': gui.order_toggle('author_id')})">{{ 'post.author'|lang }} <i class="fa {{ 'author_id'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('created_at')})">{{ 'post.created'|lang }} <i class="fa {{ 'created_at'|ord }}"></i></td>
                 <td onclick="gui.uri({'order': gui.order_toggle('views')})" title="{{ 'post.views'|lang }}"><i class="fa fa-eye"></i><i class="fa {{ 'views'|ord }}"></i></td>
-                <td title="{{ 'post.checked'|lang }}"><i class="fa fa-check"></i></td>
+                <td title="{{ 'post.checked'|lang }}" onclick="if (confirm('{{ 'button.confirm_all'|lang }} ' + (document.querySelectorAll('.primary').length - 1) + '?')) gui.uri({'accept': 'all'})"><i class="fa fa-check"></i></td>
                 <td title="{{ 'button.delete_all'|lang }}" onclick="if (confirm('{{ 'button.delete_all'|lang }} ' + (document.querySelectorAll('.primary').length - 1) + '?')) gui.uri({'delete': 'all'})"><i class="fa fa-trash"></i></td>
             </tr>
         </thead>

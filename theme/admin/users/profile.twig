@@ -72,6 +72,37 @@
                 <td>{{ profile.register_date|tz|dlang }}</td>
             </tr>
 
+            {% for ip in user_ips %}
+            <tr>
+                <td>
+                    {% if ip.banned %}
+                        {{ 'admin.ip.banned'|lang }}
+                    {% else %}
+                        {{ 'admin.ip.addr'|lang }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if ip.banned %}
+                        <strong style="color: darkred;">{{ ip.addr }}</strong>
+                        <small>
+                            <a href="/admin/wall/?unban={{ ip.addr }}">
+                                <i class="fa fa-unlock"></i>
+                                {{ 'admin.ip.unban'|lang }}
+                            </a>
+                        </small>
+                    {% else %}
+                        <strong style="color: darkgreen;">{{ ip.addr }}</strong>
+                        <small>
+                            <a href="/admin/wall/?ban={{ ip.addr }}">
+                                <i class="fa fa-lock"></i>
+                                {{ 'admin.ip.ban'|lang }}
+                            </a>
+                        </small>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
             {% if profile.banned %}
                 <tr>
                     <td><strong>{{ 'user.ban.author'|lang }}</strong></td>
@@ -97,6 +128,14 @@
             {% endif %}
         </tbody>
     </table>
+
+    <div class="log">
+        <menu>
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </menu>
+    </div>
 
     <table class="log">
         <thead>
@@ -132,6 +171,14 @@
             </tr>
         </tfoot>
     </table>
+
+    <div class="log">
+        <menu>
+            {% for l in listing %}
+                <a class="item{% if page == l %} active{% endif %}" href="?page={{ l }}">{{ l }}</a>
+            {% endfor %}
+        </menu>
+    </div>
 
     <form class="form edit" action="" style="display: none;">
         <header>{{ 'user.edit.title'|lang }}</header>

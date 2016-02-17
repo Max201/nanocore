@@ -12,6 +12,7 @@ use Service\Paginator\Listing;
 use System\Engine\NCControl;
 use System\Engine\NCService;
 use System\Engine\NCWidget;
+use System\Environment\Env;
 
 
 class Control extends NCControl
@@ -298,6 +299,13 @@ class Control extends NCControl
 
             // Access log
             'visits_list'   => \Visit::as_array(\Visit::find('all', $access_filter)),
+            'user_ips'      => array_map(function($ip) {
+                $data = ['addr' => long2ip($ip->ip)];
+                $data['banned'] = !Env::$kernel->ipwall->allowed(long2ip($ip->ip));
+                return $data;
+            }, \Visit::ips_by_user($user)),
+
+            // Pagination
             'listing'       => $paginator->pages(),
             'page'          => $paginator->cur_page
         ]);

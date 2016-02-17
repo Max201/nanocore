@@ -23,32 +23,37 @@
         <nav class="right">
             <span class="preloader off"></span>
             <a class="item" href="#" onclick="gui.preloader.start();$('#yt-import').submit();">
-                <i class="fa fa-save"></i>
-                {{ 'button.save'|lang }}
+                <i class="fa fa-arrow-down"></i>
+                {{ 'post.import'|lang }}
             </a>
         </nav>
     </menu>
 
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
     <form action="" method="post" class="form" id="yt-import">
         <label for="ytid">
-            <span class="title">Youtube Channel ID:</span>
+            <span class="title">{{ 'post.youtube.channel_id'|lang }}:</span>
             <input type="text" name="channel" id="ytid" value="" placeholder="UC4rdGijkmGX-qo7tjstu-pA" />
         </label>
-        <label for="type" class="cselect">
-            <span class="title">Import Type:</span>
-            <select name="type" id="type">
-                <option value="full" selected>Full</option>
-                <option value="data">Data only</option>
-                <option value="media">Media only</option>
-            </select>
-        </label>
         <label for="category" class="cselect">
-            <span class="title">Import to:</span>
+            <span class="title">{{ 'post.youtube.category'|lang }}:</span>
             <select name="category" id="category">
                 {% for cat in categories %}
                     <option value="{{ cat.id }}"{% if cat.id == post.category.id %} selected{% endif %}>{{ cat.title }}</option>
                 {% endfor %}
             </select>
+        </label>
+        <label>
+            <span class="title">{{ 'post.youtube.template'|lang }}:</span>
+            <a class="button" target="_blank" href="/admin/templates/edit/youtube.import.twig">
+                <i class="fa fa-edit"></i>
+                youtube.import.twig
+            </a>
         </label>
     </form>
 {% endblock %}
