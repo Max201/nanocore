@@ -1,6 +1,20 @@
 {% extends 'base.twig' %}
 
 {% block body %}
+    <menu>
+        <a href="{{ 'modules'|url }}" class="item active">
+            <i class="fa fa-cubes"></i> {{ 'admin.modules'|lang }}
+        </a>
+
+        <nav class="right">
+            <a class="item" href="javascript:void(0);" onclick="if ( ip = prompt('{{ 'admin.ip.addr'|lang }}' ) ) gui.go('?ban=' + ip)">
+                <i class="fa fa-lock"></i>
+                {{ 'admin.ip.ban'|lang }}
+            </a>
+        </nav>
+    </menu>
+
+
     <table>
         <thead>
             <tr>
@@ -53,7 +67,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="#">Uninstall</a>
+                    <a href="#">{{ 'admin.module.unistall'|lang }}</a>
                 </td>
             </tr>
         {% endfor %}

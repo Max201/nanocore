@@ -23,7 +23,7 @@ $mask = "mysql://%s:%s@%s/%s?charset=utf8";
 
 // Connection information
 $database = [
-    'user'      => post('root', 'root'),
+    'user'      => post('user', 'root'),
     'password'  => post('password', ''),
     'host'      => post('host', 'localhost'),
     'name'      => post('name', 'nano')
